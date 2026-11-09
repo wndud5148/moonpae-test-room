@@ -1,0 +1,1170 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex"></head><body><title>문패 테스트 룸</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700;800&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* 게임 화면: 의도적으로 단일 다크 테마(어두운 방에서 플레이). 한 칼럼, 하단 엄지 영역에 주요 버튼 */
+:root{
+  color-scheme:dark;
+  --bg:#0d1216; --panel:#151c22; --panel2:#1b242c; --ink:#ebe4d4; --muted:#93a0aa; --line:#27323b;
+  --brass:#d9a654; --brass-dim:#3a2f1c; --red:#e0604a; --ok:#6cc391;
+  --display:"Nanum Myeongjo","Noto Serif KR",serif;
+  --body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;margin:0}
+.app{max-width:520px;margin:0 auto;min-height:100%;box-sizing:border-box;padding-block:16px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:16px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--brass)}
+.toggle{font-family:var(--mono);font-size:12px;background:none;border:1px solid var(--line);color:var(--muted);padding:4px 10px;border-radius:999px;cursor:pointer}
+.toggle[aria-pressed="true"]{color:var(--brass);border-color:var(--brass)}
+.tgl{display:flex;gap:6px}
+.timer{font-family:var(--mono);font-size:16px;color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:.06em}
+.timer.warn{color:var(--red)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:max(20px,env(safe-area-inset-bottom,0px));background:#1a0b08;border:1px solid var(--red);color:var(--ink);padding:10px 16px;border-radius:6px;font-family:var(--mono);font-size:14px;z-index:40;max-width:calc(100% - 32px);box-sizing:border-box}
+.note-card{background:#e9e4d8;color:#1d2730;border-radius:4px;padding:10px 12px;display:flex;flex-direction:column;gap:4px}
+.note-card .where{font-size:12.5px;color:#5a6873}
+.note-card p{font-family:var(--display);font-weight:700;font-size:16px;line-height:1.5}
+.glass{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%) scaleX(-1);font-family:var(--mono);font-size:14px;letter-spacing:.12em;color:rgba(233,228,216,.6);text-shadow:0 0 1px rgba(233,228,216,.4);pointer-events:none;white-space:nowrap}
+.marble{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.notebook{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.notebook div{background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:8px 10px;font-size:14px}
+.notebook .num{font-family:var(--mono);color:var(--brass);font-size:18px;margin-left:4px}
+.clock{display:block;width:180px;height:180px;margin:6px auto}
+.clock .face{fill:#e9e4d8;stroke:#93a0aa;stroke-width:2}
+.clock .tk{stroke:#1d2730;stroke-width:2;stroke-linecap:round}
+.clock .hh{stroke:#1d2730;stroke-width:4.5;stroke-linecap:round}
+.clock .mh{stroke:#1d2730;stroke-width:2.6;stroke-linecap:round}
+.clock text{fill:#1d2730;font-family:var(--mono);font-size:8px;letter-spacing:.08em}
+.progress{height:3px;background:var(--line);border-radius:2px;overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:var(--brass);transition:width .4s}
+.screen{display:flex;flex-direction:column;gap:16px}
+h1{font-family:var(--display);font-weight:800;font-size:28px;line-height:1.3;margin:0;text-wrap:balance}
+h2{font-family:var(--display);font-weight:800;font-size:22px;line-height:1.35;margin:0;text-wrap:balance}
+h3{font-size:15px;font-weight:600;margin:0}
+p{margin:0}
+.muted{color:var(--muted);font-size:14px}
+.small{font-size:13px;color:var(--muted)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.panel.host{border-color:var(--brass-dim)}
+.label{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;color:var(--brass);text-transform:uppercase}
+button{font:inherit}
+.btn{appearance:none;border:0;border-radius:6px;background:var(--brass);color:#1a140a;font-weight:600;padding:14px 18px;font-size:16px;cursor:pointer;min-height:48px;width:100%}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.small{width:auto;padding:8px 14px;min-height:40px;font-size:14px}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn:focus-visible,.toggle:focus-visible,.chip:focus-visible,.ftab:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.row > *{flex:1 1 auto}
+input,textarea{font:inherit;background:var(--panel2);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:12px;width:100%;box-sizing:border-box;min-height:44px}
+textarea{min-height:72px;resize:vertical}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{appearance:none;border:1px solid var(--line);background:var(--panel2);color:var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;font-size:15px;min-height:40px;text-align:left}
+.chip[aria-pressed="true"]{border-color:var(--brass);color:var(--brass);background:var(--brass-dim)}
+.bubble{background:#2a2414;border:1px solid var(--brass-dim);border-radius:12px 12px 2px 12px;padding:10px 12px;align-self:flex-end;max-width:85%;font-size:15px}
+.secret{font-family:var(--mono);font-size:28px;color:var(--brass);letter-spacing:.1em}
+.caption{min-height:7em;background:#090c0f;border:1px solid var(--line);border-radius:6px;padding:16px;font-family:var(--mono);font-size:15px;line-height:1.85;display:flex;flex-direction:column;gap:2px}
+.caption .sfx{color:#6f7d88;font-size:13px}
+.caption .who{color:var(--brass);font-size:11.5px;letter-spacing:.14em;margin-bottom:4px}
+.caption .loc{color:var(--ok);margin-top:6px}
+.mask{width:84px;height:104px;margin:4px auto 0;border-radius:6px;background:#e9e4d8;position:relative;box-shadow:0 0 0 6px #0d1216,0 0 0 7px var(--line);transition:filter 1.6s}
+.mask::after{content:"";position:absolute;left:50%;top:44%;width:14px;height:14px;border-radius:50%;background:#0d1216;transform:translate(-50%,-50%)}
+.mask::before{content:"";position:absolute;left:50%;top:52%;width:6px;height:22px;background:#0d1216;transform:translateX(-50%);border-radius:0 0 3px 3px}
+.mask.speaking{animation:breathe 1.6s ease-in-out infinite}
+@keyframes breathe{50%{box-shadow:0 0 0 6px #0d1216,0 0 0 8px var(--brass)}}
+.mask.off{filter:blur(6px) opacity(.25)}
+.hint{border-left:3px solid var(--brass);padding:8px 12px;background:var(--panel2);font-size:14px}
+.skip{align-self:center;background:none;border:0;color:var(--muted);font-size:13px;text-decoration:underline;cursor:pointer;padding:8px}
+.loading{font-family:var(--mono);font-size:12px;color:var(--muted)}
+/* 병 */
+.bottle-stage{position:relative;height:230px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(circle at 50% 40%,#1b242c,#0d1216 70%);border:1px solid var(--line);border-radius:6px}
+.bottle{width:110px;height:180px;transform-origin:50% 75%;transition:transform .08s linear}
+.tray{display:flex;gap:10px;min-height:64px;align-items:flex-end;justify-content:center;flex-wrap:wrap}
+.item{background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:8px 12px;font-size:14px;animation:drop .6s cubic-bezier(.3,1.4,.6,1)}
+.item.note{border-color:var(--brass);color:var(--brass)}
+@keyframes drop{from{transform:translateY(-120px);opacity:0}to{transform:none;opacity:1}}
+input[type=range]{padding:0;min-height:44px;accent-color:var(--brass)}
+/* 필름 */
+.film-stage{position:relative;width:100%;max-width:300px;aspect-ratio:4/5;margin:0 auto;background:#e9e4d8;border-radius:6px;touch-action:none;overflow:hidden;box-shadow:inset 0 0 0 1px #c9c2b2;cursor:grab}
+.film{position:absolute;inset:0;transform-origin:50% 50%;border:1px dashed rgba(40,60,80,.18);border-radius:4px;background:rgba(170,200,220,.08);pointer-events:none}
+.film.sel{border:2px solid rgba(154,107,31,.95);background:rgba(217,166,84,.10)}
+.film.locked{border-color:transparent;background:transparent}
+.film svg{width:100%;height:100%;display:block}
+.film svg path{stroke:#1d2730;stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.film.sel svg path{stroke:#7a4f12}
+.film svg .reg{fill:#9a6b1f}
+.film svg .mg,.ftab svg .mg{fill:#fff;stroke:#1d2730;stroke-width:1.3}
+.film svg .mgt,.ftab svg .mgt{font:700 8.5px var(--mono);fill:#1d2730}
+.film-stage.done .film svg path{stroke:#7a4f12}
+.film-stage.done{box-shadow:inset 0 0 0 3px var(--brass);cursor:default}
+.ftabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.ftab{appearance:none;border:1px solid var(--line);background:var(--panel2);color:var(--ink);border-radius:6px;padding:6px 4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:12.5px;min-height:56px}
+.ftab svg{width:32px;height:40px;background:#e9e4d8;border-radius:3px}
+.ftab svg path{stroke:#1d2730;stroke-width:3;fill:none;stroke-linecap:round}
+.ftab[aria-pressed="true"]{border-color:var(--brass);color:var(--brass);background:var(--brass-dim)}
+.ftab.locked{opacity:.55}
+.ftab.locked span::after{content:" ✓";color:var(--ok)}
+/* 자물쇠 */
+.dials{display:flex;gap:10px;justify-content:center}
+.dial{display:flex;flex-direction:column;align-items:center;gap:6px}
+.dial .num{font-family:var(--mono);font-size:34px;width:56px;height:64px;display:flex;align-items:center;justify-content:center;background:#090c0f;border:1px solid var(--line);border-radius:6px;font-variant-numeric:tabular-nums}
+.dial button{width:56px;min-height:40px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);border-radius:6px;cursor:pointer;font-size:18px}
+.dial small{font-size:11px;color:var(--muted);text-align:center;max-width:64px;line-height:1.3}
+.shake{animation:shake .4s}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+/* 방송·전화 */
+.alert{position:fixed;inset:0;z-index:20;background:#1a0b08;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;box-sizing:border-box;padding:max(24px,env(safe-area-inset-top,0px)) max(20px,env(safe-area-inset-right,0px)) max(24px,env(safe-area-inset-bottom,0px)) max(20px,env(safe-area-inset-left,0px))}
+.alert .bar{font-family:var(--mono);letter-spacing:.3em;color:var(--red);font-size:14px;animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:.25}}
+.alert .caption{width:100%;max-width:480px;background:#0e0605;border-color:#3a1712}
+.call{position:fixed;inset:0;z-index:30;background:linear-gradient(#1c2630,#0b0f13);display:flex;flex-direction:column;align-items:center;justify-content:space-between;box-sizing:border-box;padding:max(48px,env(safe-area-inset-top,0px)) max(24px,env(safe-area-inset-right,0px)) max(40px,env(safe-area-inset-bottom,0px)) max(24px,env(safe-area-inset-left,0px))}
+.call .who{text-align:center;display:flex;flex-direction:column;gap:6px}
+.call .who b{font-size:30px;font-weight:600}
+.call .avatar{width:96px;height:96px;border-radius:50%;background:#2a3540;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:34px;color:var(--brass)}
+.call .btns{display:flex;gap:64px}
+.call .round{width:72px;height:72px;border-radius:50%;border:0;font-size:14px;color:#fff;cursor:pointer}
+.call .round.no{background:#c0392b}.call .round.yes{background:#27ae60;animation:pulse 1.2s infinite}
+@keyframes pulse{50%{transform:scale(1.08)}}
+.call .caption{width:100%;max-width:480px}
+/* 평가 */
+.rate{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.rate button{border:1px solid var(--line);background:var(--panel2);color:var(--ink);border-radius:6px;padding:10px 2px;cursor:pointer;font-size:13px;line-height:1.3;min-height:56px}
+.rate button b{display:block;font-family:var(--mono);font-size:18px;color:var(--brass)}
+.bc-standby{position:fixed;inset:0;z-index:15;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:#3a4650;font-family:var(--mono);font-size:13px;text-align:center;padding:24px;box-sizing:border-box}
+.bc-standby .dot{width:8px;height:8px;border-radius:50%;background:#2f3a44;animation:blink 2s steps(2) infinite}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+/* v0.4 추가: 글자 타일, 도어락, 신발 추리 */
+.goal{border:1px solid var(--brass-dim);background:#17140d;border-radius:6px;padding:10px 12px;font-size:14px}
+.goal b{color:var(--brass)}
+.tiles{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;min-height:52px}
+.tile{appearance:none;width:46px;height:46px;border-radius:6px;border:1px solid #c9c2b2;background:#e9e4d8;color:#1d2730;font-family:var(--display);font-weight:800;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative;animation:drop .5s cubic-bezier(.3,1.4,.6,1)}
+.tile i{position:absolute;left:5px;right:5px;bottom:4px;height:4px;border-radius:2px}
+.tile.used{opacity:.25;cursor:default}
+.slots{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+.slotgrp{display:flex;gap:4px}
+.slot{appearance:none;width:42px;height:46px;border-radius:6px;border:1px dashed var(--muted);background:#0b0f12;color:var(--ink);font-family:var(--display);font-weight:800;font-size:21px;cursor:pointer;position:relative;padding:0}
+.slot.filled{border-style:solid;border-color:#c9c2b2;background:#e9e4d8;color:#1d2730}
+.slot i{position:absolute;left:5px;right:5px;bottom:4px;height:4px;border-radius:2px}
+.slots.ok .slot{border-color:var(--ok);box-shadow:0 0 0 1px var(--ok)}
+.keypadimg{display:block;width:100%;max-width:240px;margin:0 auto;border-radius:10px}
+.kp{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:260px;margin:0 auto;width:100%}
+.kp button{min-height:48px;border-radius:8px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);font-family:var(--mono);font-size:20px;cursor:pointer}
+.kpdisp{font-family:var(--mono);font-size:26px;letter-spacing:.4em;text-align:center;min-height:36px}
+.clues{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px;font-size:14.5px}
+.grid44{display:grid;grid-template-columns:72px repeat(4,1fr);gap:3px;font-size:12px;overflow-x:auto}
+.grid44 .h{color:var(--muted);text-align:center;padding:4px 2px;line-height:1.25}
+.grid44 .rh{color:var(--muted);padding:6px 2px;line-height:1.25}
+.grid44 button{min-height:36px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);border-radius:4px;cursor:pointer;font-family:var(--mono);font-size:15px}
+.grid44 button[data-v="1"]{color:var(--ok);border-color:var(--ok)}
+.grid44 button[data-v="2"]{color:var(--red)}
+.sentence{font-family:var(--display);font-weight:800;font-size:20px;letter-spacing:.06em}
+.sentence span{border-bottom:4px solid transparent;padding:0 1px}
+.eyewrap{position:relative;width:100%;background:#000;border-radius:6px;overflow:hidden}
+.eyewrap video{display:none}
+.eyewrap canvas{display:block;width:100%;height:auto}
+#clockBox .clock{width:150px;height:150px;flex:0 0 auto}
+.rec{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;color:var(--brass)}
+</style>
+
+<div class="app" id="app">
+  <div class="top">
+    <span class="brand">▣ 문패 테스트 룸 v0.5</span>
+    <span class="timer" id="timer" hidden>--:--</span>
+    <span class="tgl"><button class="toggle" id="bgmBtn" aria-pressed="true" type="button">음악</button><button class="toggle" id="muteBtn" aria-pressed="false" type="button">자막만</button></span>
+  </div>
+  <div class="progress" aria-hidden="true"><i id="prog"></i></div>
+
+  <!-- 시작 -->
+  <section class="screen" id="s-start">
+    <div class="mask" aria-hidden="true"></div>
+    <h1>누군가 이 집의 기록 일곱 개를 숨겼습니다</h1>
+    <p class="muted">집 안 물건과 휴대폰으로 푸는 방탈출 시제품입니다. 호스트 1명이 약 10분 준비하고, 플레이어는 40~50분 동안 일곱 개의 기록을 찾습니다. 기록마다 "얼마나 놀랐는지"를 남겨 다음 버전에 반영합니다.</p>
+    <div class="panel">
+      <span class="label">준비물</span>
+      <p class="small">휴대폰 1대(플레이어 진행용) · 종이 4장과 펜 · 냉장고 문에 붙일 자석이나 마스킹테이프 · 걸어 둔 수건 · 현관에 호스트의 신발 · 머그컵 · <b>도어락 카드</b>(인쇄하거나 노트북·태블릿 화면에 띄우기) · (선택) 남는 폰·태블릿 = 방송 장치 · (선택) 숨길 작은 선물. <b>소리를 켜고</b> 진행하세요.</p>
+    </div>
+    <button class="btn" id="goSetup" type="button">호스트 준비 시작</button>
+    <button class="btn ghost" id="goBc" type="button">이 기기를 방송 장치로 쓰기</button>
+    <button class="btn ghost" id="resumeBtn" type="button" hidden>이어서 하기</button>
+  </section>
+
+  <!-- 호스트 준비 -->
+  <section class="screen" id="s-setup" hidden>
+    <span class="label">호스트 전용 · 플레이어에게 보여주지 마세요</span>
+    <h2>당신은 오늘 기록을 숨긴 사람이자, 문패입니다</h2>
+    <p class="small">플레이어는 변조된 목소리의 "문패"를 따라 기록 일곱 개를 찾습니다. 마지막에 변조가 풀리며, 문패의 목소리가 사실 당신이었다는 게 밝혀집니다.</p>
+
+    <div class="panel host">
+      <h3>1. 이름</h3>
+      <div class="row"><input id="n1" placeholder="플레이어 1 (예: 지민)" autocomplete="off"><input id="n2" placeholder="플레이어 2 (없으면 비워두기)" autocomplete="off"></div>
+      <input id="hostName" placeholder="호스트 이름 (엔딩 자막에 사용)" autocomplete="off">
+    </div>
+
+    <div class="panel host">
+      <h3>2. 메시지 두 번 보내기 (기록 5 · 말머리)</h3>
+      <p class="small">가구를 하나 고르세요. 두 메시지의 <b>첫 글자</b>를 이으면 그 가구 이름이 됩니다. 그 가구에 쪽지 ①을 숨기게 됩니다.</p>
+      <div class="chips" id="furnChips"></div>
+      <div id="msgBox" hidden>
+        <p class="small">플레이어와의 <b>1:1 메신저 대화방</b>에 첫 메시지를 보내세요. 평소 말투처럼 보이면 성공입니다.</p>
+        <div class="bubble" id="m1"></div>
+        <div class="row"><button class="btn small ghost" id="cp1" type="button">복사</button><button class="btn small" id="sentBtn" type="button">보냈어요</button></div>
+        <div id="msg2Box" hidden>
+          <p class="small" id="waitMsg">시각이 겹치지 않도록 1분 뒤에 두 번째 메시지를 보내세요.</p>
+          <div class="bubble" id="m2"></div>
+          <div class="row"><button class="btn small ghost" id="cp2" type="button">복사</button><button class="btn small" id="sent2Btn" type="button" disabled>보냈어요</button></div>
+        </div>
+        <div id="sentBox" hidden><p class="small">메신저에 표시된 시각과 다르면 고쳐 주세요.</p><div class="row"><input type="time" id="sentTime" aria-label="첫 메시지 시각"><input type="time" id="sentTime2" aria-label="두 번째 메시지 시각"></div></div>
+      </div>
+    </div>
+
+    <div class="panel host">
+      <h3>3. 손글씨 쪽지 4장 숨기기</h3>
+      <p class="small">아래 문장을 그대로 옮겨 적어 정해진 곳에 두세요. 쪽지는 "숨긴 사람"인 당신의 말투입니다.</p>
+      <div class="note-card"><span class="where">쪽지 Ⓐ → <b>걸어 둔 수건 뒤</b> (수건을 들추면 보이게)</span><p id="noteA"></p></div>
+      <div class="note-card"><span class="where">쪽지 Ⓑ → <b>냉장고 아랫문 바깥, 왼쪽</b> (자석이나 마스킹테이프)</span><p id="noteB"></p></div>
+      <div class="note-card"><span class="where">쪽지 Ⓒ → <b>현관에 있는 당신 신발 한 짝 안</b></span><p id="noteC"></p></div>
+      <div class="note-card"><span class="where">쪽지 ① → <b id="fn1">2단계에서 고른 가구</b></span><p id="note1"></p></div>
+      <div class="note-card"><span class="where">도어락 카드 → <b>현관 신발 근처</b></span><p>인쇄하거나, 노트북·태블릿에 띄워 현관 쪽에 두세요. <a href="card.html" target="_blank" rel="noopener" style="color:#2f5468">도어락 카드 열기</a></p></div>
+      <label class="row small"><input type="checkbox" id="hidOk" style="width:auto;min-height:auto"> 쪽지 네 장과 카드를 모두 두었어요</label>
+    </div>
+
+    <div class="panel host">
+      <h3>4. 당신의 목소리와 마지막 한마디</h3>
+      <p class="small">마지막 전화와 정체 공개에서 "숨긴 사람"으로 나올 목소리입니다. 누르면 미리 들어볼 수 있습니다.</p>
+      <div class="chips" id="voiceChips"></div>
+      <div class="chips" id="lineChips"></div>
+      <input id="gift" placeholder="(선택) 실제 선물을 숨긴 곳 · 예: 신발장 맨 아래 칸" autocomplete="off">
+    </div>
+
+    <div class="panel host">
+      <h3>5. 방송 장치 (선택)</h3>
+      <p class="small" id="bcInfo">확인 중…</p>
+      <button class="btn small ghost" id="bcMake" type="button" hidden>방송 장치 코드 만들기</button>
+      <div id="bcCodeBox" hidden><p class="small">다른 기기에서 이 페이지를 열고 "이 기기를 방송 장치로 쓰기"를 누른 뒤 코드를 입력하세요.</p><div class="secret" id="bcCode"></div><p class="small" id="bcPeers">연결된 방송 장치: 0</p></div>
+    </div>
+
+    <div class="panel host">
+      <h3>6. 제한 시간</h3>
+      <div class="chips" id="limitChips"></div>
+    </div>
+
+    <button class="btn" id="setupDone" type="button" disabled>준비 완료 · 플레이어에게 건네기</button>
+    <p class="small" id="setupNeed">메시지 전송과 쪽지 숨기기가 필요합니다.</p>
+  </section>
+
+  <!-- 건네기 -->
+  <section class="screen" id="s-hand" hidden>
+    <div class="mask" aria-hidden="true"></div>
+    <h2>휴대폰을 플레이어에게 건네세요</h2>
+    <p class="muted">소리를 켜고, 조명을 조금 낮추고, 앉아서 시작하세요.</p>
+    <p class="loading" id="loadMsg">목소리 불러오는 중…</p>
+    <button class="btn" id="startPlay" type="button">입장하기</button>
+  </section>
+
+  <!-- 오프닝 -->
+  <section class="screen" id="s-open" hidden>
+    <div class="mask" id="mask1" aria-hidden="true"></div>
+    <div class="caption" id="cap1" aria-live="polite"></div>
+    <button class="btn" id="openNext" type="button" hidden>첫 번째 기록 열기</button>
+  </section>
+
+  <!-- 기록 1: 병 · 흩어진 글자 -->
+  <section class="screen" id="s-bottle" hidden>
+    <span class="rec">기록 1 / 7 · 흩어진 글자</span>
+    <div class="goal"><b>목표</b> · 병 안의 것을 모두 꺼내, 그것으로 <b>문장</b>을 만드세요. 문장이 다음 기록의 위치를 알려 줍니다.</div>
+    <div class="bottle-stage" id="bottleStage" style="touch-action:none;cursor:grab">
+      <svg class="bottle" id="bottle" viewBox="0 0 110 180" aria-hidden="true">
+        <path d="M43 6 h24 v28 c0 8 26 18 26 44 v84 c0 8 -6 12 -14 12 h-48 c-8 0 -14 -4 -14 -12 v-84 c0 -26 26 -36 26 -44 z" fill="rgba(160,200,220,.12)" stroke="#93a0aa" stroke-width="2"/>
+        <rect x="40" y="0" width="30" height="10" rx="2" fill="#9a6b1f"/>
+        <g id="bottleIn"><rect x="30" y="128" width="14" height="14" rx="2" fill="#e9e4d8" transform="rotate(-12 37 135)"/><rect x="50" y="140" width="14" height="14" rx="2" fill="#e9e4d8" transform="rotate(18 57 147)"/><rect x="64" y="124" width="14" height="14" rx="2" fill="#e9e4d8" transform="rotate(-25 71 131)"/><rect x="40" y="148" width="14" height="14" rx="2" fill="#e9e4d8"/></g>
+      </svg>
+    </div>
+    <p class="small" id="sensorMsg" aria-live="polite"></p>
+    <span class="label" id="trayLabel" hidden>쏟아진 글자 (누르면 아래 칸에 놓입니다)</span>
+    <div class="tiles" id="tray" aria-live="polite"></div>
+    <div id="slotBox" hidden class="panel">
+      <span class="label">문장 (칸을 누르면 글자가 돌아갑니다)</span>
+      <div class="slots" id="slots"></div>
+      <p class="small" id="sentMsg"></p>
+    </div>
+    <button class="btn small ghost" id="bottleHint" type="button">힌트</button>
+    <div id="bottleHintBox"></div>
+    <div id="bottleFound" hidden class="panel"><p>그곳을 살펴보세요. 숨긴 사람의 쪽지가 있을 겁니다. <b>색이 칠해진 글자</b>도 기억해 두세요.</p><button class="btn" id="bottleNext" type="button">쪽지를 찾았어요</button></div>
+  </section>
+
+  <!-- 기록 2: 필름 · 같은 자리 -->
+  <section class="screen" id="s-film" hidden>
+    <span class="rec">기록 2 / 7 · 같은 자리</span>
+    <div class="goal"><b>목표</b> · 필름 네 장을 겹쳐 그림을 완성하세요. 완성된 그림과 <b>실제 물건</b>을 비교하면 초록 숫자가 나옵니다.</div>
+    <p class="small">① 아래 탭에서 필름을 고르고 ② 그림 위를 끌어서 옮기세요. 갈색 점 두 개가 맞는 자리입니다. 돌아가거나 뒤집힌 필름은 버튼으로 바로잡으세요.</p>
+    <div class="film-stage" id="filmStage"></div>
+    <div class="ftabs" id="filmTabs"></div>
+    <div class="row"><button class="btn small ghost" id="rotBtn" type="button">↻ 90° 회전</button><button class="btn small ghost" id="flipBtn" type="button">⇋ 좌우 뒤집기</button><button class="btn small ghost" id="filmHint" type="button">힌트</button></div>
+    <div id="filmQ" hidden class="panel">
+      <h3>무엇이 보입니까?</h3>
+      <div class="row"><input id="filmA" placeholder="물건 이름" autocomplete="off"><button class="btn small" id="filmGo" type="button">확인</button></div>
+    </div>
+    <div id="filmFound" hidden class="panel">
+      <p>그 물건의 <b>바깥면</b>에서 쪽지를 찾으세요(안을 열 필요는 없습니다). 초록 숫자는?</p>
+      <div class="row"><input id="greenA" inputmode="numeric" maxlength="1" placeholder="숫자 1개" autocomplete="off"><button class="btn small" id="greenGo" type="button">확인</button></div>
+      <button class="btn small ghost" id="greenHint" type="button">힌트</button>
+      <div id="greenHintBox"></div>
+      <p class="small" id="greenMsg"></p>
+    </div>
+  </section>
+
+  <!-- 기록 3: 도어락 지문 -->
+  <section class="screen" id="s-door" hidden>
+    <span class="rec">기록 3 / 7 · 현관 도어락</span>
+    <div class="goal"><b>목표</b> · 현관에서 <b>도어락 카드</b>를 찾으세요. 숨긴 사람은 오늘 이 도어락을 딱 한 번 열었습니다. 비밀번호 네 자리를 알아내세요.</div>
+    <div class="caption" id="capDoor" aria-live="polite"></div>
+    <button class="btn ghost" id="eyeBtn" type="button">▣ 문패의 눈</button>
+    <div id="eyeBox" hidden class="panel">
+      <div class="eyewrap"><video id="eyeVid" playsinline muted></video><canvas id="eyeCan"></canvas></div>
+      <p class="small" id="eyeMsg">카드를 화면 가득 비춰 보세요.</p>
+      <button class="btn small ghost" id="eyeClose" type="button">눈 감기</button>
+    </div>
+    <div id="doorImgBox" hidden><p class="small" id="doorAlt">이 화면에서는 문패의 눈을 뜰 수 없습니다. 대신 화면 속 키패드를 손가락으로 비춰 보세요.</p><div id="doorImg"></div></div>
+    <div class="kpdisp" id="kpDisp" aria-live="polite">_ _ _ _</div>
+    <div class="kp" id="kp"></div>
+    <button class="btn small ghost" id="doorHint" type="button">힌트</button>
+    <div id="doorHintBox"></div>
+    <p class="small" id="doorMsg"></p>
+  </section>
+
+  <!-- 기록 4: 신발 추리 -->
+  <section class="screen" id="s-shoe" hidden>
+    <span class="rec">기록 4 / 7 · 현관의 신발</span>
+    <div class="goal"><b>목표</b> · 오늘 현관을 지나간 네 사람과 네 켤레의 신발. 단서로 <b>기록을 숨긴 사람</b>과 그 신발을 알아내세요.</div>
+    <ol class="clues">
+      <li>택배 기사는 계단을 뛰어다녀야 해서, 끈을 꽉 묶는 신발을 신었다.</li>
+      <li>옆집 할머니는 굽이 있는 신발을 신지 않는다.</li>
+      <li>관리실 직원은 오늘 아침 화단에 물을 주고, 발이 젖지 않는 신발 그대로 올라왔다.</li>
+      <li>슬리퍼를 신은 사람은 바로 옆집에서 건너왔다.</li>
+      <li>기록을 숨긴 사람은 굽이 있는 신발을 신었다.</li>
+    </ol>
+    <span class="label">메모 칸 (눌러서 ○ / ✕ 표시)</span>
+    <div class="grid44" id="shoeGrid"></div>
+    <div class="panel">
+      <h3>기록을 숨긴 사람은?</h3>
+      <div class="chips" id="whoChips"></div>
+      <h3>그 사람의 신발은?</h3>
+      <div class="chips" id="shoeChips"></div>
+      <button class="btn small" id="shoeGo" type="button">확인</button>
+      <p class="small" id="shoeMsg"></p>
+      <button class="btn small ghost" id="shoeHint" type="button">힌트</button>
+      <div id="shoeHintBox"></div>
+    </div>
+    <div id="shoeFound" hidden class="panel"><p>현관으로 가서, <b>그 사람이 오늘 신은 신발</b>을 살펴보세요. 숨긴 사람의 쪽지가 있습니다.</p><button class="btn" id="shoeNext" type="button">쪽지를 찾았어요</button></div>
+  </section>
+
+  <!-- 기록 5: 대화방 · 거울 시계 -->
+  <section class="screen" id="s-chat" hidden>
+    <span class="rec">기록 5 / 7 · 말머리</span>
+    <div class="mask" id="mask3" aria-hidden="true"></div>
+    <div class="caption" id="chatQ" aria-live="polite"></div>
+    <div id="chatClue" hidden class="panel">
+      <div class="goal"><b>목표</b> · 숨긴 사람이 오늘 당신에게 건 <b>두 마디</b>를 대화방에서 찾으세요. 두 마디가 함께 가리키는 <b>가구</b>에 다음 쪽지가 있습니다.</div>
+      <span class="label">그 사람이 말을 건 두 시각</span>
+      <div class="row" id="clockBox" style="justify-content:center"></div>
+    </div>
+    <div class="row"><input id="chatA" placeholder="가구 이름" autocomplete="off"><button class="btn small" id="chatGo" type="button">확인</button></div>
+    <button class="btn small ghost" id="chatHint" type="button">힌트</button>
+    <div id="chatHintBox"></div>
+    <div id="chatFound" hidden class="panel">
+      <p>그곳에서 쪽지 ①을 찾으세요. 빨강 숫자는?</p>
+      <div class="row"><input id="redA" inputmode="numeric" maxlength="1" placeholder="숫자 1개" autocomplete="off"><button class="btn small" id="redGo" type="button">확인</button></div>
+      <p class="small" id="redMsg"></p>
+    </div>
+  </section>
+
+  <!-- 기록 6: 속삭임 -->
+  <section class="screen" id="s-whisper" hidden>
+    <span class="rec">기록 6 / 7 · 조용한 방</span>
+    <div class="goal"><b>목표</b> · 아주 작은 목소리가 <b>파랑 숫자</b>를 알려 줍니다. 다만 숫자를 말로 하지는 않습니다.</div>
+    <h2>아무 소리도 나지 않습니다.</h2>
+    <button class="btn" id="listen" type="button">귀 기울이기</button>
+    <button class="btn small ghost" id="whHint" type="button">힌트</button>
+    <div id="whHintBox"></div>
+    <div id="whQ" hidden class="panel">
+      <h3>그 사람이 쓴 숫자는?</h3>
+      <div class="row"><input id="blueA" inputmode="numeric" maxlength="1" placeholder="숫자 1개" autocomplete="off"><button class="btn small" id="blueGo" type="button">확인</button></div>
+      <p class="small" id="blueMsg"></p>
+    </div>
+  </section>
+
+  <!-- 기록 7: 보관함 -->
+  <section class="screen" id="s-lock" hidden>
+    <span class="rec">기록 7 / 7 · 기록 보관함</span>
+    <div class="goal"><b>목표</b> · 지금까지 모은 색 숫자로 보관함을 여세요. <b>순서</b>는 이미 당신이 본 적이 있습니다.</div>
+    <div class="caption" id="capLock" aria-live="polite"></div>
+    <div class="panel"><span class="label">기록 수첩</span><div class="notebook" id="notebook"></div><p class="small">기록 1의 문장</p><div class="sentence" id="nbSentence"></div></div>
+    <div class="dials" id="dials"></div>
+    <button class="btn" id="unlock" type="button">열기</button>
+    <button class="btn small ghost" id="lockHint" type="button">힌트</button>
+    <div id="lockHintBox"></div>
+    <p class="small" id="lockMsg"></p>
+  </section>
+
+  <!-- 엔딩 -->
+  <section class="screen" id="s-end" hidden>
+    <div class="mask" id="mask2" aria-hidden="true"></div>
+    <div class="caption" id="capEnd" aria-live="polite"></div>
+    <button class="btn" id="endNext" type="button" hidden>기록 남기기</button>
+  </section>
+
+  <!-- 설문 -->
+  <section class="screen" id="s-survey" hidden>
+    <h2>일곱 개의 기록을 모두 찾았습니다. 마지막으로 30초만.</h2>
+    <div class="panel"><h3>가장 놀란 / 재미있던 순간은?</h3><div class="chips" id="mostChips"></div></div>
+    <div class="panel"><h3>문패의 눈(카메라)은 써 보셨나요?</h3><div class="chips" id="eyeChips"></div></div>
+    <div class="panel"><h3>이야기가 이해됐나요?</h3><div class="chips" id="storyChips"></div></div>
+    <div class="panel"><h3>문패 목소리는 어땠나요?</h3><div class="chips" id="voiceQChips"></div></div>
+    <div class="panel"><h3>난이도는?</h3><div class="chips" id="diffChips"></div></div>
+    <div class="panel"><h3>방탈출 카페와 비교하면?</h3><div class="chips" id="cmpChips"></div></div>
+    <div class="panel"><h3>친구에게 추천할 의향 (0~10)</h3><input type="range" id="nps" min="0" max="10" value="7"><span class="small" id="npsV">7</span></div>
+    <div class="panel"><h3>이 체험에 얼마까지 낼 수 있나요? (2인 기준)</h3><div class="chips" id="priceChips"></div></div>
+    <textarea id="memo" placeholder="막혔던 곳, 아쉬운 점, 좋았던 점 (선택)"></textarea>
+    <button class="btn" id="saveBtn" type="button">결과 저장</button>
+    <p class="small" id="saveMsg"></p>
+  </section>
+
+  <!-- 평가 -->
+  <section class="screen" id="s-rate" hidden>
+    <span class="label" id="rateLabel">평가</span>
+    <h2>방금 기록, 얼마나 재미있었나요?</h2>
+    <div class="rate" id="rateBtns"></div>
+  </section>
+
+  <!-- 방송 장치 -->
+  <section class="screen" id="s-bc" hidden>
+    <h2>방송 장치 연결</h2>
+    <p class="muted">호스트 화면에 나온 4자리 코드를 입력하세요.</p>
+    <input id="bcIn" inputmode="numeric" maxlength="4" placeholder="0000" autocomplete="off">
+    <button class="btn" id="bcJoin" type="button">연결</button>
+    <p class="small" id="bcMsg"></p>
+  </section>
+
+  <button class="skip" id="skipBtn" type="button" hidden>막혔나요? 이 기록 건너뛰기</button>
+</div>
+
+<div class="bc-standby" id="bcStandby" hidden>
+  <span class="dot"></span>
+  <span id="bcStandbyTxt">대기 중</span>
+  <button class="btn small ghost" id="bcTest" type="button" style="max-width:220px">소리 확인 (한 번 눌러 주세요)</button>
+</div>
+
+<div class="alert" id="alert" hidden>
+  <div class="bar">● 기록 보관함 ●</div>
+  <div class="caption" id="capAlert" aria-live="assertive"></div>
+</div>
+
+<div class="call" id="call" hidden>
+  <div class="who"><div class="avatar">?</div><b>숨긴 사람</b><span class="small" id="callState">휴대전화 · 수신 중…</span></div>
+  <div class="caption" id="capCall" hidden aria-live="polite"></div>
+  <div class="btns" id="callBtns"><button class="round no" id="decline" type="button">거절</button><button class="round yes" id="accept" type="button">받기</button></div>
+  <button class="btn" id="callDone" type="button" hidden style="max-width:480px">통화 종료</button>
+</div>
+
+<script>
+(function(){
+const $=s=>document.querySelector(s);
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const reduced=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- 이야기 데이터 ---------- */
+/* 말머리: 두 메시지의 첫 글자를 이으면 가구 이름. 각 메시지는 따로 보면 평범한 말 */
+const FURN={
+  '책상':{m:['책 반납 언제까지였지?','상추 좀 사 갈까?'],k:['반납','상추']},
+  '옷장':{m:['옷 다 말랐더라','장 보러 같이 갈래?'],k:['말랐','장 보러']},
+  '서랍':{m:['서운하게 답장이 왜 없어','랍스터 먹고 싶다 ㅋㅋ'],k:['서운','랍스터']},
+  '커튼':{m:['커피 사 갈까?','튼튼하게 챙겨 입고 나가'],k:['커피','튼튼']},
+  '이불':{m:['이따 전화할게','불 끄고 나왔지?'],k:['이따','불 끄고']}
+};
+const HOSTLINES={h1:'놀랐지? 문패, 나였어. 오늘 밤, 전부 내가 준비했어.',h2:'문패는 나였어. 이 기록들, 너랑 같이 남기고 싶었어.',h3:'문패는 나였어. 오늘, 이 집에서 너를 기다렸어.'};
+const T={
+  op1:'안녕하십니까. 저는 이 집의 문패입니다.',
+  op2:'현관에 걸려, 이 집을 드나든 모든 사람의 기록을 지켜 왔습니다.',
+  op3:'그런데 오늘, 이 집의 기록 일곱 개가 사라졌습니다. 누군가, 집 안 곳곳에 숨겼습니다.',
+  op9:'제 눈을 빌려 드리겠습니다. 맨눈으로는 보이지 않는 것이, 보일 겁니다.',
+  dr1:'현관 도어락입니다. 오늘 아침에 닦였지만… 지문은 남습니다. 보는 방법만 안다면요.',
+  op4:'일곱 개를 모두 찾으면, 기록 보관함이 열립니다. 그 안에는, 숨긴 사람이 남긴 마지막 기록이 있습니다.',
+  op5:'규칙은 세 가지입니다. 하나. 이 집의 물건은, 거짓말을 하지 않습니다.',
+  op6:'둘. 가전의 안을 열거나, 높은 곳에 오를 필요는 없습니다. 위험하게 느껴지는 길은, 오답입니다.',
+  op7:'셋. 막히면, 저를 부르십시오. 힌트를 드리겠습니다.',
+  op8:'첫 번째 기록은… 이 휴대폰 안의, 병 속에 있습니다.',
+  ch1:'다섯 번째 기록. 숨긴 사람은 오늘, 당신에게 두 번 말을 걸었습니다. 그 시각은… 이 시계들이 알고 있습니다.',
+  yl:'마지막 보관함입니다. 노랑은… 당신이 손으로 찾아낸, 숨긴 사람의 쪽지 수입니다.',
+  lockx:'틀렸습니다. 기록되었습니다.',
+  bc1:'기록 보관함이, 열렸습니다.',bc2:'숨긴 사람이 남긴, 마지막 기록을 재생합니다.',bc3:'수신 전화를, 받으십시오.',
+  en1:'일곱 개의 기록을, 모두 찾으셨습니다.',en2:'이제… 제 진짜 목소리를 들려드리죠.',en3:'사실 저는… 문패가 아닙니다.',
+  c1:'여보세요? …나야.',c2:'여기까지 찾아와 줘서, 고마워.',c3a:'선물은… 지금 위치 보낼게.',c3b:'오늘 남긴 기록들, 오래 기억할게.',c4:'이제… 고개 들어 봐.'
+};
+const CLIPS=['op1','op2','op3','op4','op5','op6','op7','op9','op8','dr1','ch1','yl','lockx','bc1','bc2','bc3','en1','en2','en3','t5','t1','tout','wb','w_rep'];
+['c1','c2','c3a','c3b','c4','h1','h2','h3'].forEach(k=>{CLIPS.push(k+'_f',k+'_m');});
+const STEPS=['s-open','s-bottle','s-film','s-door','s-shoe','s-chat','s-whisper','s-lock','s-end','s-survey'];
+const NEXT={'s-open':'s-bottle','s-bottle':'s-film','s-film':'s-door','s-door':'s-shoe','s-shoe':'s-chat','s-chat':'s-whisper','s-whisper':'s-lock','s-lock':'s-end','s-end':'s-survey'};
+let S={step:'s-start',n1:'',n2:'',host:'',furn:'',sent:null,sent2:null,gift:'',hl:'h1',voice:'f',muted:false,ratings:{},times:{},skipped:[],mode:'1대',sensor:false,survey:{},limit:45,deadline:null,w5:false,w1:false,timedOut:false,timeLeft:null,ans:null,found:{},hints:{}};
+const KEY='mp_state_v05';
+function load(){try{const t=localStorage.getItem(KEY);if(t){const o=JSON.parse(t);if(o&&o.step&&STEPS.includes(o.step)&&o.ans)return o;}}catch(e){}return null;}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+function clearSave(){try{localStorage.removeItem(KEY);}catch(e){}}
+
+/* ---------- 화면 ---------- */
+function show(id){
+  document.querySelectorAll('.screen').forEach(e=>{e.hidden=(e.id!==id);});
+  S.step=id;const i=STEPS.indexOf(id);$('#prog').style.width=(i<0?0:((i+1)/STEPS.length*100))+'%';
+  $('#skipBtn').hidden=!(i>=1&&i<=7);
+  if(STEPS.includes(id))save();
+  window.scrollTo(0,0);
+}
+
+/* ---------- 오디오 엔진 ---------- */
+let AC=null;
+function ac(){try{if(!AC)AC=new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();}catch(e){AC=null;}return AC;}
+function unlockAudio(){const c=ac();if(!c)return;try{const b=c.createBuffer(1,1,22050);const s=c.createBufferSource();s.buffer=b;s.connect(c.destination);s.start(0);}catch(e){}}
+const BUF={},PEND={};
+function loadClip(id){
+  if(BUF[id])return Promise.resolve(BUF[id]);if(PEND[id])return PEND[id];
+  const c=ac();if(!c)return Promise.reject('noaudio');
+  PEND[id]=fetch('audio/'+id+'.mp3').then(r=>{if(!r.ok)throw new Error('http '+r.status);return r.arrayBuffer();})
+    .then(ab=>new Promise((res,rej)=>c.decodeAudioData(ab,res,rej))).then(b=>{BUF[id]=b;return b;});
+  PEND[id].catch(()=>{delete PEND[id];});
+  return PEND[id];
+}
+async function preload(ids,onProgress){let n=0;await Promise.all(ids.map(id=>loadClip(id).then(()=>{n++;onProgress&&onProgress(n,ids.length);}).catch(()=>{n++;onProgress&&onProgress(n,ids.length);})));}
+function shaper(k){const n=1024,a=new Float32Array(n);for(let i=0;i<n;i++){const x=i*2/n-1;a[i]=(1+k)*x/(1+k*Math.abs(x));}return a;}
+function chain(c,fx,mod){
+  const out=c.createGain();out.connect(c.destination);const input=c.createGain();let osc=null;
+  if(fx==='moon'){
+    const dry=c.createGain();dry.gain.value=1-.37*mod;
+    const rm=c.createGain();rm.gain.value=0;osc=c.createOscillator();osc.frequency.value=42;osc.connect(rm.gain);osc.start();
+    const wet=c.createGain();wet.gain.value=.78*mod;
+    const sh=c.createWaveShaper();sh.curve=shaper(mod*10);
+    const hp=c.createBiquadFilter();hp.type='highpass';hp.frequency.value=100+150*mod;
+    const lp=c.createBiquadFilter();lp.type='lowpass';lp.frequency.value=6200-2300*mod;
+    const comp=c.createDynamicsCompressor();
+    input.connect(dry);dry.connect(sh);input.connect(rm);rm.connect(wet);wet.connect(sh);
+    sh.connect(hp);hp.connect(lp);lp.connect(comp);comp.connect(out);out.gain.value=.6;
+  }else if(fx==='phone'){
+    const hp=c.createBiquadFilter();hp.type='highpass';hp.frequency.value=380;
+    const lp=c.createBiquadFilter();lp.type='lowpass';lp.frequency.value=3100;
+    input.connect(hp);hp.connect(lp);lp.connect(out);out.gain.value=1.2;
+  }else if(fx==='whisper'){input.connect(out);out.gain.value=.13;}
+  else{input.connect(out);}
+  return {input,stop:()=>{try{osc&&osc.stop();}catch(e){}}};
+}
+function est(t){return Math.max(1300,(t||'').length*150)+300;}
+async function playClip(id,o={}){
+  if(S.muted)return sleep(est(o.t));
+  const c=ac();if(!c)return sleep(est(o.t));
+  let buf;try{buf=await loadClip(id);}catch(e){return sleep(est(o.t));}
+  return new Promise(res=>{
+    let done=false;const fin=()=>{if(!done){done=true;ch.stop();res();}};
+    const ch=chain(c,o.fx||'natural',o.mod==null?1:o.mod);const s=c.createBufferSource();s.buffer=buf;s.playbackRate.value=o.rate||1;
+    s.connect(ch.input);s.onended=fin;try{s.start();}catch(e){fin();}
+    setTimeout(fin,buf.duration/(o.rate||1)*1000+2500);
+  });
+}
+function tone(f,dur,{type='sine',gain=.12,at=0}={}){
+  const c=ac();if(!c||S.muted)return;const t=c.currentTime+at;
+  const o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.setValueAtTime(f,t);
+  g.gain.setValueAtTime(gain,t);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+dur+.05);
+}
+function noise(dur,{gain=.05,freq=1400,q=.8,at=0}={}){
+  const c=ac();if(!c||S.muted)return null;const t=c.currentTime+at;
+  const len=Math.max(1,Math.floor(c.sampleRate*dur));const b=c.createBuffer(1,len,c.sampleRate);const d=b.getChannelData(0);
+  for(let i=0;i<len;i++)d[i]=Math.random()*2-1;
+  const s=c.createBufferSource();s.buffer=b;const f=c.createBiquadFilter();f.type='bandpass';f.frequency.value=freq;f.Q.value=q;
+  const g=c.createGain();g.gain.setValueAtTime(gain,t);g.gain.setValueAtTime(gain,t+dur*.85);g.gain.linearRampToValueAtTime(0,t+dur);
+  s.connect(f);f.connect(g);g.connect(c.destination);s.start(t);s.stop(t+dur+.05);return s;
+}
+let tickT=null;
+function startBed(){stopBed();if(S.muted)return;tickT=setInterval(()=>tone(2200,.025,{gain:.025,type:'square'}),1000);}
+function stopBed(){clearInterval(tickT);tickT=null;}
+
+/* ---------- 배경음악: 브라우저 합성 앰비언트 (저음 패드 + 심장 박동 + 드문 종소리) ---------- */
+const BGM={on:true,nodes:null,duck:1,fast:false,pulseT:null,bellT:null};
+function bgmStart(){
+  if(BGM.nodes||!BGM.on||S.muted)return;const c=ac();if(!c)return;
+  const master=c.createGain();master.gain.value=0;master.connect(c.destination);
+  master.gain.linearRampToValueAtTime(.5*BGM.duck,c.currentTime+3);
+  const lp=c.createBiquadFilter();lp.type='lowpass';lp.frequency.value=480;lp.Q.value=3;lp.connect(master);
+  const lfo=c.createOscillator();lfo.frequency.value=.06;const lg=c.createGain();lg.gain.value=220;lfo.connect(lg);lg.connect(lp.frequency);lfo.start();
+  const oscs=[55,82.41,110.6,130.81].map((f,i)=>{const o=c.createOscillator();o.type=i%2?'triangle':'sawtooth';o.frequency.value=f;o.detune.value=(i-1.5)*7;const g=c.createGain();g.gain.value=[.06,.045,.03,.018][i];o.connect(g);g.connect(lp);o.start();return o;});
+  const dl=c.createDelay(1.5);dl.delayTime.value=.43;const fb=c.createGain();fb.gain.value=.36;dl.connect(fb);fb.connect(dl);const dg=c.createGain();dg.gain.value=.5;dl.connect(dg);dg.connect(master);
+  BGM.nodes={master,oscs,lfo};
+  const bell=()=>{if(!BGM.nodes)return;const N=[440,523.25,587.33,659.25,783.99,880];const f=N[Math.floor(Math.random()*N.length)];const t=c.currentTime;
+    const o=c.createOscillator();o.frequency.value=f;const g=c.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.04,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+2.6);
+    o.connect(g);g.connect(master);g.connect(dl);o.start(t);o.stop(t+2.7);BGM.bellT=setTimeout(bell,3500+Math.random()*5000);};
+  BGM.bellT=setTimeout(bell,2500);
+  const pulse=()=>{if(!BGM.nodes)return;const t=c.currentTime;const o=c.createOscillator();o.frequency.setValueAtTime(68,t);o.frequency.exponentialRampToValueAtTime(36,t+.25);
+    const g=c.createGain();g.gain.setValueAtTime(BGM.fast?.2:.13,t);g.gain.exponentialRampToValueAtTime(.0001,t+.35);o.connect(g);g.connect(master);o.start(t);o.stop(t+.4);
+    BGM.pulseT=setTimeout(pulse,BGM.fast?650:1500);};
+  BGM.pulseT=setTimeout(pulse,1200);
+}
+function bgmStop(){
+  if(!BGM.nodes)return;const c=ac();const n=BGM.nodes;BGM.nodes=null;clearTimeout(BGM.pulseT);clearTimeout(BGM.bellT);
+  try{n.master.gain.cancelScheduledValues(c.currentTime);n.master.gain.setValueAtTime(n.master.gain.value,c.currentTime);n.master.gain.linearRampToValueAtTime(0,c.currentTime+1.2);}catch(e){}
+  setTimeout(()=>{n.oscs.forEach(o=>{try{o.stop();}catch(e){}});try{n.lfo.stop();}catch(e){}},1400);
+}
+function bgmDuck(on){BGM.duck=on?.3:1;if(!BGM.nodes)return;const c=ac();const g=BGM.nodes.master.gain;try{g.cancelScheduledValues(c.currentTime);g.setValueAtTime(g.value,c.currentTime);g.linearRampToValueAtTime(.5*BGM.duck,c.currentTime+.4);}catch(e){}}
+$('#bgmBtn').onclick=()=>{BGM.on=!BGM.on;$('#bgmBtn').setAttribute('aria-pressed',BGM.on?'true':'false');if(BGM.on&&STEPS.indexOf(S.step)>=0&&S.step!=='s-survey')bgmStart();else bgmStop();};
+
+/* ---------- 제한 시간 ---------- */
+let timerT=null;
+function timerStart(){
+  if(!S.limit){$('#timer').hidden=true;return;}
+  if(!S.deadline){S.deadline=Date.now()+S.limit*60000;save();}
+  $('#timer').hidden=false;clearInterval(timerT);timerT=setInterval(timerTick,500);timerTick();
+}
+function timerStop(){clearInterval(timerT);timerT=null;if(S.deadline)S.timeLeft=Math.max(0,Math.round((S.deadline-Date.now())/1000));save();}
+function timerTick(){
+  const left=Math.max(0,S.deadline-Date.now());const m=Math.floor(left/60000),s=Math.floor(left%60000/1000);
+  $('#timer').textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');$('#timer').classList.toggle('warn',left<=300000);
+  BGM.fast=left<=300000;
+  if(left<=300000&&left>60000&&!S.w5){S.w5=true;save();announce('t5','오 분 남았습니다.');}
+  if(left<=60000&&left>0&&!S.w1){S.w1=true;save();announce('t1','일 분.');}
+  if(left===0&&!S.timedOut){S.timedOut=true;save();clearInterval(timerT);announce('tout','시간이 다 되었습니다. 하지만… 기록은 아직 열려 있습니다.',true);$('#timer').textContent='시간 초과';}
+}
+function announce(id,t,long){
+  const el=document.createElement('div');el.className='toast';el.setAttribute('role','status');el.textContent='▣ 문패: '+t;document.body.appendChild(el);
+  bgmDuck(true);playClip(id,Object.assign({t},MOON)).then(()=>bgmDuck(false));setTimeout(()=>el.remove(),long?7000:4000);
+}
+const sfx={
+  static:()=>noise(1.4,{gain:.08,freq:1600,q:.5}),
+  bell:()=>{tone(880,.5,{gain:.08});tone(660,.7,{gain:.08,at:.35});},
+  clunk:()=>{noise(.12,{gain:.25,freq:300,q:1.2});tone(90,.18,{gain:.2,type:'triangle'});},
+  unlock:()=>{tone(1800,.04,{gain:.15,type:'square'});tone(1500,.05,{gain:.15,type:'square',at:.12});tone(520,.35,{gain:.1,at:.3});tone(780,.5,{gain:.1,at:.45});},
+  key:()=>{tone(2600,.25,{gain:.08});tone(3400,.18,{gain:.05,at:.05});},
+  marble:()=>{tone(900,.12,{gain:.12,type:'triangle'});tone(700,.12,{gain:.08,type:'triangle',at:.14});},
+  paper:()=>noise(.25,{gain:.12,freq:4000,q:.4}),
+  snap:()=>tone(1200,.06,{gain:.12,type:'square'}),
+  hang:()=>{tone(480,.25,{gain:.1});tone(480,.25,{gain:.1,at:.4});}
+};
+let ringT=null;
+function ringStart(){ringStop();const play=()=>{[659,784,988,784,659].forEach((f,i)=>tone(f,.16,{gain:.12,type:'triangle',at:i*.16}));};play();ringT=setInterval(play,1500);try{navigator.vibrate&&navigator.vibrate([700,400,700,400,700]);}catch(e){}}
+function ringStop(){clearInterval(ringT);ringT=null;try{navigator.vibrate&&navigator.vibrate(0);}catch(e){}}
+
+/* ---------- 자막 + 음성 ---------- */
+async function typeLine(box,text,cls){
+  const d=document.createElement('div');if(cls)d.className=cls;box.appendChild(d);
+  if(reduced||cls){d.textContent=text;return;}
+  for(let i=1;i<=text.length;i++){d.textContent=text.slice(0,i);await sleep(38);}
+}
+const MOON={fx:'moon',mod:.7,rate:.935};
+async function narrate(box,lines,who,maskEl){
+  bgmDuck(true);
+  try{await narrate0(box,lines,who,maskEl);}finally{bgmDuck(false);}
+}
+async function narrate0(box,lines,who,maskEl){
+  box.textContent='';if(who){const w=document.createElement('div');w.className='who';w.textContent=who;box.appendChild(w);}
+  for(const L of lines){
+    if(L.sfx){typeLine(box,L.sfx,'sfx');if(L.play)sfx[L.play]();await sleep(L.wait||900);continue;}
+    if(L.who){const w=document.createElement('div');w.className='who';w.style.marginTop='10px';w.textContent=L.who;box.appendChild(w);}
+    const o=Object.assign({},L.o||MOON,{t:L.t});
+    maskEl&&maskEl.classList.add('speaking');
+    await Promise.all([typeLine(box,L.t),playClip(L.a,o)]);
+    maskEl&&maskEl.classList.remove('speaking');
+    if(L.after)L.after(box);
+    await sleep(L.pause||300);
+  }
+}
+
+
+/* ---------- 평가 ---------- */
+const RATE_TXT=['별로','조금','괜찮음','재미있음','최고'];
+function rate(key,label,next){
+  S.times[key]=Math.round((Date.now()-(S._t0||Date.now()))/1000);
+  $('#rateLabel').textContent=label;const box=$('#rateBtns');box.textContent='';
+  RATE_TXT.forEach((t,i)=>{const b=document.createElement('button');b.type='button';const bb=document.createElement('b');bb.textContent=i+1;b.appendChild(bb);b.appendChild(document.createTextNode(t));b.onclick=()=>{S.ratings[key]=i+1;save();next();};box.appendChild(b);});
+  document.querySelectorAll('.screen').forEach(e=>{e.hidden=(e.id!=='s-rate');});$('#skipBtn').hidden=true;window.scrollTo(0,0);
+}
+function begin(id){S._t0=Date.now();show(id);}
+
+/* ---------- 자막만 토글 ---------- */
+function setMuted(m){S.muted=m;$('#muteBtn').setAttribute('aria-pressed',m?'true':'false');if(m){stopBed();bgmStop();}else if(STEPS.indexOf(S.step)>=0&&S.step!=='s-survey')bgmStart();save();}
+$('#muteBtn').onclick=()=>setMuted(!S.muted);
+const hr=new Date().getHours();if(hr>=22||hr<6)setMuted(true);
+
+/* ---------- 능력(방송·저장) ---------- */
+function getCap(name){return new Promise(async res=>{for(let i=0;i<50;i++){if(window.claude&&typeof window.claude.use==='function'){try{res(await window.claude.use(name));}catch(e){res(null);}return;}await sleep(200);}res(null);});}
+let ROOM=null,BC=null,DB=null,bcPeers=0;
+getCap('room').then(r=>{ROOM=r;
+  if(!ROOM){$('#bcInfo').textContent='이 화면에서는 방송 장치 연결을 쓸 수 없어요. 플레이어 폰 1대로 진행합니다(1대 모드).';}
+  else{$('#bcInfo').textContent='남는 폰이나 태블릿이 있으면 방송 장치로 연결하세요(같은 claude.ai 계정 로그인 필요). 없으면 건너뛰어도 됩니다.';$('#bcMake').hidden=false;}
+});
+getCap('db').then(d=>{DB=d;});
+
+/* ---------- 공통 도우미 ---------- */
+const COL={g:{n:'초록',c:'#6cc391'},r:{n:'빨강',c:'#e0604a'},y:{n:'노랑',c:'#e7c14a'},b:{n:'파랑',c:'#5b8fd6'}};
+function wrongShake(sel){sfx.clunk();$(sel).classList.add('shake');setTimeout(()=>$(sel).classList.remove('shake'),400);}
+function hintAdd(boxSel,arr,n,btnSel,key){const d=document.createElement('div');d.className='hint';d.textContent=arr[Math.min(n,arr.length)-1];$(boxSel).appendChild(d);if(n>=arr.length)$(btnSel).disabled=true;if(key){S.hints[key]=n;save();}}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function chipGroup(id,opts,cur,onPick){const box=$(id);box.textContent='';opts.forEach(([v,label])=>{const b=document.createElement('button');b.type='button';b.className='chip';b.textContent=label;b.setAttribute('aria-pressed',v===cur?'true':'false');b.onclick=()=>{box.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));onPick(v);};box.appendChild(b);});}
+
+/* ---------- 시작 ---------- */
+const saved=load();
+if(saved){$('#resumeBtn').hidden=false;$('#resumeBtn').onclick=()=>{S=saved;setMuted(!!S.muted);unlockAudio();preload(CLIPS);enter(S.step);if(S.step!=='s-survey'&&S.step!=='s-end'){timerStart();bgmStart();}};}
+$('#goSetup').onclick=()=>{clearSave();unlockAudio();buildSetup();show('s-setup');};
+$('#goBc').onclick=()=>{unlockAudio();show('s-bc');};
+
+/* ---------- 호스트 준비 ---------- */
+const SENT=['걸','어','둔','수','건','을','들','춰','라'];const GROUPS=[2,1,3,3];
+const POUR=[7,2,5,0,8,4,1,6,3];   // 쏟아지는 순서: 춰 둔 을 걸 라 건 어 들 수
+const CPOS=[0,3,5,8];             // 색이 칠해진 글자 자리: 걸 · 수 · 을 · 라
+function buildSetup(){
+  const cols=shuffle(['g','r','y','b']);const pool=shuffle([0,1,2,4,5,6,8,9]);const door=shuffle([0,1,2,3,4,5,6,7,8,9]).slice(0,4);
+  const sides=shuffle([3,4,5,6]);
+  S.ans={tileCol:{},order:cols,mg:{tl:sides[0],tr:sides[1],bl:sides[2],br:sides[3]},g:sides[2],r:pool[0],door};
+  CPOS.forEach((p,i)=>{S.ans.tileCol[p]=cols[i];});
+  $('#noteA').textContent='찾았네. 다음은 그림이야. 그림을 완성하면 어디로 가야 할지 알게 될 거야.';
+  $('#noteB').textContent='그림 속, 내가 붙은 자리와 같은 자리를 봐. 내 색은 초록. 다음은 현관이야.';
+  $('#noteC').textContent='잘 찾았어. 나는 오늘 너에게 두 번 말을 걸었어. 몇 시였는지는 거울이 알려 줄 거야.';
+  $('#note1').textContent='빨강 = '+S.ans.r+'. 이제 조용한 곳에서 귀를 기울여. 컵이 도와줄 거야.';
+  chipGroup('#furnChips',Object.keys(FURN).map(k=>[k,k]),'',k=>{S.furn=k;$('#fn1').textContent=k;$('#m1').textContent=FURN[k].m[0];$('#m2').textContent=FURN[k].m[1];$('#msgBox').hidden=false;$('#msg2Box').hidden=true;S.sent=S.sent2=null;$('#sentBox').hidden=true;$('#sentBtn').disabled=false;check();});
+  chipGroup('#voiceChips',[['f','여성 목소리'],['m','남성 목소리']],S.voice,v=>{S.voice=v;playClip(S.hl+'_'+v,{t:HOSTLINES[S.hl]});});
+  chipGroup('#lineChips',Object.keys(HOSTLINES).map(k=>[k,HOSTLINES[k]]),S.hl,v=>{S.hl=v;playClip(v+'_'+S.voice,{t:HOSTLINES[v]});});
+  chipGroup('#limitChips',[[30,'30분'],[45,'45분'],[60,'60분'],[0,'제한 없음']],S.limit,v=>{S.limit=v;});
+}
+function copyText(t,btn){const ok=()=>{btn.textContent='복사됨';setTimeout(()=>btn.textContent='복사',1200);};
+  try{navigator.clipboard.writeText(t).then(ok,()=>{btn.textContent='직접 입력해 주세요';});}catch(e){btn.textContent='직접 입력해 주세요';}}
+$('#cp1').onclick=e=>copyText(FURN[S.furn].m[0],e.currentTarget);
+$('#cp2').onclick=e=>copyText(FURN[S.furn].m[1],e.currentTarget);
+function hhmm(d){return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
+let waitT=null;
+$('#sentBtn').onclick=()=>{
+  S.sent=hhmm(new Date());$('#sentTime').value=S.sent;$('#sentBtn').disabled=true;$('#msg2Box').hidden=false;$('#sent2Btn').disabled=true;
+  let left=60;clearInterval(waitT);$('#waitMsg').textContent='두 시각이 겹치지 않도록 '+left+'초 뒤에 두 번째 메시지를 보내세요.';
+  waitT=setInterval(()=>{left--;if(left>0)$('#waitMsg').textContent='두 시각이 겹치지 않도록 '+left+'초 뒤에 두 번째 메시지를 보내세요.';else{clearInterval(waitT);$('#waitMsg').textContent='이제 두 번째 메시지를 보내세요.';$('#sent2Btn').disabled=false;}},1000);
+};
+$('#sent2Btn').onclick=()=>{S.sent2=hhmm(new Date());$('#sentTime2').value=S.sent2;$('#sentBox').hidden=false;$('#sent2Btn').disabled=true;check();};
+$('#sentTime').onchange=e=>{if(e.target.value)S.sent=e.target.value;check();};
+$('#sentTime2').onchange=e=>{if(e.target.value)S.sent2=e.target.value;check();};
+$('#hidOk').onchange=check;
+function check(){const ok=S.furn&&S.sent&&S.sent2&&S.sent!==S.sent2&&$('#hidOk').checked;$('#setupDone').disabled=!ok;$('#setupNeed').hidden=!!ok;
+  $('#setupNeed').textContent=(S.sent&&S.sent2&&S.sent===S.sent2)?'두 메시지의 시각이 같습니다. 1분 이상 간격을 두세요.':'메시지 두 개 전송과 쪽지·카드 두기가 필요합니다.';}
+$('#bcMake').onclick=async()=>{
+  const code=String(1000+Math.floor(Math.random()*9000));$('#bcCode').textContent=code;$('#bcCodeBox').hidden=false;$('#bcMake').hidden=true;
+  try{BC=await ROOM.join('mp-'+code);S.bcCode=code;
+    BC.onPeers(ch=>{bcPeers=ch.peers.filter(p=>!(p.isMe&&p.sameTab)).length;$('#bcPeers').textContent='연결된 방송 장치: '+bcPeers;S.mode=bcPeers>0?'2대':'1대';});
+  }catch(e){$('#bcPeers').textContent='연결하지 못했어요. 1대 모드로 진행합니다.';BC=null;}
+};
+$('#setupDone').onclick=()=>{
+  S.n1=$('#n1').value.trim()||'1번 입주자';S.n2=$('#n2').value.trim();S.host=$('#hostName').value.trim()||'숨긴 사람';
+  S.gift=$('#gift').value.trim();S.deadline=null;S.w5=S.w1=S.timedOut=false;S.timeLeft=null;S.found={};S.hints={};S.eye=null;save();show('s-hand');
+  $('#loadMsg').textContent='목소리 불러오는 중… 0/'+CLIPS.length;
+  preload(CLIPS,(n,t)=>{$('#loadMsg').textContent=n<t?'목소리 불러오는 중… '+n+'/'+t:'준비 완료';});
+};
+$('#startPlay').onclick=()=>{unlockAudio();enter('s-open');};
+function enter(id){
+  const f={'s-open':opening,'s-bottle':bottle,'s-film':film,'s-door':door,'s-shoe':shoe,'s-chat':chat,'s-whisper':whisper,'s-lock':lock,'s-end':ending,'s-survey':survey}[id];
+  if(f)return f();show(id);
+}
+$('#skipBtn').onclick=()=>{const cur=S.step;S.skipped.push(cur);save();stopBed();enter(NEXT[cur]);};
+
+/* ---------- 오프닝: 상황·목표·규칙을 분명히 ---------- */
+async function opening(){
+  begin('s-open');$('#openNext').hidden=true;bgmStart();
+  const who=(S.n2?S.n1+' 님, '+S.n2+' 님':S.n1+' 님');
+  await narrate($('#cap1'),[
+    {sfx:'[라디오 잡음. 현관 초인종 한 번.]',play:'static',wait:1400},
+    {a:'op1',t:T.op1},{a:'op2',t:T.op2},{a:'op3',t:T.op3},{a:'op4',t:T.op4},
+    {sfx:'['+who+', 기록 일곱 개를 찾아 주십시오]',wait:500},
+    {a:'op5',t:T.op5},{a:'op6',t:T.op6},{a:'op7',t:T.op7},{a:'op9',t:T.op9},{a:'op8',t:T.op8}
+  ],'▣ 문패',$('#mask1'));
+  $('#openNext').hidden=false;$('#openNext').focus();timerStart();
+}
+$('#openNext').onclick=()=>rate('opening','오프닝 · 문패',()=>bottle());
+
+/* ---------- 기록 1: 병 · 흩어진 글자 (안내 없음: 기울여야 쏟아진다는 걸 스스로 발견) ---------- */
+let tilt=0,overSince=0,lastDrop=0,pourN=0,slotsArr=[],bottleHintN=0,sentDone=false,sensorTried=false,sensorOn=false;
+function setTilt(a){tilt=Math.max(0,Math.min(150,a));$('#bottle').style.transform='rotate('+tilt+'deg)';}
+function bottle(){
+  begin('s-bottle');pourN=0;slotsArr=Array(9).fill(null);sentDone=false;bottleHintN=0;
+  $('#bottleIn').style.display='';setTilt(0);$('#tray').textContent='';$('#trayLabel').hidden=true;$('#slotBox').hidden=true;$('#bottleFound').hidden=true;
+  $('#bottleHintBox').textContent='';$('#bottleHint').disabled=false;$('#sentMsg').textContent='';$('#sensorMsg').textContent='';buildSlots();
+}
+(function(){
+  const st=$('#bottleStage');let down=false,sx=0,t0=0;
+  st.addEventListener('pointerdown',e=>{
+    if(!sensorTried){sensorTried=true;trySensor();}
+    if(sensorOn)return;down=true;sx=e.clientX;t0=tilt;try{st.setPointerCapture(e.pointerId);}catch(_){}e.preventDefault();});
+  st.addEventListener('pointermove',e=>{if(!down)return;setTilt(t0+(e.clientX-sx)*.9);});
+  const up=()=>{down=false;};st.addEventListener('pointerup',up);st.addEventListener('pointercancel',up);
+})();
+async function trySensor(){
+  let granted=true;
+  try{if(window.DeviceOrientationEvent&&typeof DeviceOrientationEvent.requestPermission==='function'){const r=await DeviceOrientationEvent.requestPermission();granted=(r==='granted');}}catch(e){granted=false;}
+  if(!granted)return;
+  window.addEventListener('deviceorientation',e=>{if(e.gamma==null||$('#s-bottle').hidden)return;if(!sensorOn){sensorOn=true;S.sensor=true;save();}setTilt(Math.abs(e.gamma)*1.7);});
+}
+setInterval(()=>{
+  if($('#s-bottle').hidden||pourN>=9)return;
+  if(tilt>=55){if(!overSince)overSince=Date.now();if(Date.now()-overSince>450&&Date.now()-lastDrop>650){lastDrop=Date.now();dropTile();}}else overSince=0;
+},100);
+function tileEl(idx){const b=document.createElement('button');b.type='button';b.className='tile';b.textContent=SENT[idx];b.dataset.i=idx;const c=S.ans.tileCol[idx];if(c){const i=document.createElement('i');i.style.background=COL[c].c;b.appendChild(i);b.setAttribute('aria-label',SENT[idx]+' ('+COL[c].n+' 표시)');}return b;}
+function dropTile(){
+  const idx=POUR[pourN++];sfx.paper();try{navigator.vibrate&&navigator.vibrate(25);}catch(e){}
+  $('#trayLabel').hidden=false;const b=tileEl(idx);b.onclick=()=>placeTile(idx);$('#tray').appendChild(b);
+  $('#sensorMsg').textContent=pourN<9?'':'병이 비었습니다.';
+  if(pourN>=9){$('#bottleIn').style.display='none';setTilt(0);$('#slotBox').hidden=false;}
+}
+function buildSlots(){const box=$('#slots');box.textContent='';box.classList.remove('ok');let k=0;
+  GROUPS.forEach(g=>{const grp=document.createElement('div');grp.className='slotgrp';for(let j=0;j<g;j++){const pos=k++;const s=document.createElement('button');s.type='button';s.className='slot';s.dataset.p=pos;s.setAttribute('aria-label',(pos+1)+'번째 칸');s.onclick=()=>unplace(pos);grp.appendChild(s);}box.appendChild(grp);});}
+function renderSlots(){
+  document.querySelectorAll('#slots .slot').forEach(s=>{const p=+s.dataset.p,idx=slotsArr[p];s.textContent='';s.classList.toggle('filled',idx!=null);
+    if(idx!=null){s.appendChild(document.createTextNode(SENT[idx]));const c=S.ans.tileCol[idx];if(c){const i=document.createElement('i');i.style.background=COL[c].c;s.appendChild(i);}}});
+  document.querySelectorAll('#tray .tile').forEach(t=>t.classList.toggle('used',slotsArr.includes(+t.dataset.i)));
+}
+function placeTile(idx){if(sentDone||slotsArr.includes(idx))return;const p=slotsArr.indexOf(null);if(p<0)return;slotsArr[p]=idx;tone(900,.04,{gain:.06,type:'square'});renderSlots();$('#sentMsg').textContent='';if(!slotsArr.includes(null))checkSentence();}
+function unplace(p){if(sentDone||slotsArr[p]==null)return;slotsArr[p]=null;renderSlots();$('#sentMsg').textContent='';}
+function checkSentence(){
+  if(slotsArr.every((idx,p)=>idx===p)){sentDone=true;$('#slots').classList.add('ok');sfx.unlock();$('#sentMsg').textContent='"걸어 둔 수건을 들춰라"';S.found.sent=true;save();setTimeout(()=>{$('#bottleFound').hidden=false;},700);}
+  else{sfx.clunk();$('#slots').classList.add('shake');setTimeout(()=>$('#slots').classList.remove('shake'),400);$('#sentMsg').textContent='문장이 되지 않습니다. 칸을 눌러 글자를 되돌려 보세요.';}
+}
+$('#bottleHint').onclick=()=>{
+  const H1='병 안의 것을 꺼내려면 병을 기울여야 합니다. 휴대폰을 옆으로 기울이거나, 병을 손가락으로 잡고 옆으로 돌려 보세요.';
+  const H2=['아홉 글자가 네 덩어리(2·1·3·3)로 된 문장입니다. 마지막 덩어리는 무언가를 "하라"는 말로 끝납니다.','"수"와 "건"은 붙어 다니는 글자입니다. 욕실에 걸려 있는 물건이죠.','첫 덩어리는 "걸어", 둘째는 "둔"입니다.','정답: 걸어 둔 수건을 들춰라'];
+  if(pourN<9){if(!S.hints.bottle){S.hints.bottle=1;save();const d=document.createElement('div');d.className='hint';d.textContent=H1;$('#bottleHintBox').appendChild(d);}
+    else{const d=document.createElement('div');d.className='hint';d.textContent='다음 힌트는 병을 모두 비운 뒤에 열립니다.';$('#bottleHintBox').appendChild(d);}return;}
+  bottleHintN++;hintAdd('#bottleHintBox',H2,bottleHintN,'#bottleHint');S.hints.bottle=1+bottleHintN;save();
+};
+$('#bottleNext').onclick=()=>{S.found.a=true;save();rate('bottle','기록 1 · 흩어진 글자',()=>film());};
+
+/* ---------- 기록 2: 필름 · 같은 자리 ---------- */
+function mg(x,y,n){const r=7.5;let pts=[];for(let i=0;i<n;i++){const a=-Math.PI/2+i*2*Math.PI/n;pts.push((x+r*Math.cos(a)).toFixed(1)+','+(y+r*Math.sin(a)).toFixed(1));}return '<polygon class="mg" points="'+pts.join(' ')+'"/>';}
+const FILMS=[
+  {p:['M24 10 H72','M24 10 V60','M64 22 V36','M30 110 v5'],m:'tl'},
+  {p:['M72 10 V60','M24 44 H72','M66 110 v5'],m:'tr'},
+  {p:['M24 60 V110','M24 110 H72','M64 54 V82'],m:'bl'},
+  {p:['M72 60 V110','M44 20 h6'],m:'br'}
+];
+const MPOS={tl:[34,24],tr:[52,26],bl:[34,68],br:[50,96]};
+const START=[{x:-62,y:34,r:0,f:false},{x:54,y:-30,r:90,f:false},{x:30,y:62,r:180,f:false},{x:-40,y:-52,r:0,f:true}];
+let F=[],cur=0,filmDone=false,filmHintN=0,greenHintN=0;
+function film(){
+  begin('s-film');filmDone=false;filmHintN=0;$('#filmQ').hidden=true;$('#filmFound').hidden=true;$('#filmA').value='';
+  const old=$('#s-film .hint');if(old)old.remove();
+  const st=$('#filmStage');st.textContent='';st.classList.remove('done');F=[];
+  const tabs=$('#filmTabs');tabs.textContent='';
+  FILMS.forEach((f,i)=>{
+    const [mx,my]=MPOS[f.m];const body=f.p.map(p=>'<path d="'+p+'"/>').join('')+mg(mx,my,S.ans.mg[f.m]);
+    const el=document.createElement('div');el.className='film';el.innerHTML='<svg viewBox="0 0 96 120" aria-hidden="true"><circle class="reg" cx="6" cy="6" r="2.4"/><circle class="reg" cx="90" cy="114" r="2.4"/>'+body+'</svg>';st.appendChild(el);
+    const tb=document.createElement('button');tb.type='button';tb.className='ftab';tb.innerHTML='<svg viewBox="0 0 96 120" aria-hidden="true">'+body+'</svg>';
+    const lb=document.createElement('span');lb.textContent='필름 '+(i+1);tb.appendChild(lb);tb.onclick=()=>select(i);tabs.appendChild(tb);
+    const s=Object.assign({},START[i],{el,tb,locked:false});F.push(s);place(s);
+  });
+  select(0);
+}
+function place(s){s.el.style.transform='translate('+s.x+'px,'+s.y+'px) rotate('+s.r+'deg) scaleX('+(s.f?-1:1)+')';}
+function select(i){
+  if(F[i].locked){const n=F.findIndex(o=>!o.locked);if(n<0)return;i=n;}
+  cur=i;F.forEach((o,j)=>{o.el.classList.toggle('sel',j===i&&!o.locked);o.tb.setAttribute('aria-pressed',j===i?'true':'false');});
+  F[i].el.parentNode.appendChild(F[i].el);
+}
+(function(){
+  const st=$('#filmStage');let down=false,sx=0,sy=0,ox=0,oy=0;
+  st.addEventListener('pointerdown',e=>{if(filmDone)return;const s=F[cur];if(!s||s.locked)return;down=true;sx=e.clientX;sy=e.clientY;ox=s.x;oy=s.y;try{st.setPointerCapture(e.pointerId);}catch(_){}e.preventDefault();});
+  st.addEventListener('pointermove',e=>{if(!down)return;const s=F[cur];s.x=ox+(e.clientX-sx);s.y=oy+(e.clientY-sy);place(s);});
+  const up=()=>{if(!down)return;down=false;trySnap(F[cur]);};
+  st.addEventListener('pointerup',up);st.addEventListener('pointercancel',up);
+})();
+function trySnap(s){
+  if(!s||s.locked)return;
+  if(Math.abs(s.x)<22&&Math.abs(s.y)<22&&s.r===0&&!s.f){
+    s.x=0;s.y=0;s.locked=true;place(s);s.el.classList.remove('sel');s.el.classList.add('locked');s.tb.classList.add('locked');sfx.snap();
+    if(F.every(o=>o.locked)){filmDone=true;$('#filmStage').classList.add('done');sfx.bell();setTimeout(()=>{$('#filmQ').hidden=false;$('#filmA').focus();},500);}
+    else select(F.findIndex(o=>!o.locked));
+  }else if(Math.abs(s.x)<22&&Math.abs(s.y)<22){
+    const m=$('#s-film .hint')||document.createElement('div');m.className='hint';m.textContent='자리는 맞았어요. 그런데 필름 '+(F.indexOf(s)+1)+'이 돌아가 있거나 뒤집혀 있습니다.';if(!m.parentNode)$('#filmTabs').after(m);
+  }
+}
+$('#rotBtn').onclick=()=>{const s=F[cur];if(!s||s.locked||filmDone)return;s.r=(s.r+90)%360;place(s);trySnap(s);};
+$('#flipBtn').onclick=()=>{const s=F[cur];if(!s||s.locked||filmDone)return;s.f=!s.f;place(s);trySnap(s);};
+$('#filmHint').onclick=()=>{filmHintN++;const t=['갈색 점 두 개(왼쪽 위, 오른쪽 아래)가 무대의 같은 자리에 오게 끌어 보세요.','필름 2와 3은 돌아가 있습니다. [↻ 90° 회전]으로 점이 왼쪽 위와 오른쪽 아래에 오게 하세요.','필름 4는 뒤집혀 있습니다. 필름 4를 고르고 [⇋ 좌우 뒤집기]를 누르세요.'];
+  const m=$('#s-film .hint')||document.createElement('div');m.className='hint';m.textContent=t[Math.min(filmHintN,3)-1];if(!m.parentNode)$('#filmTabs').after(m);S.hints.filmAlign=filmHintN;save();};
+$('#filmGo').onclick=()=>{const v=$('#filmA').value.replace(/\s/g,'');
+  if(/냉장/.test(v)){sfx.unlock();$('#filmQ').hidden=true;$('#filmFound').hidden=false;$('#greenA').value='';$('#greenMsg').textContent='';$('#greenHintBox').textContent='';greenHintN=0;$('#greenHint').disabled=false;}
+  else wrongShake('#filmA');};
+$('#greenGo').onclick=()=>{const v=$('#greenA').value.trim();
+  if(v===String(S.ans.g)){sfx.unlock();S.found.g=true;S.found.b2=true;save();$('#greenMsg').textContent='초록 = '+v+'. 기록 수첩에 적혔습니다. 쪽지가 말한 다음 장소: 현관.';setTimeout(()=>rate('film','기록 2 · 같은 자리',()=>door()),1500);}
+  else{wrongShake('#greenA');$('#greenMsg').textContent=Object.values(S.ans.mg).map(String).includes(v)?'그 모양은 다른 자리에 있습니다.':'철컥… 아닙니다.';}};
+$('#greenHint').onclick=()=>{greenHintN++;hintAdd('#greenHintBox',['쪽지는 냉장고의 "어디에" 붙어 있었나요?','그 위치를 그림 속 냉장고에 옮겨 보세요. 같은 자리의 자석에는 숫자가 없습니다. 그 모양 자체가 숫자입니다.','변(모서리)의 개수를 세어 보세요. 아랫문 왼쪽 자석은 '+S.ans.g+'각형, 답은 '+S.ans.g+'입니다.'],greenHintN,'#greenHint','green');};
+
+/* ---------- 기록 3: 도어락 지문 — 맨눈으론 안 보임. 문패의 눈(카메라, 인쇄 카드) 또는 화면 속 비스듬한 빛 ---------- */
+const KP=[['1','2','3'],['4','5','6'],['7','8','9'],['*','0','#']];
+function kpRC(d){for(let r=0;r<4;r++)for(let c=0;c<3;c++)if(KP[r][c]===String(d))return [r,c];return [3,1];}
+function kpPos(d){const [r,c]=kpRC(d);return [30+60*c,30+60*r];}
+/* 화면 대체판: 손가락 위치에서 '비스듬히' 떨어진 고리 모양 빛 안에서만 지문이 보임 */
+function doorSvg(code){
+  let s='<svg class="keypadimg" id="doorSvg" viewBox="0 0 180 240" role="img" aria-label="어두운 도어락 키패드. 손가락으로 문질러 빛을 비출 수 있다"><defs><filter id="smg" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2.3"/></filter>'+
+    '<radialGradient id="ring"><stop offset="0" stop-color="#000"/><stop offset=".38" stop-color="#000"/><stop offset=".6" stop-color="#fff"/><stop offset=".85" stop-color="#fff"/><stop offset="1" stop-color="#000"/></radialGradient>'+
+    '<radialGradient id="glow"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>'+
+    '<mask id="lm" maskUnits="userSpaceOnUse"><rect x="0" y="0" width="180" height="240" fill="#000"/><circle id="lmc" cx="-200" cy="-200" r="95" fill="url(#ring)"/></mask></defs>'+
+    '<rect x="0" y="0" width="180" height="240" rx="12" fill="#0b0f12"/>';
+  KP.forEach((row,r)=>row.forEach((k,c)=>{const x=30+60*c,y=30+60*r;s+='<circle cx="'+x+'" cy="'+y+'" r="22" fill="#141b21" stroke="#222c35"/><text x="'+x+'" y="'+(y+6)+'" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="17" fill="#55636e">'+k+'</text>';}));
+  s+='<circle id="glowc" cx="-200" cy="-200" r="40" fill="url(#glow)"/><g mask="url(#lm)">';
+  code.forEach((d,i)=>{const [x,y]=kpPos(d);
+    s+='<g filter="url(#smg)" opacity=".75"><ellipse cx="'+(x+1)+'" cy="'+(y+2)+'" rx="12" ry="10" fill="#cfdbe2" transform="rotate('+((i*37)%60-30)+' '+x+' '+y+')"/>';
+    if(i<code.length-1){const [nx,ny]=kpPos(code[i+1]);const dx=nx-x,dy=ny-y,L=Math.hypot(dx,dy)||1,ux=dx/L,uy=dy/L,px=-uy,py=ux,tl=Math.min(24,L*.4);
+      const tx=x+ux*(10+tl),ty=y+uy*(10+tl),b1x=x+ux*5+px*6,b1y=y+uy*5+py*6,b2x=x+ux*5-px*6,b2y=y+uy*5-py*6;
+      s+='<polygon points="'+b1x.toFixed(1)+','+b1y.toFixed(1)+' '+tx.toFixed(1)+','+ty.toFixed(1)+' '+b2x.toFixed(1)+','+b2y.toFixed(1)+'" fill="#cfdbe2"/>';}
+    s+='</g>';});
+  return s+'</g></svg>';
+}
+function wireLight(){
+  const svg=$('#doorSvg');if(!svg)return;const c=$('#lmc'),g=$('#glowc');
+  const mv=e=>{const r=svg.getBoundingClientRect();const x=(e.clientX-r.left)/r.width*180,y=(e.clientY-r.top)/r.height*240;c.setAttribute('cx',x);c.setAttribute('cy',y);g.setAttribute('cx',x);g.setAttribute('cy',y);};
+  svg.addEventListener('pointerdown',e=>{mv(e);try{svg.setPointerCapture(e.pointerId);}catch(_){}});svg.addEventListener('pointermove',mv);svg.style.touchAction='none';
+}
+/* 문패의 눈: 카메라로 카드의 QR 위치를 잡아 그 위에 지문을 겹쳐 그림 (자외선 렌즈처럼 보라색) */
+let eyeStream=null,eyeRAF=0,eyeLoc=null,eyeFrame=0;
+function loadJsQR(){return new Promise(res=>{if(window.jsQR)return res(true);let done=false;const fin=v=>{if(!done){done=true;res(v);}};const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js';s.onload=()=>fin(!!window.jsQR);s.onerror=()=>fin(false);setTimeout(()=>fin(!!window.jsQR),6000);document.head.appendChild(s);});}
+async function openEye(){
+  $('#eyeBox').hidden=false;$('#eyeMsg').textContent='문패의 눈을 여는 중…';
+  const okLib=await loadJsQR();
+  try{
+    if(!okLib||!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)throw new Error('nocam');
+    eyeStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment',width:{ideal:960},height:{ideal:720}},audio:false});
+    const v=$('#eyeVid');v.srcObject=eyeStream;await v.play();S.eye='camera';save();
+    $('#eyeMsg').textContent='현관의 도어락 카드를 비춰 보세요.';eyeLoop();
+  }catch(e){
+    $('#eyeBox').hidden=true;S.eye='fallback';save();
+    $('#doorImgBox').hidden=false;$('#doorImg').innerHTML=doorSvg(S.ans.door);wireLight();
+  }
+}
+function closeEye(){cancelAnimationFrame(eyeRAF);if(eyeStream){eyeStream.getTracks().forEach(t=>t.stop());eyeStream=null;}$('#eyeBox').hidden=true;}
+function eyeLoop(){
+  const v=$('#eyeVid'),cv=$('#eyeCan');if(!eyeStream)return;
+  if(v.videoWidth){
+    if(cv.width!==v.videoWidth){cv.width=v.videoWidth;cv.height=v.videoHeight;}
+    const x=cv.getContext('2d',{willReadFrequently:true});x.drawImage(v,0,0,cv.width,cv.height);
+    if(eyeFrame++%3===0){const sw=Math.min(640,cv.width),sh=Math.round(cv.height*sw/cv.width);const tmp=x.getImageData(0,0,cv.width,cv.height);
+      const q=window.jsQR(tmp.data,cv.width,cv.height,{inversionAttempts:'dontInvert'});if(q&&q.data==='MP-DOOR'){eyeLoc=q.location;eyeLoc.t=Date.now();}}
+    // 자외선 느낌의 보라색 덮개
+    x.fillStyle='rgba(60,0,120,.38)';x.fillRect(0,0,cv.width,cv.height);
+    if(eyeLoc&&Date.now()-eyeLoc.t<900){
+      const o=eyeLoc.topLeftCorner,ax=eyeLoc.topRightCorner,ay=eyeLoc.bottomLeftCorner;
+      const ex=[ax.x-o.x,ax.y-o.y],ey=[ay.x-o.x,ay.y-o.y];const P=(u,w)=>[o.x+ex[0]*u+ey[0]*w,o.y+ex[1]*u+ey[1]*w];
+      const unit=Math.hypot(ex[0],ex[1]);const code=S.ans.door;
+      x.save();x.shadowColor='rgba(190,255,240,.9)';x.shadowBlur=unit*.06;x.fillStyle='rgba(200,255,235,.55)';
+      code.forEach((d,i)=>{const [r,c]=kpRC(d);const [px,py]=P(1.55+.62*c,.2+.62*r);
+        x.beginPath();x.ellipse(px,py,unit*.11,unit*.09,0,0,Math.PI*2);x.fill();
+        if(i<code.length-1){const [r2,c2]=kpRC(code[i+1]);const [qx,qy]=P(1.55+.62*c2,.2+.62*r2);const dx=qx-px,dy=qy-py,L=Math.hypot(dx,dy)||1,ux=dx/L,uy=dy/L,pxp=-uy,pyp=ux,tl=Math.min(unit*.22,L*.4);
+          x.beginPath();x.moveTo(px+ux*unit*.05+pxp*unit*.055,py+uy*unit*.05+pyp*unit*.055);x.lineTo(px+ux*(unit*.1+tl),py+uy*(unit*.1+tl));x.lineTo(px+ux*unit*.05-pxp*unit*.055,py+uy*unit*.05-pyp*unit*.055);x.closePath();x.fill();}
+      });x.restore();
+      if(!S.found.eyeSaw){S.found.eyeSaw=true;save();sfx.bell();$('#eyeMsg').textContent='…지문이 보입니다.';}
+    }
+  }
+  eyeRAF=requestAnimationFrame(eyeLoop);
+}
+$('#eyeBtn').onclick=()=>openEye();
+$('#eyeClose').onclick=()=>closeEye();
+let kpIn=[],doorHintN=0;
+async function door(){
+  begin('s-door');kpIn=[];doorHintN=0;$('#doorHintBox').textContent='';$('#doorHint').disabled=false;$('#doorMsg').textContent='';$('#doorImgBox').hidden=true;$('#eyeBox').hidden=true;buildKp();renderKp();
+  await narrate($('#capDoor'),[{a:'dr1',t:T.dr1}],'▣ 문패');
+}
+function buildKp(){const box=$('#kp');box.textContent='';['1','2','3','4','5','6','7','8','9','지움','0','확인'].forEach(k=>{const b=document.createElement('button');b.type='button';b.textContent=k;b.onclick=()=>kpPress(k);box.appendChild(b);});}
+function renderKp(){$('#kpDisp').textContent=[0,1,2,3].map(i=>kpIn[i]!=null?'•':'_').join(' ');}
+function kpPress(k){if(k==='지움'){kpIn=[];renderKp();return;}if(k==='확인'){doorCheck();return;}if(kpIn.length<4){kpIn.push(k);tone(1600,.05,{gain:.07,type:'square'});renderKp();if(kpIn.length===4)setTimeout(doorCheck,250);}}
+function doorCheck(){
+  if(kpIn.length<4)return;
+  if(kpIn.join('')===S.ans.door.join('')){closeEye();[0,.12,.24,.36].forEach((t,i)=>tone(1200+i*200,.08,{gain:.08,at:t}));$('#doorMsg').textContent='띠리릭— 현관 기록이 열렸습니다.';S.found.door=true;save();setTimeout(()=>rate('door','기록 3 · 도어락 지문',()=>shoe()),1500);}
+  else{tone(300,.4,{gain:.12,type:'square'});$('#kpDisp').classList.add('shake');setTimeout(()=>$('#kpDisp').classList.remove('shake'),400);$('#doorMsg').textContent='삐— 비밀번호가 틀렸습니다.';kpIn=[];setTimeout(renderKp,400);}
+}
+$('#doorHint').onclick=()=>{doorHintN++;hintAdd('#doorHintBox',['카드의 키패드는 깨끗해 보입니다. 문패가 처음에 무엇을 빌려 준다고 했나요?','[문패의 눈]으로 카드를 비춰 보세요. (카메라를 쓸 수 없으면 화면 속 키패드를 손가락으로 문지르세요. 빛은 바로 위가 아니라 비스듬히 비춰야 보입니다.)','지문에는 꼬리가 있습니다. 손가락은 누른 뒤 다음 숫자 쪽으로 미끄러집니다. 어떤 꼬리도 향하지 않는 자국이 첫 번째입니다.','비밀번호: '+S.ans.door.join('')],doorHintN,'#doorHint','door');};
+
+/* ---------- 기록 4: 신발 추리 (논리) ---------- */
+const PEOPLE=['택배 기사','옆집 할머니','관리실 직원','이 집 사람'];const SHOES=['운동화','슬리퍼','장화','구두'];
+let shoeWho=null,shoeWhat=null,shoeHintN=0;
+function shoe(){
+  begin('s-shoe');shoeWho=shoeWhat=null;shoeHintN=0;$('#shoeMsg').textContent='';$('#shoeHintBox').textContent='';$('#shoeHint').disabled=false;$('#shoeFound').hidden=true;
+  const g=$('#shoeGrid');g.textContent='';const blank=document.createElement('div');g.appendChild(blank);
+  SHOES.forEach(s=>{const h=document.createElement('div');h.className='h';h.textContent=s;g.appendChild(h);});
+  PEOPLE.forEach(p=>{const rh=document.createElement('div');rh.className='rh';rh.textContent=p;g.appendChild(rh);
+    SHOES.forEach(s=>{const b=document.createElement('button');b.type='button';b.dataset.v='0';b.textContent='·';b.setAttribute('aria-label',p+' — '+s);
+      b.onclick=()=>{const v=(+b.dataset.v+1)%3;b.dataset.v=v;b.textContent=['·','○','✕'][v];};g.appendChild(b);});});
+  chipGroup('#whoChips',PEOPLE.map(p=>[p,p]),null,v=>{shoeWho=v;});
+  chipGroup('#shoeChips',SHOES.map(s=>[s,s]),null,v=>{shoeWhat=v;});
+}
+$('#shoeGo').onclick=()=>{
+  if(!shoeWho||!shoeWhat){$('#shoeMsg').textContent='사람과 신발을 모두 고르세요.';return;}
+  const okW=shoeWho==='이 집 사람',okS=shoeWhat==='구두';
+  if(okW&&okS){sfx.unlock();$('#shoeMsg').textContent='맞습니다. 기록을 숨긴 사람은 이 집 사람입니다.';S.found.shoe=true;save();$('#shoeFound').hidden=false;}
+  else{sfx.clunk();$('#shoeMsg').textContent=okW?'사람은 맞습니다. 그런데 그 사람의 신발이 아닙니다.':(okS?'신발은 맞습니다. 그 신발의 주인을 다시 보세요.':'단서와 맞지 않습니다. 메모 칸으로 하나씩 지워 보세요.');}
+};
+$('#shoeHint').onclick=()=>{shoeHintN++;hintAdd('#shoeHintBox',['1번 단서부터: 끈을 꽉 묶는 신발은 하나뿐입니다. 택배 기사의 신발을 정하세요.','4번: 옆집에서 건너온 사람은 누구일까요? 3번: 물에 젖지 않는 신발은?','남은 사람과 남은 신발을 짝지은 뒤, 5번 단서를 보세요.','정답: 이 집 사람 — 구두'],shoeHintN,'#shoeHint','shoe');};
+$('#shoeNext').onclick=()=>{S.found.c=true;save();rate('shoe','기록 4 · 현관의 신발',()=>chat());};
+
+/* ---------- 기록 5: 대화방 · 거울 시계 ---------- */
+let chatHintN=0;
+function mirrorClock(H,M){
+  const hA=((H%12)+M/60)*30,mA=M*6;
+  const hand=(a,len)=>{const r=a*Math.PI/180;return [60+Math.sin(r)*len,60-Math.cos(r)*len];};
+  const [hx,hy]=hand(hA,26),[mx,my]=hand(mA,40);
+  let ticks='';for(let i=0;i<12;i++){const r=i*30*Math.PI/180,l=(i%3===0)?9:5;ticks+='<line class="tk" x1="'+(60+Math.sin(r)*(50-l))+'" y1="'+(60-Math.cos(r)*(50-l))+'" x2="'+(60+Math.sin(r)*50)+'" y2="'+(60-Math.cos(r)*50)+'"/>';}
+  const ap=H>=12?'PM':'AM';
+  return '<svg class="clock" viewBox="0 0 120 120" role="img" aria-label="숫자가 없는 시계. 문자판 글자가 좌우로 뒤집혀 보인다"><g transform="translate(120,0) scale(-1,1)">'+
+    '<circle class="face" cx="60" cy="60" r="54"/>'+ticks+
+    '<text x="60" y="40" text-anchor="middle">MOONPAE</text><text x="60" y="88" text-anchor="middle">'+ap+'</text>'+
+    '<line class="hh" x1="60" y1="60" x2="'+hx+'" y2="'+hy+'"/><line class="mh" x1="60" y1="60" x2="'+mx+'" y2="'+my+'"/><circle cx="60" cy="60" r="3" fill="#1d2730"/></g></svg>';
+}
+async function chat(){
+  begin('s-chat');chatHintN=0;$('#chatHintBox').textContent='';$('#chatFound').hidden=true;$('#chatA').value='';$('#chatHint').disabled=false;$('#chatClue').hidden=true;
+  const t1=(S.sent||'16:00').split(':').map(Number),t2=(S.sent2||'16:01').split(':').map(Number);
+  $('#clockBox').innerHTML=mirrorClock(t1[0],t1[1])+mirrorClock(t2[0],t2[1]);
+  await narrate($('#chatQ'),[{a:'ch1',t:T.ch1}],'▣ 문패',$('#mask3'));
+  $('#chatClue').hidden=false;
+}
+$('#chatGo').onclick=()=>{const v=$('#chatA').value.replace(/\s/g,'');if(S.furn&&v.includes(S.furn)){sfx.unlock();$('#chatFound').hidden=false;$('#redA').value='';$('#redMsg').textContent='';}else wrongShake('#chatA');};
+const fmtT=t=>{const [H,M]=t.split(':').map(Number);return (H>=12?'오후 ':'오전 ')+((H%12)||12)+'시 '+M+'분';};
+$('#chatHint').onclick=()=>{chatHintN++;const f=FURN[S.furn]||{k:['','']};
+  hintAdd('#chatHintBox',['시계 속 글자가 뒤집혀 있습니다. 당신이 보는 건 거울에 비친 시계입니다. 바늘을 좌우로 바꿔 읽으세요.',
+    '두 시각은 '+fmtT(S.sent||'16:00')+', '+fmtT(S.sent2||'16:01')+'입니다. 숨긴 사람과의 대화방에서 그 시각의 메시지를 찾으세요(검색어: "'+f.k[0]+'", "'+f.k[1]+'").',
+    '두 메시지는 따로 보면 평범합니다. 이 기록의 제목을 다시 보세요. "말머리".',
+    '각 메시지의 첫 글자를 이으면 가구 이름이 됩니다: '+S.furn],chatHintN,'#chatHint','chat');};
+$('#redGo').onclick=()=>{const v=$('#redA').value.trim();
+  if(v===String(S.ans.r)){sfx.unlock();S.found.r=true;S.found.n1=true;save();$('#redMsg').textContent='빨강 = '+v+'. 기록 수첩에 적혔습니다.';setTimeout(()=>rate('chat','기록 5 · 거울 시계',()=>whisper()),1400);}
+  else{wrongShake('#redA');$('#redMsg').textContent='쪽지를 다시 확인하세요.';}};
+
+/* ---------- 기록 6: 속삭임 · 거울 안쪽의 숫자 ---------- */
+let whHintN=0,listens=0;
+function whisper(){begin('s-whisper');whHintN=0;listens=0;$('#whHintBox').textContent='';$('#whQ').hidden=true;$('#whHint').disabled=false;$('#listen').textContent='귀 기울이기';$('#blueA').value='';$('#blueMsg').textContent='';}
+$('#listen').onclick=async()=>{
+  $('#listen').disabled=true;bgmDuck(true);
+  const id=(listens++===0)?'wb':'w_rep';
+  const txt=id==='wb'?'"내 색은… 파랑. 나는 거울 안쪽에서, 손가락으로 썼어. 가로선 하나. 그리고 그 왼쪽 끝에서… 오른쪽 아래로, 비스듬히."':'"다시 말할게. 가로선 하나. 그 왼쪽 끝에서, 오른쪽 아래로. 나는… 거울 안쪽에 있었어."';
+  if(S.muted){const d=document.createElement('div');d.className='hint';d.textContent='(자막 모드) 아주 작은 목소리: '+txt;$('#whHintBox').appendChild(d);}
+  else{await sleep(1200);await playClip(id,{fx:'whisper'});}
+  bgmDuck(false);$('#listen').disabled=false;$('#listen').textContent='다시 귀 기울이기';$('#whQ').hidden=false;
+};
+$('#whHint').onclick=()=>{whHintN++;hintAdd('#whHintBox',['소리가 너무 작다면, 소리를 모아 줄 그릇이 필요합니다. 빈 머그컵에 휴대폰을 넣고 들어 보세요.','숫자를 말하지 않았다면, 무엇을 알려 준 걸까요? 들은 대로 손가락으로 그려 보세요.','그 사람은 거울 안쪽에 있었습니다. 당신이 그린 모양을 좌우로 뒤집어 보세요.','"가로선 하나, 그 왼쪽 끝에서 오른쪽 아래로" → 좌우를 뒤집으면 7. 파랑은 7입니다.'],whHintN,'#whHint','whisper');};
+$('#blueGo').onclick=()=>{const v=$('#blueA').value.trim();
+  if(v==='7'){sfx.unlock();S.found.b=true;save();$('#blueMsg').textContent='파랑 = 7. 기록 수첩에 적혔습니다.';setTimeout(()=>rate('whisper','기록 6 · 거울 안쪽의 숫자',()=>lock()),1300);}
+  else{wrongShake('#blueA');$('#blueMsg').textContent=(v==='1'||v==='4')?'모양은 거의 맞았습니다. 그런데 그 사람은 어디에 있었죠?':'철컥… 아닙니다.';}};
+
+/* ---------- 기록 7: 보관함 (색 순서 = 기록 1 문장 속 색 글자 순서, 노랑 = 손으로 찾은 쪽지 4장) ---------- */
+let dialV=[0,0,0,0],lockTries=0,lockHintN=0;
+const ORD=['첫째','둘째','셋째','넷째'];
+function lockCode(){const v={g:S.ans.g,r:S.ans.r,y:4,b:7};return S.ans.order.map(c=>v[c]).join('');}
+async function lock(){
+  begin('s-lock');dialV=[0,0,0,0];lockTries=0;lockHintN=0;$('#lockMsg').textContent='';$('#lockHintBox').textContent='';$('#lockHint').disabled=false;
+  const nb=$('#notebook');nb.textContent='';const F0=S.found||{};
+  [['g',F0.g?S.ans.g:'?'],['r',F0.r?S.ans.r:'?'],['y','?'],['b',F0.b?7:'?']].forEach(([c,val])=>{const d=document.createElement('div');const m=document.createElement('span');m.className='marble';m.style.background=COL[c].c;d.appendChild(m);d.appendChild(document.createTextNode(COL[c].n));const n=document.createElement('span');n.className='num';n.textContent=val;d.appendChild(n);nb.appendChild(d);});
+  const sen=$('#nbSentence');sen.textContent='';
+  if(F0.sent){let k=0;GROUPS.forEach((g,gi)=>{for(let j=0;j<g;j++){const p=k++;const sp=document.createElement('span');sp.textContent=SENT[p];const c=S.ans.tileCol[p];if(c)sp.style.borderBottomColor=COL[c].c;sen.appendChild(sp);}if(gi<GROUPS.length-1)sen.appendChild(document.createTextNode(' '));});}
+  else sen.textContent='(기록 1을 건너뛰었습니다)';
+  const box=$('#dials');box.textContent='';
+  dialV.forEach((_,i)=>{const d=document.createElement('div');d.className='dial';
+    const up=document.createElement('button');up.type='button';up.textContent='▲';up.setAttribute('aria-label',ORD[i]+' 자리 올리기');
+    const n=document.createElement('div');n.className='num';n.textContent='0';
+    const dn=document.createElement('button');dn.type='button';dn.textContent='▼';dn.setAttribute('aria-label',ORD[i]+' 자리 내리기');
+    const s=document.createElement('small');s.textContent=ORD[i];
+    up.onclick=()=>{dialV[i]=(dialV[i]+1)%10;n.textContent=dialV[i];tone(1400,.02,{gain:.06,type:'square'});};
+    dn.onclick=()=>{dialV[i]=(dialV[i]+9)%10;n.textContent=dialV[i];tone(1400,.02,{gain:.06,type:'square'});};
+    d.append(up,n,dn,s);box.appendChild(d);});
+  await narrate($('#capLock'),[{a:'yl',t:T.yl}],'▣ 문패');
+}
+$('#unlock').onclick=async()=>{
+  if(dialV.join('')===lockCode()){sfx.unlock();$('#unlock').disabled=true;await sleep(900);$('#unlock').disabled=false;S.found.lock=true;save();climax();}
+  else{lockTries++;sfx.clunk();$('#dials').classList.add('shake');setTimeout(()=>$('#dials').classList.remove('shake'),400);
+    $('#lockMsg').textContent=lockTries>=3?'철컥… 열리지 않습니다. 목표 문장을 다시 읽어 보세요: 순서는 이미 본 적이 있습니다.':'철컥… 열리지 않습니다.';
+    if(lockTries===1)playClip('lockx',Object.assign({t:T.lockx},MOON));}
+};
+$('#lockHint').onclick=()=>{lockHintN++;hintAdd('#lockHintBox',['수첩 아래 기록 1의 문장을 보세요. 색이 칠해진 글자가 네 개 있습니다.','색 숫자는 문장 속 색 글자가 나오는 순서대로 넣습니다.','노랑은 화면에 없습니다. 숨긴 사람의 쪽지를 몇 장 손으로 찾았나요? (수건, 냉장고, 신발, '+S.furn+')','정답: '+lockCode()],lockHintN,'#lockHint','lock');};
+
+/* ---------- 클라이맥스: 보관함 → 방송 → 숨긴 사람의 전화 ---------- */
+function bcLines(){return [{sfx:'[치익— 잡음]',play:'static',wait:1500},{a:'bc1',t:T.bc1},{a:'bc2',t:T.bc2},{a:'bc3',t:T.bc3}];}
+async function playBroadcast(){
+  $('#alert').hidden=false;startBed();
+  await narrate($('#capAlert'),bcLines(),'▣ 문패 · 방송');
+  stopBed();await sleep(700);$('#alert').hidden=true;
+}
+async function climax(){
+  S._t0=Date.now();timerStop();bgmStop();save();let remote=false;
+  if(BC&&bcPeers>0){try{await BC.emit('play',{kind:'broadcast'});remote=true;}catch(e){remote=false;}}
+  if(remote){$('#alert').hidden=false;const c=$('#capAlert');c.textContent='';const w=document.createElement('div');w.className='sfx';w.textContent='[어딘가에서 방송이 들립니다…]';c.appendChild(w);await sleep(12000);$('#alert').hidden=true;}
+  else await playBroadcast();
+  incomingCall();
+}
+let callTimer=null,callAnswered=false;
+function missed(state){$('#callState').textContent=state;$('#callBtns').hidden=true;const b=$('#callDone');b.textContent='음성 메시지 듣기';b.hidden=false;b.onclick=()=>{b.hidden=true;callTalk();};}
+function incomingCall(){
+  callAnswered=false;$('#call').hidden=false;$('#callBtns').hidden=false;$('#capCall').hidden=true;$('#callDone').hidden=true;$('#callState').textContent='휴대전화 · 수신 중…';
+  ringStart();callTimer=setTimeout(()=>{if(!callAnswered){ringStop();missed('부재중 전화 · 음성 메시지 1건');}},20000);
+}
+$('#accept').onclick=()=>{callAnswered=true;clearTimeout(callTimer);ringStop();callTalk();};
+$('#decline').onclick=()=>{callAnswered=true;clearTimeout(callTimer);ringStop();missed('통화 거절 · 음성 메시지 1건');};
+async function callTalk(){
+  $('#callBtns').hidden=true;$('#capCall').hidden=false;let sec=0;$('#callState').textContent='통화 중 00:00';
+  const ct=setInterval(()=>{sec++;$('#callState').textContent='통화 중 '+String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');},1000);
+  const v=S.voice,P={fx:'phone',rate:1};
+  await narrate($('#capCall'),[
+    {sfx:'[지직…]',play:'static',wait:800},
+    {a:'c1_'+v,t:T.c1,o:P},{a:'c2_'+v,t:T.c2,o:P},
+    S.gift?{a:'c3a_'+v,t:T.c3a,o:P,after:box=>{const d=document.createElement('div');d.className='loc';d.textContent='[위치 메시지] '+S.gift;box.appendChild(d);sfx.bell();}}:{a:'c3b_'+v,t:T.c3b,o:P},
+    {a:'c4_'+v,t:T.c4,o:P,pause:900},
+    {sfx:'[뚜— 뚜—]',play:'hang',wait:1000}
+  ],null);
+  clearInterval(ct);$('#callState').textContent='통화 종료';
+  const b=$('#callDone');b.textContent='전화 끊기';b.hidden=false;b.onclick=()=>{$('#call').hidden=true;rate('climax','보관함 · 마지막 전화',()=>ending());};
+}
+
+/* ---------- 엔딩: 숨긴 사람의 정체 ---------- */
+async function ending(){
+  begin('s-end');$('#endNext').hidden=true;const m=$('#mask2');m.classList.remove('off');timerStop();BGM.fast=false;bgmStart();
+  const box=$('#capEnd');
+  await narrate(box,[
+    {a:'en1',t:T.en1,o:{fx:'moon',mod:.7,rate:.935}},
+    {a:'en2',t:T.en2,o:{fx:'moon',mod:.35,rate:.97}},
+    {a:'en3',t:T.en3,o:{fx:'moon',mod:.1,rate:1},pause:900}
+  ],'▣ 문패',m);
+  m.classList.add('off');await sleep(1400);
+  await narrate(box,[{a:S.hl+'_'+S.voice,t:HOSTLINES[S.hl],o:{fx:'natural'},who:'▣ '+S.host}],null);
+  $('#endNext').hidden=false;$('#endNext').focus();
+}
+$('#endNext').onclick=()=>rate('ending','엔딩 · 문패의 정체',()=>survey());
+
+/* ---------- 설문 ---------- */
+function survey(){
+  show('s-survey');bgmStop();timerStop();$('#timer').hidden=true;
+  const mk=(id,opts,key)=>chipGroup(id,opts.map(o=>[o,o]),'',v=>{S.survey[key]=v;});
+  mk('#mostChips',['오프닝','흩어진 글자','필름 · 같은 자리','도어락 지문(문패의 눈)','신발 추리','말머리 · 거울 시계','거울 안쪽 숫자','보관함 색 순서','마지막 전화','문패의 정체'],'most');
+  mk('#storyChips',['이해 안 됨','대충 이해','잘 이해됨'],'story');
+  mk('#eyeChips',['카메라로 지문을 봤다','카메라가 안 돼서 화면으로 했다','못 찾았다'],'eyeUse');
+  mk('#voiceQChips',['어색함','괜찮음','자연스럽고 긴장감 있음'],'voice');
+  mk('#diffChips',['너무 쉬움','적당함','너무 어려움'],'diff');
+  mk('#cmpChips',['카페보다 별로','비슷함','카페보다 좋음'],'compare');
+  mk('#priceChips',['무료만','3,900원','7,900원','9,900원','14,900원','19,900원 이상'],'price');
+}
+$('#nps').oninput=e=>$('#npsV').textContent=e.target.value;
+$('#saveBtn').onclick=async()=>{
+  const rec={ts:new Date().toISOString(),version:'v0.5',eye:S.eye||null,eyeSaw:!!(S.found&&S.found.eyeSaw),eyeUse:S.survey.eyeUse||null,limitMin:S.limit,timeLeftSec:S.timeLeft,timedOut:!!S.timedOut,bgm:BGM.on,ratings:S.ratings,secs:S.times,hints:S.hints,skipped:S.skipped,
+    most:S.survey.most||null,story:S.survey.story||null,voice:S.survey.voice||null,diff:S.survey.diff||null,compare:S.survey.compare||null,nps:+$('#nps').value,price:S.survey.price||null,
+    memo:$('#memo').value.slice(0,1500),mode:S.mode,muted:!!S.muted,sensor:!!S.sensor,pair:!!S.n2,callVoice:S.voice};
+  $('#saveBtn').disabled=true;$('#saveMsg').textContent='저장 중…';
+  let ok=false;if(DB){try{await DB.collection('feedback').add(rec);ok=true;}catch(e){ok=false;}}
+  if(ok){$('#saveMsg').textContent='저장했어요. 플레이해 주셔서 감사합니다. 숨겨둔 쪽지 4장을 회수해 주세요(수건, 냉장고, 현관 신발, '+S.furn+').';clearSave();}
+  else{$('#saveBtn').disabled=false;const js=JSON.stringify(rec);$('#saveMsg').innerHTML='';const t=document.createElement('div');t.textContent='이 주소에서는 자동 저장이 되지 않아요. 아래 [결과 복사]를 눌러 복사한 뒤 Claude 채팅에 붙여 넣어 주세요.';const ta=document.createElement('textarea');ta.value=js;ta.readOnly=true;ta.style.cssText='width:100%;height:90px;margin-top:8px;font-size:11px;background:#0b0f12;color:#cfd6dc;border:1px solid #333;border-radius:6px';const b=document.createElement('button');b.className='btn';b.textContent='결과 복사';b.style.marginTop='8px';b.onclick=async()=>{try{await navigator.clipboard.writeText(js);b.textContent='복사했어요';}catch(e){ta.select();document.execCommand('copy');b.textContent='복사했어요';}};$('#saveMsg').append(t,ta,b);}
+};
+
+/* ---------- 방송 장치 모드 ---------- */
+$('#bcJoin').onclick=async()=>{
+  const code=$('#bcIn').value.trim();if(!/^\d{4}$/.test(code)){$('#bcMsg').textContent='4자리 숫자를 입력하세요.';return;}
+  if(!ROOM){$('#bcMsg').textContent='이 화면에서는 방송 장치 연결을 쓸 수 없어요.';return;}
+  $('#bcMsg').textContent='연결 중…';
+  try{const r=await ROOM.join('mp-'+code);preload(['bc1','bc2','bc3']);
+    r.on('play',async msg=>{if(msg.sameTab)return;$('#bcStandby').hidden=true;await playBroadcast();$('#bcStandby').hidden=false;$('#bcStandbyTxt').textContent='방송 완료 · 대기 중';});
+    $('#bcStandby').hidden=false;$('#bcStandbyTxt').textContent='방송 장치 대기 중 · 코드 '+code+' · 화면을 켠 채 두세요';
+    try{if(navigator.wakeLock)await navigator.wakeLock.request('screen');}catch(e){}
+  }catch(e){$('#bcMsg').textContent='연결하지 못했어요. 코드를 확인하거나 1대 모드로 진행하세요.';}
+};
+$('#bcTest').onclick=()=>{unlockAudio();sfx.bell();$('#bcTest').textContent='소리 확인 완료';};
+
+show('s-start');
+})();
+</script>
+</body></html>

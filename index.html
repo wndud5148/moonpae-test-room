@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex"></head><body><title>문패 테스트 룸</title>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex"></head><body><title>문패의 마지막 밤</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700;800&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
@@ -164,11 +164,51 @@ input[type=range]{padding:0;min-height:44px;accent-color:var(--brass)}
 .eyewrap canvas{display:block;width:100%;height:auto}
 #clockBox .clock{width:150px;height:150px;flex:0 0 auto}
 .rec{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;color:var(--brass)}
+
+/* v0.6 */
+[hidden]{display:none!important}
+.center{text-align:center}
+.rec{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;color:var(--brass)}
+.lockbox{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.kp{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:260px;margin:0 auto;width:100%}
+.kp button{min-height:52px;border-radius:50%;aspect-ratio:1;border:1px solid #3a4752;background:#1d262e;color:#9fb2c0;font-family:var(--mono);font-size:20px;cursor:pointer;justify-self:center;width:62px}
+.kp button:nth-child(10),.kp button:nth-child(12){border-radius:10px;font-size:13px;width:auto;aspect-ratio:auto;padding:0 8px;font-family:var(--body)}
+.kpdisp{font-family:var(--mono);font-size:26px;letter-spacing:.4em;text-align:center;min-height:36px}
+.hintrow{display:flex;flex-direction:column;gap:8px}
+.hintbox{display:flex;flex-direction:column;gap:6px}
+.hint svg{display:block;margin:8px auto 0;background:#e9e4d8;border-radius:6px}
+.checks{display:flex;flex-direction:column;gap:6px}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;padding:8px 10px;background:var(--panel2);border:1px solid var(--line);border-radius:6px;cursor:pointer}
+.check input{width:20px;height:20px;min-height:0;margin:2px 0 0;flex:0 0 auto;accent-color:var(--brass)}
+.mirror-guide{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.mirror-guide svg{background:#e9e4d8;border-radius:6px;flex:0 0 auto}
+.mirror-guide p{flex:1 1 200px;min-width:0}
+.secret-s{font-family:var(--mono);color:var(--brass);font-size:18px;letter-spacing:.12em}
+.branches{display:flex;flex-direction:column;gap:12px}
+.br{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px;display:flex;flex-direction:column;gap:8px}
+.br.done{border-color:var(--ok)}
+.br.done h3{color:var(--ok)}
+.memlist{display:flex;flex-direction:column;gap:8px}
+.memc{display:flex;gap:12px;align-items:flex-start;background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:10px 12px;font-size:14.5px}
+.memc b{font-family:var(--mono);font-size:24px;color:var(--brass);min-width:22px}
+.piano{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;touch-action:manipulation}
+.piano button{min-height:120px;border:1px solid #c9c2b2;background:#efe9dc;color:#1d2730;border-radius:0 0 8px 8px;font-size:14px;font-weight:600;display:flex;align-items:flex-end;justify-content:center;padding-bottom:10px;cursor:pointer;user-select:none;-webkit-user-select:none}
+.piano button:active{background:#d9a654}
+.pdisp{font-family:var(--mono);font-size:18px;text-align:center;letter-spacing:.2em;color:var(--brass)}
+.dials .dial button{min-height:44px}
+.rate button[aria-pressed="true"]{border-color:var(--brass);background:var(--brass-dim)}
+.handw{font-family:var(--display);font-size:20px;line-height:1.6}
+.eyebox{position:fixed;inset:0;z-index:50;background:#000;display:flex;flex-direction:column;gap:10px;box-sizing:border-box;padding:max(12px,env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px));overflow:auto}
+.eyehead{display:flex;justify-content:space-between;align-items:center}
+.eyewrap{position:relative;width:100%;background:#000;border-radius:6px;overflow:hidden}
+.eyewrap video{display:block;position:absolute;left:0;top:0;width:1px;height:1px;opacity:0;pointer-events:none}
+.eyewrap canvas{display:block;width:100%;height:auto;max-height:70vh;object-fit:contain}
+.eyebox .small{color:#c9d2d8;font-size:15px}
 </style>
 
 <div class="app" id="app">
   <div class="top">
-    <span class="brand">▣ 문패 테스트 룸 v0.5</span>
+    <span class="brand">▣ 문패의 마지막 밤 v0.6</span>
     <span class="timer" id="timer" hidden>--:--</span>
     <span class="tgl"><button class="toggle" id="bgmBtn" aria-pressed="true" type="button">음악</button><button class="toggle" id="muteBtn" aria-pressed="false" type="button">자막만</button></span>
   </div>
@@ -177,352 +217,268 @@ input[type=range]{padding:0;min-height:44px;accent-color:var(--brass)}
   <!-- 시작 -->
   <section class="screen" id="s-start">
     <div class="mask" aria-hidden="true"></div>
-    <h1>누군가 이 집의 기록 일곱 개를 숨겼습니다</h1>
-    <p class="muted">집 안 물건과 휴대폰으로 푸는 방탈출 시제품입니다. 호스트 1명이 약 10분 준비하고, 플레이어는 40~50분 동안 일곱 개의 기록을 찾습니다. 기록마다 "얼마나 놀랐는지"를 남겨 다음 버전에 반영합니다.</p>
+    <h1>문패의 마지막 밤</h1>
+    <p class="muted">이 집 현관의 문패는 매일 자정에 그날의 기억을 잃습니다. 그래서 잊으면 안 되는 것을 자기만 읽을 수 있는 방식으로 집 안 곳곳에 남겨 둡니다. 오늘 밤, 문패가 아무것도 기억하지 못합니다. 자정 전에 문패의 기억을 찾아 주세요.</p>
+    <div class="panel">
+      <span class="label">이렇게 진행해요</span>
+      <p class="small">숨기는 사람(호스트) 1명이 약 15분 준비하고, 플레이어 1~3명이 휴대폰 1대로 약 60분 풉니다. 호스트는 숨길 자리만 알고 문제와 정답은 모릅니다. 플레이 중에는 진행자가 되어 막히면 힌트를 주세요.</p>
+    </div>
     <div class="panel">
       <span class="label">준비물</span>
-      <p class="small">휴대폰 1대(플레이어 진행용) · 종이 4장과 펜 · 냉장고 문에 붙일 자석이나 마스킹테이프 · 걸어 둔 수건 · 현관에 호스트의 신발 · 머그컵 · <b>도어락 카드</b>(인쇄하거나 노트북·태블릿 화면에 띄우기) · (선택) 남는 폰·태블릿 = 방송 장치 · (선택) 숨길 작은 선물. <b>소리를 켜고</b> 진행하세요.</p>
+      <p class="small">휴대폰 1대 · <b>인쇄 키트 A4 3장</b>과 가위 · 봉투 7개(접은 종이도 됨) · 3자리 번호 자물쇠와 파우치 1개(없으면 봉투와 테이프) · 비누나 핸드크림 · 선택: 숨겨 둘 작은 선물</p>
     </div>
     <button class="btn" id="goSetup" type="button">호스트 준비 시작</button>
-    <button class="btn ghost" id="goBc" type="button">이 기기를 방송 장치로 쓰기</button>
     <button class="btn ghost" id="resumeBtn" type="button" hidden>이어서 하기</button>
   </section>
 
   <!-- 호스트 준비 -->
   <section class="screen" id="s-setup" hidden>
-    <span class="label">호스트 전용 · 플레이어에게 보여주지 마세요</span>
-    <h2>당신은 오늘 기록을 숨긴 사람이자, 문패입니다</h2>
-    <p class="small">플레이어는 변조된 목소리의 "문패"를 따라 기록 일곱 개를 찾습니다. 마지막에 변조가 풀리며, 문패의 목소리가 사실 당신이었다는 게 밝혀집니다.</p>
+    <span class="label">호스트 전용 · 플레이어에게 보여 주지 마세요</span>
+    <h2>오늘 밤, 당신은 문패의 부탁으로 봉투를 숨기는 사람입니다</h2>
+    <p class="small">이야기 속에서 당신은 "봉투를 열어 보지 않고 숨겨 준 이 집 사람"입니다. 봉투 속 문제와 정답은 모르는 채로 숨기기만 하면 됩니다. 플레이 중에는 함께 풀기보다 진행자로 지켜봐 주세요.</p>
 
     <div class="panel host">
-      <h3>1. 이름</h3>
-      <div class="row"><input id="n1" placeholder="플레이어 1 (예: 지민)" autocomplete="off"><input id="n2" placeholder="플레이어 2 (없으면 비워두기)" autocomplete="off"></div>
-      <input id="hostName" placeholder="호스트 이름 (엔딩 자막에 사용)" autocomplete="off">
-    </div>
-
-    <div class="panel host">
-      <h3>2. 메시지 두 번 보내기 (기록 5 · 말머리)</h3>
-      <p class="small">가구를 하나 고르세요. 두 메시지의 <b>첫 글자</b>를 이으면 그 가구 이름이 됩니다. 그 가구에 쪽지 ①을 숨기게 됩니다.</p>
-      <div class="chips" id="furnChips"></div>
-      <div id="msgBox" hidden>
-        <p class="small">플레이어와의 <b>1:1 메신저 대화방</b>에 첫 메시지를 보내세요. 평소 말투처럼 보이면 성공입니다.</p>
-        <div class="bubble" id="m1"></div>
-        <div class="row"><button class="btn small ghost" id="cp1" type="button">복사</button><button class="btn small" id="sentBtn" type="button">보냈어요</button></div>
-        <div id="msg2Box" hidden>
-          <p class="small" id="waitMsg">시각이 겹치지 않도록 1분 뒤에 두 번째 메시지를 보내세요.</p>
-          <div class="bubble" id="m2"></div>
-          <div class="row"><button class="btn small ghost" id="cp2" type="button">복사</button><button class="btn small" id="sent2Btn" type="button" disabled>보냈어요</button></div>
-        </div>
-        <div id="sentBox" hidden><p class="small">메신저에 표시된 시각과 다르면 고쳐 주세요.</p><div class="row"><input type="time" id="sentTime" aria-label="첫 메시지 시각"><input type="time" id="sentTime2" aria-label="두 번째 메시지 시각"></div></div>
-      </div>
-    </div>
-
-    <div class="panel host">
-      <h3>3. 손글씨 쪽지 4장 숨기기</h3>
-      <p class="small">아래 문장을 그대로 옮겨 적어 정해진 곳에 두세요. 쪽지는 "숨긴 사람"인 당신의 말투입니다.</p>
-      <div class="note-card"><span class="where">쪽지 Ⓐ → <b>걸어 둔 수건 뒤</b> (수건을 들추면 보이게)</span><p id="noteA"></p></div>
-      <div class="note-card"><span class="where">쪽지 Ⓑ → <b>냉장고 아랫문 바깥, 왼쪽</b> (자석이나 마스킹테이프)</span><p id="noteB"></p></div>
-      <div class="note-card"><span class="where">쪽지 Ⓒ → <b>현관에 있는 당신 신발 한 짝 안</b></span><p id="noteC"></p></div>
-      <div class="note-card"><span class="where">쪽지 ① → <b id="fn1">2단계에서 고른 가구</b></span><p id="note1"></p></div>
-      <div class="note-card"><span class="where">도어락 카드 → <b>현관 신발 근처</b></span><p>인쇄하거나, 노트북·태블릿에 띄워 현관 쪽에 두세요. <a href="card.html" target="_blank" rel="noopener" style="color:#2f5468">도어락 카드 열기</a></p></div>
-      <label class="row small"><input type="checkbox" id="hidOk" style="width:auto;min-height:auto"> 쪽지 네 장과 카드를 모두 두었어요</label>
-    </div>
-
-    <div class="panel host">
-      <h3>4. 당신의 목소리와 마지막 한마디</h3>
-      <p class="small">마지막 전화와 정체 공개에서 "숨긴 사람"으로 나올 목소리입니다. 누르면 미리 들어볼 수 있습니다.</p>
-      <div class="chips" id="voiceChips"></div>
-      <div class="chips" id="lineChips"></div>
-      <input id="gift" placeholder="(선택) 실제 선물을 숨긴 곳 · 예: 신발장 맨 아래 칸" autocomplete="off">
-    </div>
-
-    <div class="panel host">
-      <h3>5. 방송 장치 (선택)</h3>
-      <p class="small" id="bcInfo">확인 중…</p>
-      <button class="btn small ghost" id="bcMake" type="button" hidden>방송 장치 코드 만들기</button>
-      <div id="bcCodeBox" hidden><p class="small">다른 기기에서 이 페이지를 열고 "이 기기를 방송 장치로 쓰기"를 누른 뒤 코드를 입력하세요.</p><div class="secret" id="bcCode"></div><p class="small" id="bcPeers">연결된 방송 장치: 0</p></div>
-    </div>
-
-    <div class="panel host">
-      <h3>6. 제한 시간</h3>
+      <h3>1. 손님과 시간</h3>
+      <input id="guest" placeholder="손님 이름 (마지막 장면에 새겨짐, 비워도 됨)" autocomplete="off">
+      <span class="small">자정까지 남은 시간</span>
       <div class="chips" id="limitChips"></div>
     </div>
 
-    <button class="btn" id="setupDone" type="button" disabled>준비 완료 · 플레이어에게 건네기</button>
-    <p class="small" id="setupNeed">메시지 전송과 쪽지 숨기기가 필요합니다.</p>
+    <div class="panel host">
+      <h3>2. 인쇄 키트</h3>
+      <p class="small">A4 3장을 <b>실제 크기(100%)</b>로 인쇄해 점선대로 자르고, 같은 기호끼리 봉투에 넣으세요. 쪽지와 봉투 표시도 함께 있습니다.</p>
+      <a class="btn ghost small" id="kitLink" target="_blank" rel="noopener" href="https://wndud5148.github.io/moonpae-test-room/kit.html">인쇄 키트 열기 (새 창)</a>
+    </div>
+
+    <div class="panel host">
+      <h3>3. 마지막 상자 ✕</h3>
+      <div class="chips" id="lockChips"></div>
+      <p class="small" id="lockInfo"></p>
+    </div>
+
+    <div class="panel host">
+      <h3>4. 선물 (선택)</h3>
+      <div class="chips" id="giftChips"></div>
+      <div id="giftForm" hidden style="display:flex;flex-direction:column;gap:8px">
+        <input id="giftWhere" placeholder="선물 숨긴 곳 (예: 신발장 맨 위 칸, 회색 상자 안)" autocomplete="off">
+        <label class="small" for="giftPhoto">숨긴 자리 사진 (선물이 아니라 주변이 나오게 찍기 · 선택)</label>
+        <input id="giftPhoto" type="file" accept="image/*" capture="environment">
+        <canvas id="giftPrev" width="320" height="240" hidden style="width:100%;max-width:320px;border-radius:6px;align-self:center;touch-action:none"></canvas>
+        <p class="small" id="giftPrevTip" hidden>사진에서 선물이 있는 지점을 눌러 표시하세요. 문패는 그 지점을 가장 가까이에서부터 보여 줍니다.</p>
+      </div>
+      <input id="hostMsg" placeholder="손님에게 남길 한 줄 (선택, 마지막에 보여 줌)" autocomplete="off">
+    </div>
+
+    <div class="panel host">
+      <h3>5. 숨기기</h3>
+      <p class="small">숨긴 곳마다 체크하세요. 봉투 겉에는 기호만 붙어 있습니다.</p>
+      <div id="hideList" class="checks"></div>
+      <div class="mirror-guide">
+        <div id="patternBox"></div>
+        <p class="small"><b>● 욕실 거울 그림</b> · 손가락에 비누나 핸드크림을 아주 조금 묻혀 거울에 이 모양을 <b>크게(약 20cm)</b> 그리세요. 마른 휴지로 살살 문질러 거의 안 보이게 한 뒤, 입김을 불어 선이 드러나는지 확인하세요. 점은 그리지 않습니다.</p>
+      </div>
+    </div>
+    <p class="small" id="setupNeed">모든 칸을 체크하면 준비가 끝납니다.</p>
+    <button class="btn" id="setupDone" type="button" disabled>준비 완료</button>
   </section>
 
-  <!-- 건네기 -->
+  <!-- 건네주기 -->
   <section class="screen" id="s-hand" hidden>
     <div class="mask" aria-hidden="true"></div>
-    <h2>휴대폰을 플레이어에게 건네세요</h2>
-    <p class="muted">소리를 켜고, 조명을 조금 낮추고, 앉아서 시작하세요.</p>
+    <h2>이제 휴대폰을 플레이어에게 건네주세요</h2>
+    <p class="muted">소리를 켜 주세요. 무음 모드라면 해제해야 문패의 목소리가 들립니다. 이 화면부터는 플레이어가 누릅니다.</p>
     <p class="loading" id="loadMsg">목소리 불러오는 중…</p>
-    <button class="btn" id="startPlay" type="button">입장하기</button>
+    <button class="btn" id="startPlay" type="button" disabled>시작</button>
   </section>
 
   <!-- 오프닝 -->
   <section class="screen" id="s-open" hidden>
     <div class="mask" id="mask1" aria-hidden="true"></div>
     <div class="caption" id="cap1" aria-live="polite"></div>
-    <button class="btn" id="openNext" type="button" hidden>첫 번째 기록 열기</button>
+    <button class="btn" id="openNext" type="button" hidden>현관으로 가기</button>
   </section>
 
-  <!-- 기록 1: 병 · 흩어진 글자 -->
-  <section class="screen" id="s-bottle" hidden>
-    <span class="rec">기록 1 / 7 · 흩어진 글자</span>
-    <div class="goal"><b>목표</b> · 병 안의 것을 모두 꺼내, 그것으로 <b>문장</b>을 만드세요. 문장이 다음 기록의 위치를 알려 줍니다.</div>
-    <div class="bottle-stage" id="bottleStage" style="touch-action:none;cursor:grab">
-      <svg class="bottle" id="bottle" viewBox="0 0 110 180" aria-hidden="true">
-        <path d="M43 6 h24 v28 c0 8 26 18 26 44 v84 c0 8 -6 12 -14 12 h-48 c-8 0 -14 -4 -14 -12 v-84 c0 -26 26 -36 26 -44 z" fill="rgba(160,200,220,.12)" stroke="#93a0aa" stroke-width="2"/>
-        <rect x="40" y="0" width="30" height="10" rx="2" fill="#9a6b1f"/>
-        <g id="bottleIn"><rect x="30" y="128" width="14" height="14" rx="2" fill="#e9e4d8" transform="rotate(-12 37 135)"/><rect x="50" y="140" width="14" height="14" rx="2" fill="#e9e4d8" transform="rotate(18 57 147)"/><rect x="64" y="124" width="14" height="14" rx="2" fill="#e9e4d8" transform="rotate(-25 71 131)"/><rect x="40" y="148" width="14" height="14" rx="2" fill="#e9e4d8"/></g>
-      </svg>
-    </div>
-    <p class="small" id="sensorMsg" aria-live="polite"></p>
-    <span class="label" id="trayLabel" hidden>쏟아진 글자 (누르면 아래 칸에 놓입니다)</span>
-    <div class="tiles" id="tray" aria-live="polite"></div>
-    <div id="slotBox" hidden class="panel">
-      <span class="label">문장 (칸을 누르면 글자가 돌아갑니다)</span>
-      <div class="slots" id="slots"></div>
-      <p class="small" id="sentMsg"></p>
-    </div>
-    <button class="btn small ghost" id="bottleHint" type="button">힌트</button>
-    <div id="bottleHintBox"></div>
-    <div id="bottleFound" hidden class="panel"><p>그곳을 살펴보세요. 숨긴 사람의 쪽지가 있을 겁니다. <b>색이 칠해진 글자</b>도 기억해 두세요.</p><button class="btn" id="bottleNext" type="button">쪽지를 찾았어요</button></div>
+  <!-- 기억 장면 (공용) -->
+  <section class="screen" id="s-mem" hidden>
+    <div class="mask" id="maskMem" aria-hidden="true"></div>
+    <div class="caption" id="capMem" aria-live="polite"></div>
+    <div id="memExtra" class="row"></div>
+    <button class="btn" id="memNext" type="button" hidden>계속</button>
   </section>
 
-  <!-- 기록 2: 필름 · 같은 자리 -->
-  <section class="screen" id="s-film" hidden>
-    <span class="rec">기록 2 / 7 · 같은 자리</span>
-    <div class="goal"><b>목표</b> · 필름 네 장을 겹쳐 그림을 완성하세요. 완성된 그림과 <b>실제 물건</b>을 비교하면 초록 숫자가 나옵니다.</div>
-    <p class="small">① 아래 탭에서 필름을 고르고 ② 그림 위를 끌어서 옮기세요. 갈색 점 두 개가 맞는 자리입니다. 돌아가거나 뒤집힌 필름은 버튼으로 바로잡으세요.</p>
-    <div class="film-stage" id="filmStage"></div>
-    <div class="ftabs" id="filmTabs"></div>
-    <div class="row"><button class="btn small ghost" id="rotBtn" type="button">↻ 90° 회전</button><button class="btn small ghost" id="flipBtn" type="button">⇋ 좌우 뒤집기</button><button class="btn small ghost" id="filmHint" type="button">힌트</button></div>
-    <div id="filmQ" hidden class="panel">
-      <h3>무엇이 보입니까?</h3>
-      <div class="row"><input id="filmA" placeholder="물건 이름" autocomplete="off"><button class="btn small" id="filmGo" type="button">확인</button></div>
-    </div>
-    <div id="filmFound" hidden class="panel">
-      <p>그 물건의 <b>바깥면</b>에서 쪽지를 찾으세요(안을 열 필요는 없습니다). 초록 숫자는?</p>
-      <div class="row"><input id="greenA" inputmode="numeric" maxlength="1" placeholder="숫자 1개" autocomplete="off"><button class="btn small" id="greenGo" type="button">확인</button></div>
-      <button class="btn small ghost" id="greenHint" type="button">힌트</button>
-      <div id="greenHintBox"></div>
-      <p class="small" id="greenMsg"></p>
-    </div>
-  </section>
-
-  <!-- 기록 3: 도어락 지문 -->
+  <!-- 기억 1: 현관 -->
   <section class="screen" id="s-door" hidden>
-    <span class="rec">기록 3 / 7 · 현관 도어락</span>
-    <div class="goal"><b>목표</b> · 현관에서 <b>도어락 카드</b>를 찾으세요. 숨긴 사람은 오늘 이 도어락을 딱 한 번 열었습니다. 비밀번호 네 자리를 알아내세요.</div>
-    <div class="caption" id="capDoor" aria-live="polite"></div>
-    <button class="btn ghost" id="eyeBtn" type="button">▣ 문패의 눈</button>
-    <div id="eyeBox" hidden class="panel">
-      <div class="eyewrap"><video id="eyeVid" playsinline muted></video><canvas id="eyeCan"></canvas></div>
-      <p class="small" id="eyeMsg">카드를 화면 가득 비춰 보세요.</p>
-      <button class="btn small ghost" id="eyeClose" type="button">눈 감기</button>
+    <span class="rec">기억 1 · 현관</span>
+    <h2>현관에 무언가 있습니다</h2>
+    <button class="btn ghost eyeBtn" type="button">▣ 문패의 눈</button>
+    <div class="lockbox">
+      <span class="label">현관 도어락</span>
+      <div class="kpdisp" id="kpDisp">_ _ _ _</div>
+      <div class="kp" id="kp"></div>
+      <p class="small center" id="doorMsg"></p>
     </div>
-    <div id="doorImgBox" hidden><p class="small" id="doorAlt">이 화면에서는 문패의 눈을 뜰 수 없습니다. 대신 화면 속 키패드를 손가락으로 비춰 보세요.</p><div id="doorImg"></div></div>
-    <div class="kpdisp" id="kpDisp" aria-live="polite">_ _ _ _</div>
-    <div class="kp" id="kp"></div>
-    <button class="btn small ghost" id="doorHint" type="button">힌트</button>
-    <div id="doorHintBox"></div>
-    <p class="small" id="doorMsg"></p>
+    <div class="hintrow" data-rec="door"></div>
   </section>
 
-  <!-- 기록 4: 신발 추리 -->
-  <section class="screen" id="s-shoe" hidden>
-    <span class="rec">기록 4 / 7 · 현관의 신발</span>
-    <div class="goal"><b>목표</b> · 오늘 현관을 지나간 네 사람과 네 켤레의 신발. 단서로 <b>기록을 숨긴 사람</b>과 그 신발을 알아내세요.</div>
-    <ol class="clues">
-      <li>택배 기사는 계단을 뛰어다녀야 해서, 끈을 꽉 묶는 신발을 신었다.</li>
-      <li>옆집 할머니는 굽이 있는 신발을 신지 않는다.</li>
-      <li>관리실 직원은 오늘 아침 화단에 물을 주고, 발이 젖지 않는 신발 그대로 올라왔다.</li>
-      <li>슬리퍼를 신은 사람은 바로 옆집에서 건너왔다.</li>
-      <li>기록을 숨긴 사람은 굽이 있는 신발을 신었다.</li>
-    </ol>
-    <span class="label">메모 칸 (눌러서 ○ / ✕ 표시)</span>
-    <div class="grid44" id="shoeGrid"></div>
-    <div class="panel">
-      <h3>기록을 숨긴 사람은?</h3>
-      <div class="chips" id="whoChips"></div>
-      <h3>그 사람의 신발은?</h3>
-      <div class="chips" id="shoeChips"></div>
-      <button class="btn small" id="shoeGo" type="button">확인</button>
-      <p class="small" id="shoeMsg"></p>
-      <button class="btn small ghost" id="shoeHint" type="button">힌트</button>
-      <div id="shoeHintBox"></div>
+  <!-- 기억 2: 웅— -->
+  <section class="screen" id="s-fridge" hidden>
+    <span class="rec">기억 2</span>
+    <h2>문패가 들은 두 번째 소리</h2>
+    <button class="btn ghost" id="replayFridge" type="button">▶ 그 소리 다시 듣기</button>
+    <div class="lockbox">
+      <span class="label">기억의 말</span>
+      <div class="row"><input id="fridgeA" placeholder="떠오른 말" autocomplete="off"><button class="btn small" id="fridgeGo" type="button">확인</button></div>
+      <p class="small center" id="fridgeMsg"></p>
     </div>
-    <div id="shoeFound" hidden class="panel"><p>현관으로 가서, <b>그 사람이 오늘 신은 신발</b>을 살펴보세요. 숨긴 사람의 쪽지가 있습니다.</p><button class="btn" id="shoeNext" type="button">쪽지를 찾았어요</button></div>
+    <div class="hintrow" data-rec="fridge"></div>
   </section>
 
-  <!-- 기록 5: 대화방 · 거울 시계 -->
-  <section class="screen" id="s-chat" hidden>
-    <span class="rec">기록 5 / 7 · 말머리</span>
-    <div class="mask" id="mask3" aria-hidden="true"></div>
-    <div class="caption" id="chatQ" aria-live="polite"></div>
-    <div id="chatClue" hidden class="panel">
-      <div class="goal"><b>목표</b> · 숨긴 사람이 오늘 당신에게 건 <b>두 마디</b>를 대화방에서 찾으세요. 두 마디가 함께 가리키는 <b>가구</b>에 다음 쪽지가 있습니다.</div>
-      <span class="label">그 사람이 말을 건 두 시각</span>
-      <div class="row" id="clockBox" style="justify-content:center"></div>
+  <!-- 기억 3: 울리는 곳 -->
+  <section class="screen" id="s-bath" hidden>
+    <span class="rec">기억 3</span>
+    <h2>목소리가 울리는 곳</h2>
+    <button class="btn ghost" id="replayBath" type="button">▶ 그 목소리 다시 듣기</button>
+    <div class="lockbox">
+      <span class="label">기억의 말</span>
+      <div class="row"><input id="bathA" placeholder="떠오른 말" autocomplete="off"><button class="btn small" id="bathGo" type="button">확인</button></div>
+      <p class="small center" id="bathMsg"></p>
     </div>
-    <div class="row"><input id="chatA" placeholder="가구 이름" autocomplete="off"><button class="btn small" id="chatGo" type="button">확인</button></div>
-    <button class="btn small ghost" id="chatHint" type="button">힌트</button>
-    <div id="chatHintBox"></div>
-    <div id="chatFound" hidden class="panel">
-      <p>그곳에서 쪽지 ①을 찾으세요. 빨강 숫자는?</p>
-      <div class="row"><input id="redA" inputmode="numeric" maxlength="1" placeholder="숫자 1개" autocomplete="off"><button class="btn small" id="redGo" type="button">확인</button></div>
-      <p class="small" id="redMsg"></p>
-    </div>
+    <div class="hintrow" data-rec="bath"></div>
   </section>
 
-  <!-- 기록 6: 속삭임 -->
-  <section class="screen" id="s-whisper" hidden>
-    <span class="rec">기록 6 / 7 · 조용한 방</span>
-    <div class="goal"><b>목표</b> · 아주 작은 목소리가 <b>파랑 숫자</b>를 알려 줍니다. 다만 숫자를 말로 하지는 않습니다.</div>
-    <h2>아무 소리도 나지 않습니다.</h2>
-    <button class="btn" id="listen" type="button">귀 기울이기</button>
-    <button class="btn small ghost" id="whHint" type="button">힌트</button>
-    <div id="whHintBox"></div>
-    <div id="whQ" hidden class="panel">
-      <h3>그 사람이 쓴 숫자는?</h3>
-      <div class="row"><input id="blueA" inputmode="numeric" maxlength="1" placeholder="숫자 1개" autocomplete="off"><button class="btn small" id="blueGo" type="button">확인</button></div>
-      <p class="small" id="blueMsg"></p>
-    </div>
+  <!-- 남은 세 장면 -->
+  <section class="screen" id="s-hub" hidden>
+    <span class="rec">마지막 밤 · 남은 기억 세 개</span>
+    <h2>그날의 세 장면</h2>
+    <p class="muted">어느 것부터 찾아도 됩니다. 함께 하는 사람이 있다면 나눠서 찾아 보세요.</p>
+    <div class="branches" id="branches"></div>
   </section>
 
-  <!-- 기록 7: 보관함 -->
-  <section class="screen" id="s-lock" hidden>
-    <span class="rec">기록 7 / 7 · 기록 보관함</span>
-    <div class="goal"><b>목표</b> · 지금까지 모은 색 숫자로 보관함을 여세요. <b>순서</b>는 이미 당신이 본 적이 있습니다.</div>
-    <div class="caption" id="capLock" aria-live="polite"></div>
-    <div class="panel"><span class="label">기록 수첩</span><div class="notebook" id="notebook"></div><p class="small">기록 1의 문장</p><div class="sentence" id="nbSentence"></div></div>
-    <div class="dials" id="dials"></div>
-    <button class="btn" id="unlock" type="button">열기</button>
-    <button class="btn small ghost" id="lockHint" type="button">힌트</button>
-    <div id="lockHintBox"></div>
-    <p class="small" id="lockMsg"></p>
+  <!-- 장면: 소리 -->
+  <section class="screen" id="s-closet" hidden>
+    <span class="rec">장면 · 그날 들은 소리</span>
+    <h2>딸깍, 탁탁</h2>
+    <button class="btn ghost" id="replayCloset" type="button">▶ 그 소리 다시 듣기</button>
+    <div class="lockbox"><span class="label">기억의 자물쇠</span><div class="dials" id="clDials"></div><button class="btn" id="clGo" type="button">열기</button><p class="small center" id="clMsg"></p></div>
+    <div class="hintrow" data-rec="closet"></div>
+    <button class="btn ghost back" type="button">세 장면으로 돌아가기</button>
+  </section>
+
+  <!-- 장면: 열 수 없는 문 -->
+  <section class="screen" id="s-window" hidden>
+    <span class="rec">장면 · 열 수 없는 문</span>
+    <h2>바람과 빛만 드나드는 문</h2>
+    <button class="btn ghost" id="replayWindow" type="button">▶ 문패의 말 다시 듣기</button>
+    <div class="lockbox"><span class="label">기억의 자물쇠</span><div class="dials" id="wnDials"></div><button class="btn" id="wnGo" type="button">열기</button><p class="small center" id="wnMsg"></p></div>
+    <div class="hintrow" data-rec="window"></div>
+    <button class="btn ghost back" type="button">세 장면으로 돌아가기</button>
+  </section>
+
+  <!-- 장면: 발자국 -->
+  <section class="screen" id="s-bed" hidden>
+    <span class="rec">장면 · 그날 밤의 발자국</span>
+    <h2>발자국이 멈춘 곳</h2>
+    <button class="btn ghost eyeBtn" type="button">▣ 문패의 눈</button>
+    <div class="lockbox"><span class="label">기억의 자물쇠 · 일곱 음</span>
+      <div class="pdisp" id="pianoDisp">· · · · · · ·</div>
+      <div class="piano" id="piano"></div>
+      <p class="small center" id="bdMsg"></p></div>
+    <div class="hintrow" data-rec="bed"></div>
+    <button class="btn ghost back" type="button">세 장면으로 돌아가기</button>
+  </section>
+
+  <!-- 순서 -->
+  <section class="screen" id="s-meta" hidden>
+    <span class="rec">세 장면</span>
+    <h2>그날의 순서</h2>
+    <p class="muted">세 장면이 모두 돌아왔지만 순서가 뒤섞였습니다. 현관에 있던 마지막 상자 ✕를 열어야 합니다.</p>
+    <div id="memList" class="memlist"></div>
+    <div class="lockbox" id="metaApp"><span class="label">상자 ✕ 자물쇠</span><div class="dials" id="mtDials"></div><button class="btn" id="mtGo" type="button">열기</button><p class="small center" id="mtMsg"></p></div>
+    <div class="lockbox" id="metaPhys" hidden><span class="label">상자 ✕</span><p class="small">현관에서 가져온 상자의 자물쇠를 직접 돌려 여세요.</p><button class="btn" id="pouchOpened" type="button">상자를 열었어요</button></div>
+    <div class="hintrow" data-rec="meta"></div>
+  </section>
+
+  <!-- 문패 카드 -->
+  <section class="screen" id="s-plate" hidden>
+    <div class="mask" id="maskPlate" aria-hidden="true"></div>
+    <div class="caption" id="capPlate" aria-live="polite"></div>
+    <button class="btn ghost eyeBtn" id="plateEye" type="button" hidden>▣ 문패의 눈</button>
+    <div id="giftBox" class="panel" hidden>
+      <span class="label">문패가 기억하는 그곳</span>
+      <canvas id="giftCan" width="640" height="480" style="width:100%;border-radius:6px;background:#000"></canvas>
+      <p class="secret center" id="giftText" hidden></p>
+      <div class="row"><button class="btn ghost small" id="giftMore" type="button">조금 더 떠올리기</button><button class="btn ghost small" id="giftTell" type="button">그래도 모르겠어요</button></div>
+      <button class="btn" id="giftFound" type="button">찾았어요</button>
+    </div>
+    <div class="hintrow" data-rec="plate"></div>
   </section>
 
   <!-- 엔딩 -->
   <section class="screen" id="s-end" hidden>
-    <div class="mask" id="mask2" aria-hidden="true"></div>
+    <div class="mask" id="maskEnd" aria-hidden="true"></div>
     <div class="caption" id="capEnd" aria-live="polite"></div>
-    <button class="btn" id="endNext" type="button" hidden>기록 남기기</button>
+    <div class="panel" id="hostMsgBox" hidden><span class="label">이 집 사람이 남긴 말</span><p class="handw" id="hostMsgOut"></p></div>
+    <p class="small center" id="stats"></p>
+    <button class="btn" id="toSurvey" type="button" hidden>소감 남기기 (1분)</button>
   </section>
 
   <!-- 설문 -->
   <section class="screen" id="s-survey" hidden>
-    <h2>일곱 개의 기록을 모두 찾았습니다. 마지막으로 30초만.</h2>
-    <div class="panel"><h3>가장 놀란 / 재미있던 순간은?</h3><div class="chips" id="mostChips"></div></div>
-    <div class="panel"><h3>문패의 눈(카메라)은 써 보셨나요?</h3><div class="chips" id="eyeChips"></div></div>
-    <div class="panel"><h3>이야기가 이해됐나요?</h3><div class="chips" id="storyChips"></div></div>
-    <div class="panel"><h3>문패 목소리는 어땠나요?</h3><div class="chips" id="voiceQChips"></div></div>
-    <div class="panel"><h3>난이도는?</h3><div class="chips" id="diffChips"></div></div>
-    <div class="panel"><h3>방탈출 카페와 비교하면?</h3><div class="chips" id="cmpChips"></div></div>
-    <div class="panel"><h3>친구에게 추천할 의향 (0~10)</h3><input type="range" id="nps" min="0" max="10" value="7"><span class="small" id="npsV">7</span></div>
-    <div class="panel"><h3>이 체험에 얼마까지 낼 수 있나요? (2인 기준)</h3><div class="chips" id="priceChips"></div></div>
-    <textarea id="memo" placeholder="막혔던 곳, 아쉬운 점, 좋았던 점 (선택)"></textarea>
-    <button class="btn" id="saveBtn" type="button">결과 저장</button>
-    <p class="small" id="saveMsg"></p>
+    <span class="label">시제품 평가 · 한 번만</span>
+    <h2>오늘 밤은 어땠나요?</h2>
+    <div class="panel"><h3>전체 재미</h3><div class="rate" id="sFun"></div></div>
+    <div class="panel"><h3>가장 좋았던 순간</h3><div class="chips" id="sBest"></div></div>
+    <div class="panel"><h3>가장 별로였던 순간</h3><div class="chips" id="sWorst"></div></div>
+    <div class="panel"><h3>이야기</h3><div class="chips" id="sStory"></div></div>
+    <div class="panel"><h3>난이도</h3><div class="chips" id="sDiff"></div></div>
+    <div class="panel"><h3>문패의 눈(카메라)</h3><div class="chips" id="sEye"></div></div>
+    <div class="panel"><h3>방탈출 카페와 비교하면</h3><div class="chips" id="sCmp"></div></div>
+    <div class="panel"><h3>이 정도면 얼마까지 내겠어요? (키트 포함)</h3><div class="chips" id="sPrice"></div></div>
+    <div class="panel"><h3>친구에게 추천할 정도 <span id="npsV">5</span>/10</h3><input type="range" id="nps" min="0" max="10" value="5"></div>
+    <div class="panel"><h3>하고 싶은 말</h3><textarea id="memo" placeholder="막힌 곳, 억지스러웠던 곳, 좋았던 곳"></textarea></div>
+    <button class="btn" id="saveBtn" type="button">저장</button>
+    <div class="small" id="saveMsg"></div>
   </section>
-
-  <!-- 평가 -->
-  <section class="screen" id="s-rate" hidden>
-    <span class="label" id="rateLabel">평가</span>
-    <h2>방금 기록, 얼마나 재미있었나요?</h2>
-    <div class="rate" id="rateBtns"></div>
-  </section>
-
-  <!-- 방송 장치 -->
-  <section class="screen" id="s-bc" hidden>
-    <h2>방송 장치 연결</h2>
-    <p class="muted">호스트 화면에 나온 4자리 코드를 입력하세요.</p>
-    <input id="bcIn" inputmode="numeric" maxlength="4" placeholder="0000" autocomplete="off">
-    <button class="btn" id="bcJoin" type="button">연결</button>
-    <p class="small" id="bcMsg"></p>
-  </section>
-
-  <button class="skip" id="skipBtn" type="button" hidden>막혔나요? 이 기록 건너뛰기</button>
 </div>
 
-<div class="bc-standby" id="bcStandby" hidden>
-  <span class="dot"></span>
-  <span id="bcStandbyTxt">대기 중</span>
-  <button class="btn small ghost" id="bcTest" type="button" style="max-width:220px">소리 확인 (한 번 눌러 주세요)</button>
-</div>
-
-<div class="alert" id="alert" hidden>
-  <div class="bar">● 기록 보관함 ●</div>
-  <div class="caption" id="capAlert" aria-live="assertive"></div>
-</div>
-
-<div class="call" id="call" hidden>
-  <div class="who"><div class="avatar">?</div><b>숨긴 사람</b><span class="small" id="callState">휴대전화 · 수신 중…</span></div>
-  <div class="caption" id="capCall" hidden aria-live="polite"></div>
-  <div class="btns" id="callBtns"><button class="round no" id="decline" type="button">거절</button><button class="round yes" id="accept" type="button">받기</button></div>
-  <button class="btn" id="callDone" type="button" hidden style="max-width:480px">통화 종료</button>
+<!-- 문패의 눈 -->
+<div class="eyebox" id="eyeBox" hidden>
+  <div class="eyehead"><span class="label">▣ 문패의 눈</span><button class="toggle" id="eyeClose" type="button">닫기</button></div>
+  <div class="eyewrap" id="eyeWrap"><video id="eyeVid" playsinline muted></video><canvas id="eyeCan"></canvas></div>
+  <p class="small center" id="eyeMsg"></p>
+  <div class="chips" id="eyeCards" hidden></div>
 </div>
 
 <script>
-(function(){
+const T={"o1": "…들리세요? 아, 다행이다. 저는 이 집 현관의 문패예요.", "o2": "저는 매일 자정이 되면 그날의 기억을 잃어요. 그래서 잊으면 안 되는 건, 저만 읽을 수 있게 적어서 집 안 곳곳에 남겨 둬요.", "o3": "그런데 오늘은… 아무것도 떠오르지 않아요. 분명 오늘 밤, 꼭 해야 할 일이 있었는데.", "o4": "자정 전에 제 기억을 찾아 주세요. 첫 번째 기억은, 제가 있는 곳. 현관에 있을 거예요.", "o5": "아, 제 글씨는 사람 눈에는 안 보여요. 휴대폰의 눈을 빌려 주세요. 화면의 문패의 눈을 누르면 돼요.", "m1a": "삐리릭… 기억나요. 이 문이 처음 열리던 날이에요.", "m1b": "그 사람은 새 비밀번호를 세 번이나 틀렸어요. 아직 손에 익지 않았거든요.", "m1c": "그날 제가 다음으로 들은 건… 이 소리였어요. 두 번째 기억은, 이 소리가 나는 곳에 있어요.", "m2a": "우리 집… 맞아요.", "m2b": "그 사람은 장 봐 온 것들을 냉장고에 넣으면서 혼잣말을 했어요. 이제 여기가 우리 집이야.", "m2c": "그리고 그날 밤, 저는 다른 곳에서 나는 소리를 들었어요.", "e1": "…여기선, 제 목소리도 울려요. 똑, 똑. 세 번째 기억은, 여기 있어요.", "m3a": "마지막 밤…", "m3b": "이제 생각났어요. 자정이 지나면, 저는 이 문에서 떼어져요. 내일 아침, 새 도어락이 달리거든요.", "m3c": "그래서 어제의 제가 이 기억들을 남긴 거예요. 오늘이, 제 마지막 밤이니까.", "m3d": "남은 기억은 세 개. 그날의 세 장면이에요. 어느 것부터 찾아도 괜찮아요.", "cw": "이 집에는 제가 절대 열 수 없는 문이 하나 있어요. 사람은 드나들지 않고, 바람과 빛만 드나드는 문이요.", "cc": "이 소리, 기억나요? 그날, 이 소리가 나던 곳이에요.", "cb": "기억 지도를 제 눈으로 비춰 주세요. 그날 밤의 발자국이 남아 있을 거예요.", "mwa": "쏴아… 그날 오후, 갑자기 비가 들이쳤어요. 그 사람은 짐을 풀다 말고 뛰어가서 창문을 닫았죠.", "mca": "탁, 탁. 그 사람은 비에 젖은 겉옷을 털어서, 이 집 옷걸이에 처음으로 옷을 걸었어요.", "mba": "그날 밤, 그 사람은 새 이불 속에서 이 노래를 흥얼거리다 잠들었어요. 이 집에서의 첫 잠이었죠.", "dg": "이 기억에 새겨진 숫자는…", "n0": "영.", "n1": "일.", "n2": "이.", "n3": "삼.", "n4": "사.", "n5": "오.", "n6": "육.", "n7": "칠.", "n8": "팔.", "n9": "구.", "mt1": "세 장면이 모두 돌아왔어요. 그런데… 순서가 뒤죽박죽이에요.", "mt2": "그날 일어난 순서대로 숫자를 이으면, 현관에 있던 마지막 상자가 열릴 거예요.", "po1": "열렸네요. 그 안에 있는 건… 제 얼굴이에요. 제 눈으로, 저를 비춰 주세요.", "pl1": "아… 이제 다 기억나요. 오늘 아침, 이 집 사람이 저에게 부탁을 하나 했어요.", "pl2g": "오늘 밤 오는 사람에게, 숨겨 둔 선물이 있는 곳을 꼭 알려 달라고요.", "pl2n": "오늘 밤 오는 사람에게, 이 집의 첫날을 꼭 들려 달라고요. 그게 제 마지막 일이었어요.", "pl3": "제가 기억하는 그곳은, 이렇게 생겼어요.", "t5": "자정까지, 오 분 남았어요.", "t1": "일 분.", "tout": "자정이에요… 기억이 흐려져요. 그래도, 끝까지 함께해 주세요.", "wl": "아니에요… 잠깐만요. 기억을 더듬어 볼게요.", "f1": "…이게 제 진짜 목소리예요. 기억이 다 돌아오니까, 목소리도 돌아왔네요.", "f2": "곧 자정이에요. 저는 이 문에서 떼어지고, 오늘을 잊겠죠.", "f3": "그래도 괜찮아요. 이 집의 첫날을, 이제 당신이 기억하니까요.", "f4": "고마워요. 이 집의 마지막 손님."};
+const PATTERN_SVG='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 6 96 76" style="width:150px;height:auto"><circle cx="22" cy="30" r="3" fill="#888"/><circle cx="48" cy="30" r="3" fill="#888"/><circle cx="74" cy="30" r="3" fill="#888"/><circle cx="22" cy="56" r="3" fill="#888"/><circle cx="48" cy="56" r="3" fill="#888"/><circle cx="74" cy="56" r="3" fill="#888"/><circle cx="22" cy="82" r="3" fill="#888"/><circle cx="48" cy="82" r="3" fill="#888"/><circle cx="74" cy="82" r="3" fill="#888"/><path d="M74 56 L48 56 L22 56 L22 30" fill="none" stroke="#d9a654" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+/* ===== 문패의 마지막 밤 v0.6 ===== */
 const $=s=>document.querySelector(s);
-const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-const reduced=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-/* ---------- 이야기 데이터 ---------- */
-/* 말머리: 두 메시지의 첫 글자를 이으면 가구 이름. 각 메시지는 따로 보면 평범한 말 */
-const FURN={
-  '책상':{m:['책 반납 언제까지였지?','상추 좀 사 갈까?'],k:['반납','상추']},
-  '옷장':{m:['옷 다 말랐더라','장 보러 같이 갈래?'],k:['말랐','장 보러']},
-  '서랍':{m:['서운하게 답장이 왜 없어','랍스터 먹고 싶다 ㅋㅋ'],k:['서운','랍스터']},
-  '커튼':{m:['커피 사 갈까?','튼튼하게 챙겨 입고 나가'],k:['커피','튼튼']},
-  '이불':{m:['이따 전화할게','불 끄고 나왔지?'],k:['이따','불 끄고']}
-};
-const HOSTLINES={h1:'놀랐지? 문패, 나였어. 오늘 밤, 전부 내가 준비했어.',h2:'문패는 나였어. 이 기록들, 너랑 같이 남기고 싶었어.',h3:'문패는 나였어. 오늘, 이 집에서 너를 기다렸어.'};
-const T={
-  op1:'안녕하십니까. 저는 이 집의 문패입니다.',
-  op2:'현관에 걸려, 이 집을 드나든 모든 사람의 기록을 지켜 왔습니다.',
-  op3:'그런데 오늘, 이 집의 기록 일곱 개가 사라졌습니다. 누군가, 집 안 곳곳에 숨겼습니다.',
-  op9:'제 눈을 빌려 드리겠습니다. 맨눈으로는 보이지 않는 것이, 보일 겁니다.',
-  dr1:'현관 도어락입니다. 오늘 아침에 닦였지만… 지문은 남습니다. 보는 방법만 안다면요.',
-  op4:'일곱 개를 모두 찾으면, 기록 보관함이 열립니다. 그 안에는, 숨긴 사람이 남긴 마지막 기록이 있습니다.',
-  op5:'규칙은 세 가지입니다. 하나. 이 집의 물건은, 거짓말을 하지 않습니다.',
-  op6:'둘. 가전의 안을 열거나, 높은 곳에 오를 필요는 없습니다. 위험하게 느껴지는 길은, 오답입니다.',
-  op7:'셋. 막히면, 저를 부르십시오. 힌트를 드리겠습니다.',
-  op8:'첫 번째 기록은… 이 휴대폰 안의, 병 속에 있습니다.',
-  ch1:'다섯 번째 기록. 숨긴 사람은 오늘, 당신에게 두 번 말을 걸었습니다. 그 시각은… 이 시계들이 알고 있습니다.',
-  yl:'마지막 보관함입니다. 노랑은… 당신이 손으로 찾아낸, 숨긴 사람의 쪽지 수입니다.',
-  lockx:'틀렸습니다. 기록되었습니다.',
-  bc1:'기록 보관함이, 열렸습니다.',bc2:'숨긴 사람이 남긴, 마지막 기록을 재생합니다.',bc3:'수신 전화를, 받으십시오.',
-  en1:'일곱 개의 기록을, 모두 찾으셨습니다.',en2:'이제… 제 진짜 목소리를 들려드리죠.',en3:'사실 저는… 문패가 아닙니다.',
-  c1:'여보세요? …나야.',c2:'여기까지 찾아와 줘서, 고마워.',c3a:'선물은… 지금 위치 보낼게.',c3b:'오늘 남긴 기록들, 오래 기억할게.',c4:'이제… 고개 들어 봐.'
-};
-const CLIPS=['op1','op2','op3','op4','op5','op6','op7','op9','op8','dr1','ch1','yl','lockx','bc1','bc2','bc3','en1','en2','en3','t5','t1','tout','wb','w_rep'];
-['c1','c2','c3a','c3b','c4','h1','h2','h3'].forEach(k=>{CLIPS.push(k+'_f',k+'_m');});
-const STEPS=['s-open','s-bottle','s-film','s-door','s-shoe','s-chat','s-whisper','s-lock','s-end','s-survey'];
-const NEXT={'s-open':'s-bottle','s-bottle':'s-film','s-film':'s-door','s-door':'s-shoe','s-shoe':'s-chat','s-chat':'s-whisper','s-whisper':'s-lock','s-lock':'s-end','s-end':'s-survey'};
-let S={step:'s-start',n1:'',n2:'',host:'',furn:'',sent:null,sent2:null,gift:'',hl:'h1',voice:'f',muted:false,ratings:{},times:{},skipped:[],mode:'1대',sensor:false,survey:{},limit:45,deadline:null,w5:false,w1:false,timedOut:false,timeLeft:null,ans:null,found:{},hints:{}};
-const KEY='mp_state_v05';
-function load(){try{const t=localStorage.getItem(KEY);if(t){const o=JSON.parse(t);if(o&&o.step&&STEPS.includes(o.step)&&o.ans)return o;}}catch(e){}return null;}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+const sleep=ms=>new Promise(r=>setTimeout(r,window.__FAST?Math.min(ms,20):ms));
+const reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const PAGES='https://wndud5148.github.io/moonpae-test-room/';
+const STEPS=['s-open','s-door','s-mem','s-fridge','s-bath','s-hub','s-closet','s-window','s-bed','s-meta','s-plate','s-end','s-survey'];
+const KEY='mp_state_v06';
+const MEMS=['door','fridge','bath','window','closet','bed','meta'];
+let S=fresh();
+function fresh(){return {v:6,step:'s-start',limit:60,deadline:null,timeLeft:null,muted:false,guest:'',lockMode:'phys',
+  code:{door:[],meta:[]},gift:{on:true,where:'',img:null,fx:.5,fy:.5,msg:''},mem:{},found:[],hints:{},wrong:{},lockUntil:{},times:{},t0:{},
+  eye:null,eyeSeen:{},survey:{},w5:false,w1:false,timedOut:false,next:null,plateSeen:false,giftZoom:0,startedAt:null};}
+function load(){try{const t=localStorage.getItem(KEY);if(t){const o=JSON.parse(t);if(o&&o.v===6&&o.code&&o.code.door&&o.code.door.length)return o;}}catch(e){}return null;}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){try{const c=Object.assign({},S,{gift:Object.assign({},S.gift,{img:null})});localStorage.setItem(KEY,JSON.stringify(c));}catch(_){}}}
 function clearSave(){try{localStorage.removeItem(KEY);}catch(e){}}
-
-/* ---------- 화면 ---------- */
 function show(id){
   document.querySelectorAll('.screen').forEach(e=>{e.hidden=(e.id!==id);});
   S.step=id;const i=STEPS.indexOf(id);$('#prog').style.width=(i<0?0:((i+1)/STEPS.length*100))+'%';
-  $('#skipBtn').hidden=!(i>=1&&i<=7);
-  if(STEPS.includes(id))save();
-  window.scrollTo(0,0);
+  if(STEPS.includes(id))save();window.scrollTo(0,0);
 }
+function memCount(){return MEMS.filter(k=>S.mem[k]).length;}
+function moonOpt(){const n=memCount();const mods=[.9,.8,.68,.56,.46,.36,.26,.16];return {fx:'moon',mod:mods[Math.min(n,7)],rate:.93+n*.01};}
 
 /* ---------- 오디오 엔진 ---------- */
 let AC=null;
-function ac(){try{if(!AC)AC=new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();}catch(e){AC=null;}return AC;}
-function unlockAudio(){const c=ac();if(!c)return;try{const b=c.createBuffer(1,1,22050);const s=c.createBufferSource();s.buffer=b;s.connect(c.destination);s.start(0);}catch(e){}}
+function ac(){try{if(!AC)AC=new (window.AudioContext||window.webkitAudioContext)();if(AC.state!=='running')AC.resume();}catch(e){AC=null;}return AC;}
+function unlockAudio(){try{if(navigator.audioSession)navigator.audioSession.type='playback';}catch(e){}const c=ac();if(!c)return;try{const b=c.createBuffer(1,1,22050);const s=c.createBufferSource();s.buffer=b;s.connect(c.destination);s.start(0);}catch(e){}}
 const BUF={},PEND={};
 function loadClip(id){
   if(BUF[id])return Promise.resolve(BUF[id]);if(PEND[id])return PEND[id];
@@ -534,9 +490,14 @@ function loadClip(id){
 }
 async function preload(ids,onProgress){let n=0;await Promise.all(ids.map(id=>loadClip(id).then(()=>{n++;onProgress&&onProgress(n,ids.length);}).catch(()=>{n++;onProgress&&onProgress(n,ids.length);})));}
 function shaper(k){const n=1024,a=new Float32Array(n);for(let i=0;i<n;i++){const x=i*2/n-1;a[i]=(1+k)*x/(1+k*Math.abs(x));}return a;}
-function chain(c,fx,mod){
-  const out=c.createGain();out.connect(c.destination);const input=c.createGain();let osc=null;
-  if(fx==='moon'){
+let IR=null;
+function impulse(c){if(IR)return IR;const len=Math.floor(c.sampleRate*2.4);IR=c.createBuffer(2,len,c.sampleRate);
+  for(let ch=0;ch<2;ch++){const d=IR.getChannelData(ch);for(let i=0;i<len;i++){d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2.6);}
+    [.011,.019,.031,.047,.063].forEach((t,k)=>{const j=Math.floor(t*c.sampleRate)+ch*37;if(j<len)d[j]+=.9-k*.12;});}
+  return IR;}
+function chain(c,fx,mod,dest){
+  const out=c.createGain();out.connect(dest||c.destination);const input=c.createGain();let osc=null,sub=null;
+  if(fx==='moon'&&mod>0){
     const dry=c.createGain();dry.gain.value=1-.37*mod;
     const rm=c.createGain();rm.gain.value=0;osc=c.createOscillator();osc.frequency.value=42;osc.connect(rm.gain);osc.start();
     const wet=c.createGain();wet.gain.value=.78*mod;
@@ -546,15 +507,16 @@ function chain(c,fx,mod){
     const comp=c.createDynamicsCompressor();
     input.connect(dry);dry.connect(sh);input.connect(rm);rm.connect(wet);wet.connect(sh);
     sh.connect(hp);hp.connect(lp);lp.connect(comp);comp.connect(out);out.gain.value=.6;
-  }else if(fx==='phone'){
-    const hp=c.createBiquadFilter();hp.type='highpass';hp.frequency.value=380;
-    const lp=c.createBiquadFilter();lp.type='lowpass';lp.frequency.value=3100;
-    input.connect(hp);hp.connect(lp);lp.connect(out);out.gain.value=1.2;
-  }else if(fx==='whisper'){input.connect(out);out.gain.value=.13;}
-  else{input.connect(out);}
-  return {input,stop:()=>{try{osc&&osc.stop();}catch(e){}}};
+  }else if(fx==='moonecho'){
+    const rev=c.createConvolver();rev.buffer=impulse(c);const wg=c.createGain();wg.gain.value=1.1;const dg=c.createGain();dg.gain.value=.35;
+    sub=chain(c,'moon',mod,out);input.connect(sub.input);
+    // 목소리 → 욕실처럼 울리는 잔향
+    const tap=c.createGain();input.connect(tap);tap.connect(rev);rev.connect(wg);wg.connect(out);
+    out.gain.value=.8;dg.gain.value=0;
+  }else{input.connect(out);out.gain.value=.85;}
+  return {input,stop:()=>{try{osc&&osc.stop();}catch(e){}sub&&sub.stop();}};
 }
-function est(t){return Math.max(1300,(t||'').length*150)+300;}
+function est(t){return Math.max(1300,(t||'').length*130)+300;}
 async function playClip(id,o={}){
   if(S.muted)return sleep(est(o.t));
   const c=ac();if(!c)return sleep(est(o.t));
@@ -563,7 +525,7 @@ async function playClip(id,o={}){
     let done=false;const fin=()=>{if(!done){done=true;ch.stop();res();}};
     const ch=chain(c,o.fx||'natural',o.mod==null?1:o.mod);const s=c.createBufferSource();s.buffer=buf;s.playbackRate.value=o.rate||1;
     s.connect(ch.input);s.onended=fin;try{s.start();}catch(e){fin();}
-    setTimeout(fin,buf.duration/(o.rate||1)*1000+2500);
+    setTimeout(fin,buf.duration/(o.rate||1)*1000+(o.fx==='moonecho'?2600:600));
   });
 }
 function tone(f,dur,{type='sine',gain=.12,at=0}={}){
@@ -572,47 +534,80 @@ function tone(f,dur,{type='sine',gain=.12,at=0}={}){
   g.gain.setValueAtTime(gain,t);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
   o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+dur+.05);
 }
-function noise(dur,{gain=.05,freq=1400,q=.8,at=0}={}){
+function noise(dur,{gain=.05,freq=1400,q=.8,at=0,fade=.15}={}){
   const c=ac();if(!c||S.muted)return null;const t=c.currentTime+at;
   const len=Math.max(1,Math.floor(c.sampleRate*dur));const b=c.createBuffer(1,len,c.sampleRate);const d=b.getChannelData(0);
   for(let i=0;i<len;i++)d[i]=Math.random()*2-1;
   const s=c.createBufferSource();s.buffer=b;const f=c.createBiquadFilter();f.type='bandpass';f.frequency.value=freq;f.Q.value=q;
-  const g=c.createGain();g.gain.setValueAtTime(gain,t);g.gain.setValueAtTime(gain,t+dur*.85);g.gain.linearRampToValueAtTime(0,t+dur);
+  const g=c.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(gain,t+Math.min(.01,dur/4));g.gain.setValueAtTime(gain,t+dur*(1-fade));g.gain.linearRampToValueAtTime(0,t+dur);
   s.connect(f);f.connect(g);g.connect(c.destination);s.start(t);s.stop(t+dur+.05);return s;
 }
-let tickT=null;
-function startBed(){stopBed();if(S.muted)return;tickT=setInterval(()=>tone(2200,.025,{gain:.025,type:'square'}),1000);}
-function stopBed(){clearInterval(tickT);tickT=null;}
+const sfx={
+  clunk:()=>{noise(.12,{gain:.25,freq:300,q:1.2});tone(90,.18,{gain:.2,type:'triangle'});},
+  unlock:()=>{tone(1800,.04,{gain:.15,type:'square'});tone(1500,.05,{gain:.15,type:'square',at:.12});tone(520,.35,{gain:.1,at:.3});tone(780,.5,{gain:.1,at:.45});},
+  bell:()=>{tone(880,.5,{gain:.08});tone(660,.7,{gain:.08,at:.35});},
+  beep:()=>tone(1650,.06,{gain:.09,type:'square'}),
+  doorOpen:()=>{[1320,1568,1976,2637].forEach((f,i)=>tone(f,.09,{gain:.08,type:'square',at:i*.09}));noise(.25,{gain:.18,freq:600,q:1,at:.45});},
+  // 웅— 냉장고: 낮은 모터 소리 → 문 열림 경고음 세 번
+  fridge:()=>{const c=ac();if(!c||S.muted)return sleep(5000);const t=c.currentTime;
+    const g=c.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.22,t+.6);g.gain.setValueAtTime(.22,t+3.2);g.gain.linearRampToValueAtTime(0,t+3.7);
+    const lp=c.createBiquadFilter();lp.type='lowpass';lp.frequency.value=320;lp.connect(g);g.connect(c.destination);
+    const lfo=c.createOscillator();lfo.frequency.value=3.1;const lg=c.createGain();lg.gain.value=.05;lfo.connect(lg);lg.connect(g.gain);lfo.start(t);lfo.stop(t+3.8);
+    [[59,'sawtooth',.5],[118,'sine',.35],[177,'sine',.12]].forEach(([f,ty,v])=>{const o=c.createOscillator();o.type=ty;o.frequency.value=f;const og=c.createGain();og.gain.value=v;o.connect(og);og.connect(lp);o.start(t);o.stop(t+3.8);});
+    noise(.08,{gain:.2,freq:180,q:1,at:.05});
+    [0,1,2].forEach(i=>tone(2650,.22,{gain:.07,type:'square',at:4+i*.55}));
+    return sleep(5800);},
+  // 딸깍(옷걸이) · 탁탁(옷 털기) · 지퍼
+  closet:()=>{if(S.muted)return sleep(3800);
+    [0,.55,.8].forEach(a=>{tone(3300,.07,{gain:.07,type:'triangle',at:a});tone(4400,.05,{gain:.04,at:a+.01});noise(.03,{gain:.14,freq:5200,q:2,at:a});});
+    [1.7,2.05].forEach(a=>noise(.1,{gain:.4,freq:650,q:.6,at:a,fade:.6}));
+    for(let i=0;i<20;i++)noise(.015,{gain:.08,freq:3600,q:1.5,at:2.7+i*.028});
+    return sleep(3800);},
+  rain:()=>{noise(3.2,{gain:.07,freq:2600,q:.3,fade:.4});noise(3.2,{gain:.04,freq:800,q:.4,fade:.4});},
+};
+const PIANO=[['도',261.63],['레',293.66],['미',329.63],['파',349.23],['솔',392.0],['라',440.0],['시',493.88]];
+function pianoNote(f){tone(f,1.3,{type:'triangle',gain:.13});tone(f*2,.5,{gain:.025});}
 
-/* ---------- 배경음악: 브라우저 합성 앰비언트 (저음 패드 + 심장 박동 + 드문 종소리) ---------- */
+/* ---------- 배경음악 ---------- */
 const BGM={on:true,nodes:null,duck:1,fast:false,pulseT:null,bellT:null};
 function bgmStart(){
   if(BGM.nodes||!BGM.on||S.muted)return;const c=ac();if(!c)return;
   const master=c.createGain();master.gain.value=0;master.connect(c.destination);
-  master.gain.linearRampToValueAtTime(.5*BGM.duck,c.currentTime+3);
-  const lp=c.createBiquadFilter();lp.type='lowpass';lp.frequency.value=480;lp.Q.value=3;lp.connect(master);
-  const lfo=c.createOscillator();lfo.frequency.value=.06;const lg=c.createGain();lg.gain.value=220;lfo.connect(lg);lg.connect(lp.frequency);lfo.start();
-  const oscs=[55,82.41,110.6,130.81].map((f,i)=>{const o=c.createOscillator();o.type=i%2?'triangle':'sawtooth';o.frequency.value=f;o.detune.value=(i-1.5)*7;const g=c.createGain();g.gain.value=[.06,.045,.03,.018][i];o.connect(g);g.connect(lp);o.start();return o;});
-  const dl=c.createDelay(1.5);dl.delayTime.value=.43;const fb=c.createGain();fb.gain.value=.36;dl.connect(fb);fb.connect(dl);const dg=c.createGain();dg.gain.value=.5;dl.connect(dg);dg.connect(master);
+  master.gain.linearRampToValueAtTime(.42*BGM.duck,c.currentTime+3);
+  const lp=c.createBiquadFilter();lp.type='lowpass';lp.frequency.value=460;lp.Q.value=2;lp.connect(master);
+  const lfo=c.createOscillator();lfo.frequency.value=.05;const lg=c.createGain();lg.gain.value=200;lfo.connect(lg);lg.connect(lp.frequency);lfo.start();
+  // 감동 톤: 장조 계열 패드 (A2 · E3 · A3 · C#4)
+  const oscs=[110,164.81,220,277.18].map((f,i)=>{const o=c.createOscillator();o.type=i%2?'triangle':'sawtooth';o.frequency.value=f;o.detune.value=(i-1.5)*6;const g=c.createGain();g.gain.value=[.04,.04,.025,.014][i];o.connect(g);g.connect(lp);o.start();return o;});
+  const dl=c.createDelay(1.5);dl.delayTime.value=.48;const fb=c.createGain();fb.gain.value=.4;dl.connect(fb);fb.connect(dl);const dg=c.createGain();dg.gain.value=.5;dl.connect(dg);dg.connect(master);
   BGM.nodes={master,oscs,lfo};
-  const bell=()=>{if(!BGM.nodes)return;const N=[440,523.25,587.33,659.25,783.99,880];const f=N[Math.floor(Math.random()*N.length)];const t=c.currentTime;
-    const o=c.createOscillator();o.frequency.value=f;const g=c.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.04,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+2.6);
-    o.connect(g);g.connect(master);g.connect(dl);o.start(t);o.stop(t+2.7);BGM.bellT=setTimeout(bell,3500+Math.random()*5000);};
+  const bell=()=>{if(!BGM.nodes)return;const N=[440,554.37,659.25,739.99,880,1108.73];const f=N[Math.floor(Math.random()*N.length)];const t=c.currentTime;
+    const o=c.createOscillator();o.frequency.value=f;const g=c.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.035,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+3);
+    o.connect(g);g.connect(master);g.connect(dl);o.start(t);o.stop(t+3.1);BGM.bellT=setTimeout(bell,4000+Math.random()*5000);};
   BGM.bellT=setTimeout(bell,2500);
-  const pulse=()=>{if(!BGM.nodes)return;const t=c.currentTime;const o=c.createOscillator();o.frequency.setValueAtTime(68,t);o.frequency.exponentialRampToValueAtTime(36,t+.25);
-    const g=c.createGain();g.gain.setValueAtTime(BGM.fast?.2:.13,t);g.gain.exponentialRampToValueAtTime(.0001,t+.35);o.connect(g);g.connect(master);o.start(t);o.stop(t+.4);
-    BGM.pulseT=setTimeout(pulse,BGM.fast?650:1500);};
-  BGM.pulseT=setTimeout(pulse,1200);
+  // 시계 초침 같은 박동: 남은 시간이 줄수록 조금씩 빨라진다
+  const pulse=()=>{if(!BGM.nodes)return;const t=c.currentTime;const o=c.createOscillator();o.frequency.setValueAtTime(70,t);o.frequency.exponentialRampToValueAtTime(38,t+.22);
+    const g=c.createGain();g.gain.setValueAtTime(.1,t);g.gain.exponentialRampToValueAtTime(.0001,t+.3);o.connect(g);g.connect(master);o.start(t);o.stop(t+.35);
+    BGM.pulseT=setTimeout(pulse,pulseGap());};
+  BGM.pulseT=setTimeout(pulse,1500);
 }
+function pulseGap(){if(!S.deadline)return 1600;const left=Math.max(0,S.deadline-Date.now());const tot=(S.limit||60)*60000;const r=Math.min(1,left/tot);return Math.round(700+1000*r);}
 function bgmStop(){
   if(!BGM.nodes)return;const c=ac();const n=BGM.nodes;BGM.nodes=null;clearTimeout(BGM.pulseT);clearTimeout(BGM.bellT);
   try{n.master.gain.cancelScheduledValues(c.currentTime);n.master.gain.setValueAtTime(n.master.gain.value,c.currentTime);n.master.gain.linearRampToValueAtTime(0,c.currentTime+1.2);}catch(e){}
   setTimeout(()=>{n.oscs.forEach(o=>{try{o.stop();}catch(e){}});try{n.lfo.stop();}catch(e){}},1400);
 }
-function bgmDuck(on){BGM.duck=on?.3:1;if(!BGM.nodes)return;const c=ac();const g=BGM.nodes.master.gain;try{g.cancelScheduledValues(c.currentTime);g.setValueAtTime(g.value,c.currentTime);g.linearRampToValueAtTime(.5*BGM.duck,c.currentTime+.4);}catch(e){}}
-$('#bgmBtn').onclick=()=>{BGM.on=!BGM.on;$('#bgmBtn').setAttribute('aria-pressed',BGM.on?'true':'false');if(BGM.on&&STEPS.indexOf(S.step)>=0&&S.step!=='s-survey')bgmStart();else bgmStop();};
+function bgmDuck(on){BGM.duck=on?.25:1;if(!BGM.nodes)return;const c=ac();const g=BGM.nodes.master.gain;try{g.cancelScheduledValues(c.currentTime);g.setValueAtTime(g.value,c.currentTime);g.linearRampToValueAtTime(.42*BGM.duck,c.currentTime+.4);}catch(e){}}
+$('#bgmBtn').onclick=()=>{BGM.on=!BGM.on;$('#bgmBtn').setAttribute('aria-pressed',BGM.on?'true':'false');if(BGM.on&&inGame())bgmStart();else bgmStop();};
+function inGame(){const i=STEPS.indexOf(S.step);return i>=0&&S.step!=='s-survey'&&S.step!=='s-end';}
+function setMuted(m){S.muted=m;$('#muteBtn').setAttribute('aria-pressed',m?'true':'false');if(m)bgmStop();else if(inGame())bgmStart();save();}
+$('#muteBtn').onclick=()=>setMuted(!S.muted);
 
-/* ---------- 제한 시간 ---------- */
+/* ---------- 화면 꺼짐 방지 · 복귀 ---------- */
+let WL=null;
+async function keepAwake(){try{if('wakeLock' in navigator&&document.visibilityState==='visible'){WL=await navigator.wakeLock.request('screen');}}catch(e){}}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&S.startedAt){keepAwake();try{AC&&AC.state!=='running'&&AC.resume();}catch(e){}if(inGame()&&!BGM.nodes)bgmStart();}});
+
+/* ---------- 자정 시계 ---------- */
 let timerT=null;
 function timerStart(){
   if(!S.limit){$('#timer').hidden=true;return;}
@@ -621,550 +616,437 @@ function timerStart(){
 }
 function timerStop(){clearInterval(timerT);timerT=null;if(S.deadline)S.timeLeft=Math.max(0,Math.round((S.deadline-Date.now())/1000));save();}
 function timerTick(){
-  const left=Math.max(0,S.deadline-Date.now());const m=Math.floor(left/60000),s=Math.floor(left%60000/1000);
-  $('#timer').textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');$('#timer').classList.toggle('warn',left<=300000);
-  BGM.fast=left<=300000;
-  if(left<=300000&&left>60000&&!S.w5){S.w5=true;save();announce('t5','오 분 남았습니다.');}
-  if(left<=60000&&left>0&&!S.w1){S.w1=true;save();announce('t1','일 분.');}
-  if(left===0&&!S.timedOut){S.timedOut=true;save();clearInterval(timerT);announce('tout','시간이 다 되었습니다. 하지만… 기록은 아직 열려 있습니다.',true);$('#timer').textContent='시간 초과';}
+  const left=Math.max(0,S.deadline-Date.now());const mins=Math.ceil(left/60000);const t=24*60-mins;
+  $('#timer').textContent=left===0?'00:00':String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0');
+  $('#timer').classList.toggle('warn',left<=300000);
+  if(left<=300000&&left>60000&&!S.w5){S.w5=true;save();announce('t5',T.t5);}
+  if(left<=60000&&left>0&&!S.w1){S.w1=true;save();announce('t1',T.t1);}
+  if(left===0&&!S.timedOut){S.timedOut=true;save();clearInterval(timerT);announce('tout',T.tout,true);}
 }
 function announce(id,t,long){
   const el=document.createElement('div');el.className='toast';el.setAttribute('role','status');el.textContent='▣ 문패: '+t;document.body.appendChild(el);
-  bgmDuck(true);playClip(id,Object.assign({t},MOON)).then(()=>bgmDuck(false));setTimeout(()=>el.remove(),long?7000:4000);
+  bgmDuck(true);playClip('v6_'+id,Object.assign({t},moonOpt())).then(()=>bgmDuck(false));setTimeout(()=>el.remove(),long?7000:4500);
 }
-const sfx={
-  static:()=>noise(1.4,{gain:.08,freq:1600,q:.5}),
-  bell:()=>{tone(880,.5,{gain:.08});tone(660,.7,{gain:.08,at:.35});},
-  clunk:()=>{noise(.12,{gain:.25,freq:300,q:1.2});tone(90,.18,{gain:.2,type:'triangle'});},
-  unlock:()=>{tone(1800,.04,{gain:.15,type:'square'});tone(1500,.05,{gain:.15,type:'square',at:.12});tone(520,.35,{gain:.1,at:.3});tone(780,.5,{gain:.1,at:.45});},
-  key:()=>{tone(2600,.25,{gain:.08});tone(3400,.18,{gain:.05,at:.05});},
-  marble:()=>{tone(900,.12,{gain:.12,type:'triangle'});tone(700,.12,{gain:.08,type:'triangle',at:.14});},
-  paper:()=>noise(.25,{gain:.12,freq:4000,q:.4}),
-  snap:()=>tone(1200,.06,{gain:.12,type:'square'}),
-  hang:()=>{tone(480,.25,{gain:.1});tone(480,.25,{gain:.1,at:.4});}
-};
-let ringT=null;
-function ringStart(){ringStop();const play=()=>{[659,784,988,784,659].forEach((f,i)=>tone(f,.16,{gain:.12,type:'triangle',at:i*.16}));};play();ringT=setInterval(play,1500);try{navigator.vibrate&&navigator.vibrate([700,400,700,400,700]);}catch(e){}}
-function ringStop(){clearInterval(ringT);ringT=null;try{navigator.vibrate&&navigator.vibrate(0);}catch(e){}}
 
 /* ---------- 자막 + 음성 ---------- */
 async function typeLine(box,text,cls){
   const d=document.createElement('div');if(cls)d.className=cls;box.appendChild(d);
   if(reduced||cls){d.textContent=text;return;}
-  for(let i=1;i<=text.length;i++){d.textContent=text.slice(0,i);await sleep(38);}
+  for(let i=1;i<=text.length;i++){d.textContent=text.slice(0,i);await sleep(30);}
 }
-const MOON={fx:'moon',mod:.7,rate:.935};
-async function narrate(box,lines,who,maskEl){
-  bgmDuck(true);
-  try{await narrate0(box,lines,who,maskEl);}finally{bgmDuck(false);}
+let NARR=0;
+async function narrate(box,lines,maskEl){
+  const my=++NARR;bgmDuck(true);
+  try{
+    box.textContent='';const w=document.createElement('div');w.className='who';w.textContent='▣ 문패';box.appendChild(w);
+    for(const L of lines){
+      if(my!==NARR)return;
+      if(L.fn){await L.fn(box);continue;}
+      if(L.sfx){typeLine(box,L.sfx,'sfx');await (L.play?L.play():sleep(L.wait||900));continue;}
+      const id=L.a,o=Object.assign({},L.o||moonOpt(),{t:L.t});
+      maskEl&&maskEl.classList.add('speaking');
+      await Promise.all([typeLine(box,L.t),playClip('v6_'+id,o)]);
+      maskEl&&maskEl.classList.remove('speaking');
+      await sleep(L.pause||250);
+    }
+  }finally{if(my===NARR)bgmDuck(false);}
 }
-async function narrate0(box,lines,who,maskEl){
-  box.textContent='';if(who){const w=document.createElement('div');w.className='who';w.textContent=who;box.appendChild(w);}
-  for(const L of lines){
-    if(L.sfx){typeLine(box,L.sfx,'sfx');if(L.play)sfx[L.play]();await sleep(L.wait||900);continue;}
-    if(L.who){const w=document.createElement('div');w.className='who';w.style.marginTop='10px';w.textContent=L.who;box.appendChild(w);}
-    const o=Object.assign({},L.o||MOON,{t:L.t});
-    maskEl&&maskEl.classList.add('speaking');
-    await Promise.all([typeLine(box,L.t),playClip(L.a,o)]);
-    maskEl&&maskEl.classList.remove('speaking');
-    if(L.after)L.after(box);
-    await sleep(L.pause||300);
-  }
-}
+const line=(a,extra)=>Object.assign({a,t:T[a]},extra||{});
 
-
-/* ---------- 평가 ---------- */
-const RATE_TXT=['별로','조금','괜찮음','재미있음','최고'];
-function rate(key,label,next){
-  S.times[key]=Math.round((Date.now()-(S._t0||Date.now()))/1000);
-  $('#rateLabel').textContent=label;const box=$('#rateBtns');box.textContent='';
-  RATE_TXT.forEach((t,i)=>{const b=document.createElement('button');b.type='button';const bb=document.createElement('b');bb.textContent=i+1;b.appendChild(bb);b.appendChild(document.createTextNode(t));b.onclick=()=>{S.ratings[key]=i+1;save();next();};box.appendChild(b);});
-  document.querySelectorAll('.screen').forEach(e=>{e.hidden=(e.id!=='s-rate');});$('#skipBtn').hidden=true;window.scrollTo(0,0);
-}
-function begin(id){S._t0=Date.now();show(id);}
-
-/* ---------- 자막만 토글 ---------- */
-function setMuted(m){S.muted=m;$('#muteBtn').setAttribute('aria-pressed',m?'true':'false');if(m){stopBed();bgmStop();}else if(STEPS.indexOf(S.step)>=0&&S.step!=='s-survey')bgmStart();save();}
-$('#muteBtn').onclick=()=>setMuted(!S.muted);
-const hr=new Date().getHours();if(hr>=22||hr<6)setMuted(true);
-
-/* ---------- 능력(방송·저장) ---------- */
-function getCap(name){return new Promise(async res=>{for(let i=0;i<50;i++){if(window.claude&&typeof window.claude.use==='function'){try{res(await window.claude.use(name));}catch(e){res(null);}return;}await sleep(200);}res(null);});}
-let ROOM=null,BC=null,DB=null,bcPeers=0;
-getCap('room').then(r=>{ROOM=r;
-  if(!ROOM){$('#bcInfo').textContent='이 화면에서는 방송 장치 연결을 쓸 수 없어요. 플레이어 폰 1대로 진행합니다(1대 모드).';}
-  else{$('#bcInfo').textContent='남는 폰이나 태블릿이 있으면 방송 장치로 연결하세요(같은 claude.ai 계정 로그인 필요). 없으면 건너뛰어도 됩니다.';$('#bcMake').hidden=false;}
-});
-getCap('db').then(d=>{DB=d;});
+/* ---------- 저장 능력 ---------- */
+function getCap(name){return new Promise(async res=>{for(let i=0;i<30;i++){if(window.claude&&typeof window.claude.use==='function'){try{res(await window.claude.use(name));}catch(e){res(null);}return;}await sleep(200);}res(null);});}
+let DB=null;getCap('db').then(d=>{DB=d;});
 
 /* ---------- 공통 도우미 ---------- */
-const COL={g:{n:'초록',c:'#6cc391'},r:{n:'빨강',c:'#e0604a'},y:{n:'노랑',c:'#e7c14a'},b:{n:'파랑',c:'#5b8fd6'}};
-function wrongShake(sel){sfx.clunk();$(sel).classList.add('shake');setTimeout(()=>$(sel).classList.remove('shake'),400);}
-function hintAdd(boxSel,arr,n,btnSel,key){const d=document.createElement('div');d.className='hint';d.textContent=arr[Math.min(n,arr.length)-1];$(boxSel).appendChild(d);if(n>=arr.length)$(btnSel).disabled=true;if(key){S.hints[key]=n;save();}}
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 function chipGroup(id,opts,cur,onPick){const box=$(id);box.textContent='';opts.forEach(([v,label])=>{const b=document.createElement('button');b.type='button';b.className='chip';b.textContent=label;b.setAttribute('aria-pressed',v===cur?'true':'false');b.onclick=()=>{box.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));onPick(v);};box.appendChild(b);});}
+function norm(s){return (s||'').replace(/[\s.,!?·'"]/g,'');}
+function shake(sel){sfx.clunk();const e=$(sel);if(!e)return;e.classList.add('shake');setTimeout(()=>e.classList.remove('shake'),400);}
+function begin(id){if(!S.t0[id])S.t0[id]=Date.now();show(id);}
+function done(rec){S.mem[rec]=true;if(S.t0['s-'+rec])S.times[rec]=Math.round((Date.now()-S.t0['s-'+rec])/1000);save();}
+// 오답 3번마다 30초 동안 문패가 기억을 더듬는다(무작위 대입 방지)
+function lockedMsg(rec,msgSel){const u=S.lockUntil[rec]||0;if(Date.now()<u){$(msgSel).textContent='문패가 기억을 더듬는 중… '+Math.ceil((u-Date.now())/1000)+'초';return true;}return false;}
+function wrong(rec,msgSel,shakeSel){
+  S.wrong[rec]=(S.wrong[rec]||0)+1;save();shake(shakeSel);
+  if(S.wrong[rec]%3===0){S.lockUntil[rec]=Date.now()+30000;save();$(msgSel).textContent='문패가 기억을 더듬는 중… 30초';playClip('v6_wl',Object.assign({t:T.wl},moonOpt()));
+    const iv=setInterval(()=>{if(!lockedMsg(rec,msgSel)){clearInterval(iv);$(msgSel).textContent='';}},1000);}
+  else $(msgSel).textContent='아니에요.';
+}
+function makeDials(sel,n){const box=$(sel);box.textContent='';const v=new Array(n).fill(0);
+  for(let i=0;i<n;i++){const d=document.createElement('div');d.className='dial';
+    const up=document.createElement('button');up.type='button';up.textContent='▲';up.setAttribute('aria-label',(i+1)+'번째 숫자 올리기');
+    const num=document.createElement('div');num.className='num';num.textContent='0';
+    const dn=document.createElement('button');dn.type='button';dn.textContent='▼';dn.setAttribute('aria-label',(i+1)+'번째 숫자 내리기');
+    up.onclick=()=>{v[i]=(v[i]+1)%10;num.textContent=v[i];tone(1400,.03,{gain:.06,type:'square'});};
+    dn.onclick=()=>{v[i]=(v[i]+9)%10;num.textContent=v[i];tone(1200,.03,{gain:.06,type:'square'});};
+    d.append(up,num,dn);box.appendChild(d);}
+  return ()=>v.join('');}
 
-/* ---------- 시작 ---------- */
-const saved=load();
-if(saved){$('#resumeBtn').hidden=false;$('#resumeBtn').onclick=()=>{S=saved;setMuted(!!S.muted);unlockAudio();preload(CLIPS);enter(S.step);if(S.step!=='s-survey'&&S.step!=='s-end'){timerStart();bgmStart();}};}
-$('#goSetup').onclick=()=>{clearSave();unlockAudio();buildSetup();show('s-setup');};
-$('#goBc').onclick=()=>{unlockAudio();show('s-bc');};
+/* ---------- 힌트: '어디 있죠?'와 '어떻게 풀죠?'를 따로 ---------- */
+function H(){return {
+  door:{where:['현관 신발장 위나 문 옆을 살펴보세요. ☾ 표시가 붙은 봉투예요.'],
+    how:['봉투 속 카드를 ▣ 문패의 눈으로 비춰 보세요. 카드 왼쪽 위 네모 무늬(QR)가 화면에 다 들어오게 하세요.',
+      '키 네 개에 손의 온기가 남아 있어요. 쪽지: "손이 늦게 닿은 곳일수록, 아직 따뜻해."',
+      '가장 차가운(파란) 흔적이 처음, 가장 뜨거운(하얀) 흔적이 마지막에 누른 숫자예요.',
+      '정답: '+S.code.door.join(' ')]},
+  fridge:{where:['"웅—" 하고 밤새 쉬지 않고 우는 물건이에요. 문을 오래 열어 두면 삐삐 울리죠.','냉장고예요. 문 안쪽 칸에 ◆ 봉투가 있어요.'],
+    how:['봉투 속 두 장은 원래 한 장이었어요. 겹쳐 보세요.','빛에 비춰야 보여요. 냉장고 문을 열면 불이 켜지죠. 휴대폰 손전등도 됩니다.',
+      '"반쪽 ㄴ"을 뒤집어 "반쪽 ㄱ" 앞에 대고, 네 모서리의 검은 네모를 정확히 맞추세요. 팔을 쭉 뻗어 조금 떨어져서 보면 글자가 떠올라요.','정답: 우리집']},
+  bath:{where:['목소리가 울리고, 물이 "똑, 똑" 떨어지는 곳이에요.','욕실이에요. 세면대 근처에 ● 봉투가 있어요.'],
+    how:['쪽지: "거울은 숨을 쉬어야 기억해." 거울을 보세요.','거울에 입김을 크게 불거나, 뜨거운 물을 틀어 김을 서리게 하세요. 선이 드러나요.',
+      {html:'그 선은 휴대폰 잠금 패턴이에요. 잠긴 화면 카드 위에 같은 모양을 그리고, 지나는 글자를 이어 읽으세요. 거울 그림이 안 보였다면 이 모양이에요: '+PATTERN_SVG},'정답: 마지막밤']},
+  closet:{where:['옷걸이가 딸깍, 옷을 탁탁 터는 소리, 지퍼 소리.','옷장(또는 행거)에 걸린 겉옷 주머니 속에 ▲ 봉투가 있어요.'],
+    how:['라벨의 기호는 옷장 속 진짜 옷 라벨에도 있어요. 비교해 보세요.','점의 개수가 숫자예요. 점이 없는 기호(표백 금지, 드라이클리닝)는 그날 하지 않은 일이에요.',
+      '젖은 옷을 돌보는 순서: 빨고 → 말리고 → 다린다.','정답: 2 1 3']},
+  window:{where:['사람은 드나들지 못하고 바람과 빛만 드나드는 "문".','창문이에요. 커튼 뒤 창틀에 ✦ 봉투가 있어요.'],
+    how:['쪽지: "그 창가엔 늘 커튼이 쳐져 있었어." 커튼은 주름이 져 있죠.','띠를 점선대로 커튼 주름처럼 접어 보세요. 몇몇 칸이 뒤로 숨어요.',
+      '"— · —" 선은 뒤로, "- - -" 선은 앞으로 접어 숨는 칸을 감추면, 칸의 경계에 숫자 세 개가 생겨요.','정답: 4 7 2']},
+  bed:{where:['● 봉투의 기억 지도 카드를 ▣ 문패의 눈으로 비춰 보세요. 발자국이 멈추는 곳이에요.','발자국은 "사락사락"에서 멈춰요. 사람이 눕고 뒤척일 때 나는 소리.','침대 베개 밑에 ✿ 봉투가 있어요.'],
+    how:['울타리의 가로대 다섯 줄, 무엇을 닮았나요?','오선지예요. 양은 음표. 가장 낮은 양이 "도", 한 칸(줄과 사이) 오를 때마다 레, 미, 파, 솔, 라.',
+      '모두 아는 동요예요. 반짝반짝…','정답: 도 도 솔 솔 라 라 솔']},
+  meta:{where:[],how:['세 장면을 그날 일어난 순서대로 늘어놓으세요.','비가 온 뒤에야 젖은 옷이 생기고, 잠은 밤에 들죠.','창문 → 옷장 → 침대 순서예요.','정답: '+S.code.meta.join(' ')]},
+  plate:{where:[],how:['상자 ✕ 속 문패 카드를 ▣ 문패의 눈으로 비춰 보세요.']},
+};}
+function wireHints(){document.querySelectorAll('.hintrow').forEach(row=>{const rec=row.dataset.rec;row.textContent='';
+  const box=document.createElement('div');box.className='hintbox';
+  const mk=(kind,label)=>{const arr=H()[rec][kind];if(!arr||!arr.length)return null;const b=document.createElement('button');b.type='button';b.className='btn ghost small';b.textContent=label;
+    b.onclick=()=>{const k=rec+'_'+kind;const n=(S.hints[k]||0)+1;const list=H()[rec][kind];if(n>list.length)return;S.hints[k]=n;save();renderHints(rec,box);if(n>=list.length)b.disabled=true;};
+    if((S.hints[rec+'_'+kind]||0)>=arr.length)b.disabled=true;return b;};
+  const r=document.createElement('div');r.className='row';const a=mk('where','어디에 있죠?'),b=mk('how','어떻게 풀죠?');if(a)r.appendChild(a);if(b)r.appendChild(b);
+  row.append(r,box);renderHints(rec,box);});}
+function renderHints(rec,box){box.textContent='';const h=H()[rec];
+  [['where','위치'],['how','풀이']].forEach(([k,lab])=>{const n=S.hints[rec+'_'+k]||0;for(let i=0;i<n&&i<h[k].length;i++){const d=document.createElement('div');d.className='hint';const it=h[k][i];
+    if(typeof it==='object'){d.innerHTML=lab+' '+(i+1)+' · '+it.html;}else d.textContent=lab+' '+(i+1)+' · '+it;box.appendChild(d);}});}
 
 /* ---------- 호스트 준비 ---------- */
-const SENT=['걸','어','둔','수','건','을','들','춰','라'];const GROUPS=[2,1,3,3];
-const POUR=[7,2,5,0,8,4,1,6,3];   // 쏟아지는 순서: 춰 둔 을 걸 라 건 어 들 수
-const CPOS=[0,3,5,8];             // 색이 칠해진 글자 자리: 걸 · 수 · 을 · 라
-function buildSetup(){
-  const cols=shuffle(['g','r','y','b']);const pool=shuffle([0,1,2,4,5,6,8,9]);const door=shuffle([0,1,2,3,4,5,6,7,8,9]).slice(0,4);
-  const sides=shuffle([3,4,5,6]);
-  S.ans={tileCol:{},order:cols,mg:{tl:sides[0],tr:sides[1],bl:sides[2],br:sides[3]},g:sides[2],r:pool[0],door};
-  CPOS.forEach((p,i)=>{S.ans.tileCol[p]=cols[i];});
-  $('#noteA').textContent='찾았네. 다음은 그림이야. 그림을 완성하면 어디로 가야 할지 알게 될 거야.';
-  $('#noteB').textContent='그림 속, 내가 붙은 자리와 같은 자리를 봐. 내 색은 초록. 다음은 현관이야.';
-  $('#noteC').textContent='잘 찾았어. 나는 오늘 너에게 두 번 말을 걸었어. 몇 시였는지는 거울이 알려 줄 거야.';
-  $('#note1').textContent='빨강 = '+S.ans.r+'. 이제 조용한 곳에서 귀를 기울여. 컵이 도와줄 거야.';
-  chipGroup('#furnChips',Object.keys(FURN).map(k=>[k,k]),'',k=>{S.furn=k;$('#fn1').textContent=k;$('#m1').textContent=FURN[k].m[0];$('#m2').textContent=FURN[k].m[1];$('#msgBox').hidden=false;$('#msg2Box').hidden=true;S.sent=S.sent2=null;$('#sentBox').hidden=true;$('#sentBtn').disabled=false;check();});
-  chipGroup('#voiceChips',[['f','여성 목소리'],['m','남성 목소리']],S.voice,v=>{S.voice=v;playClip(S.hl+'_'+v,{t:HOSTLINES[S.hl]});});
-  chipGroup('#lineChips',Object.keys(HOSTLINES).map(k=>[k,HOSTLINES[k]]),S.hl,v=>{S.hl=v;playClip(v+'_'+S.voice,{t:HOSTLINES[v]});});
-  chipGroup('#limitChips',[[30,'30분'],[45,'45분'],[60,'60분'],[0,'제한 없음']],S.limit,v=>{S.limit=v;});
-}
-function copyText(t,btn){const ok=()=>{btn.textContent='복사됨';setTimeout(()=>btn.textContent='복사',1200);};
-  try{navigator.clipboard.writeText(t).then(ok,()=>{btn.textContent='직접 입력해 주세요';});}catch(e){btn.textContent='직접 입력해 주세요';}}
-$('#cp1').onclick=e=>copyText(FURN[S.furn].m[0],e.currentTarget);
-$('#cp2').onclick=e=>copyText(FURN[S.furn].m[1],e.currentTarget);
-function hhmm(d){return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
-let waitT=null;
-$('#sentBtn').onclick=()=>{
-  S.sent=hhmm(new Date());$('#sentTime').value=S.sent;$('#sentBtn').disabled=true;$('#msg2Box').hidden=false;$('#sent2Btn').disabled=true;
-  let left=60;clearInterval(waitT);$('#waitMsg').textContent='두 시각이 겹치지 않도록 '+left+'초 뒤에 두 번째 메시지를 보내세요.';
-  waitT=setInterval(()=>{left--;if(left>0)$('#waitMsg').textContent='두 시각이 겹치지 않도록 '+left+'초 뒤에 두 번째 메시지를 보내세요.';else{clearInterval(waitT);$('#waitMsg').textContent='이제 두 번째 메시지를 보내세요.';$('#sent2Btn').disabled=false;}},1000);
-};
-$('#sent2Btn').onclick=()=>{S.sent2=hhmm(new Date());$('#sentTime2').value=S.sent2;$('#sentBox').hidden=false;$('#sent2Btn').disabled=true;check();};
-$('#sentTime').onchange=e=>{if(e.target.value)S.sent=e.target.value;check();};
-$('#sentTime2').onchange=e=>{if(e.target.value)S.sent2=e.target.value;check();};
-$('#hidOk').onchange=check;
-function check(){const ok=S.furn&&S.sent&&S.sent2&&S.sent!==S.sent2&&$('#hidOk').checked;$('#setupDone').disabled=!ok;$('#setupNeed').hidden=!!ok;
-  $('#setupNeed').textContent=(S.sent&&S.sent2&&S.sent===S.sent2)?'두 메시지의 시각이 같습니다. 1분 이상 간격을 두세요.':'메시지 두 개 전송과 쪽지·카드 두기가 필요합니다.';}
-$('#bcMake').onclick=async()=>{
-  const code=String(1000+Math.floor(Math.random()*9000));$('#bcCode').textContent=code;$('#bcCodeBox').hidden=false;$('#bcMake').hidden=true;
-  try{BC=await ROOM.join('mp-'+code);S.bcCode=code;
-    BC.onPeers(ch=>{bcPeers=ch.peers.filter(p=>!(p.isMe&&p.sameTab)).length;$('#bcPeers').textContent='연결된 방송 장치: '+bcPeers;S.mode=bcPeers>0?'2대':'1대';});
-  }catch(e){$('#bcPeers').textContent='연결하지 못했어요. 1대 모드로 진행합니다.';BC=null;}
-};
-$('#setupDone').onclick=()=>{
-  S.n1=$('#n1').value.trim()||'1번 입주자';S.n2=$('#n2').value.trim();S.host=$('#hostName').value.trim()||'숨긴 사람';
-  S.gift=$('#gift').value.trim();S.deadline=null;S.w5=S.w1=S.timedOut=false;S.timeLeft=null;S.found={};S.hints={};S.eye=null;save();show('s-hand');
-  $('#loadMsg').textContent='목소리 불러오는 중… 0/'+CLIPS.length;
-  preload(CLIPS,(n,t)=>{$('#loadMsg').textContent=n<t?'목소리 불러오는 중… '+n+'/'+t:'준비 완료';});
-};
-$('#startPlay').onclick=()=>{unlockAudio();enter('s-open');};
-function enter(id){
-  const f={'s-open':opening,'s-bottle':bottle,'s-film':film,'s-door':door,'s-shoe':shoe,'s-chat':chat,'s-whisper':whisper,'s-lock':lock,'s-end':ending,'s-survey':survey}[id];
-  if(f)return f();show(id);
-}
-$('#skipBtn').onclick=()=>{const cur=S.step;S.skipped.push(cur);save();stopBed();enter(NEXT[cur]);};
-
-/* ---------- 오프닝: 상황·목표·규칙을 분명히 ---------- */
-async function opening(){
-  begin('s-open');$('#openNext').hidden=true;bgmStart();
-  const who=(S.n2?S.n1+' 님, '+S.n2+' 님':S.n1+' 님');
-  await narrate($('#cap1'),[
-    {sfx:'[라디오 잡음. 현관 초인종 한 번.]',play:'static',wait:1400},
-    {a:'op1',t:T.op1},{a:'op2',t:T.op2},{a:'op3',t:T.op3},{a:'op4',t:T.op4},
-    {sfx:'['+who+', 기록 일곱 개를 찾아 주십시오]',wait:500},
-    {a:'op5',t:T.op5},{a:'op6',t:T.op6},{a:'op7',t:T.op7},{a:'op9',t:T.op9},{a:'op8',t:T.op8}
-  ],'▣ 문패',$('#mask1'));
-  $('#openNext').hidden=false;$('#openNext').focus();timerStart();
-}
-$('#openNext').onclick=()=>rate('opening','오프닝 · 문패',()=>bottle());
-
-/* ---------- 기록 1: 병 · 흩어진 글자 (안내 없음: 기울여야 쏟아진다는 걸 스스로 발견) ---------- */
-let tilt=0,overSince=0,lastDrop=0,pourN=0,slotsArr=[],bottleHintN=0,sentDone=false,sensorTried=false,sensorOn=false;
-function setTilt(a){tilt=Math.max(0,Math.min(150,a));$('#bottle').style.transform='rotate('+tilt+'deg)';}
-function bottle(){
-  begin('s-bottle');pourN=0;slotsArr=Array(9).fill(null);sentDone=false;bottleHintN=0;
-  $('#bottleIn').style.display='';setTilt(0);$('#tray').textContent='';$('#trayLabel').hidden=true;$('#slotBox').hidden=true;$('#bottleFound').hidden=true;
-  $('#bottleHintBox').textContent='';$('#bottleHint').disabled=false;$('#sentMsg').textContent='';$('#sensorMsg').textContent='';buildSlots();
-}
-(function(){
-  const st=$('#bottleStage');let down=false,sx=0,t0=0;
-  st.addEventListener('pointerdown',e=>{
-    if(!sensorTried){sensorTried=true;trySensor();}
-    if(sensorOn)return;down=true;sx=e.clientX;t0=tilt;try{st.setPointerCapture(e.pointerId);}catch(_){}e.preventDefault();});
-  st.addEventListener('pointermove',e=>{if(!down)return;setTilt(t0+(e.clientX-sx)*.9);});
-  const up=()=>{down=false;};st.addEventListener('pointerup',up);st.addEventListener('pointercancel',up);
-})();
-async function trySensor(){
-  let granted=true;
-  try{if(window.DeviceOrientationEvent&&typeof DeviceOrientationEvent.requestPermission==='function'){const r=await DeviceOrientationEvent.requestPermission();granted=(r==='granted');}}catch(e){granted=false;}
-  if(!granted)return;
-  window.addEventListener('deviceorientation',e=>{if(e.gamma==null||$('#s-bottle').hidden)return;if(!sensorOn){sensorOn=true;S.sensor=true;save();}setTilt(Math.abs(e.gamma)*1.7);});
-}
-setInterval(()=>{
-  if($('#s-bottle').hidden||pourN>=9)return;
-  if(tilt>=55){if(!overSince)overSince=Date.now();if(Date.now()-overSince>450&&Date.now()-lastDrop>650){lastDrop=Date.now();dropTile();}}else overSince=0;
-},100);
-function tileEl(idx){const b=document.createElement('button');b.type='button';b.className='tile';b.textContent=SENT[idx];b.dataset.i=idx;const c=S.ans.tileCol[idx];if(c){const i=document.createElement('i');i.style.background=COL[c].c;b.appendChild(i);b.setAttribute('aria-label',SENT[idx]+' ('+COL[c].n+' 표시)');}return b;}
-function dropTile(){
-  const idx=POUR[pourN++];sfx.paper();try{navigator.vibrate&&navigator.vibrate(25);}catch(e){}
-  $('#trayLabel').hidden=false;const b=tileEl(idx);b.onclick=()=>placeTile(idx);$('#tray').appendChild(b);
-  $('#sensorMsg').textContent=pourN<9?'':'병이 비었습니다.';
-  if(pourN>=9){$('#bottleIn').style.display='none';setTilt(0);$('#slotBox').hidden=false;}
-}
-function buildSlots(){const box=$('#slots');box.textContent='';box.classList.remove('ok');let k=0;
-  GROUPS.forEach(g=>{const grp=document.createElement('div');grp.className='slotgrp';for(let j=0;j<g;j++){const pos=k++;const s=document.createElement('button');s.type='button';s.className='slot';s.dataset.p=pos;s.setAttribute('aria-label',(pos+1)+'번째 칸');s.onclick=()=>unplace(pos);grp.appendChild(s);}box.appendChild(grp);});}
-function renderSlots(){
-  document.querySelectorAll('#slots .slot').forEach(s=>{const p=+s.dataset.p,idx=slotsArr[p];s.textContent='';s.classList.toggle('filled',idx!=null);
-    if(idx!=null){s.appendChild(document.createTextNode(SENT[idx]));const c=S.ans.tileCol[idx];if(c){const i=document.createElement('i');i.style.background=COL[c].c;s.appendChild(i);}}});
-  document.querySelectorAll('#tray .tile').forEach(t=>t.classList.toggle('used',slotsArr.includes(+t.dataset.i)));
-}
-function placeTile(idx){if(sentDone||slotsArr.includes(idx))return;const p=slotsArr.indexOf(null);if(p<0)return;slotsArr[p]=idx;tone(900,.04,{gain:.06,type:'square'});renderSlots();$('#sentMsg').textContent='';if(!slotsArr.includes(null))checkSentence();}
-function unplace(p){if(sentDone||slotsArr[p]==null)return;slotsArr[p]=null;renderSlots();$('#sentMsg').textContent='';}
-function checkSentence(){
-  if(slotsArr.every((idx,p)=>idx===p)){sentDone=true;$('#slots').classList.add('ok');sfx.unlock();$('#sentMsg').textContent='"걸어 둔 수건을 들춰라"';S.found.sent=true;save();setTimeout(()=>{$('#bottleFound').hidden=false;},700);}
-  else{sfx.clunk();$('#slots').classList.add('shake');setTimeout(()=>$('#slots').classList.remove('shake'),400);$('#sentMsg').textContent='문장이 되지 않습니다. 칸을 눌러 글자를 되돌려 보세요.';}
-}
-$('#bottleHint').onclick=()=>{
-  const H1='병 안의 것을 꺼내려면 병을 기울여야 합니다. 휴대폰을 옆으로 기울이거나, 병을 손가락으로 잡고 옆으로 돌려 보세요.';
-  const H2=['아홉 글자가 네 덩어리(2·1·3·3)로 된 문장입니다. 마지막 덩어리는 무언가를 "하라"는 말로 끝납니다.','"수"와 "건"은 붙어 다니는 글자입니다. 욕실에 걸려 있는 물건이죠.','첫 덩어리는 "걸어", 둘째는 "둔"입니다.','정답: 걸어 둔 수건을 들춰라'];
-  if(pourN<9){if(!S.hints.bottle){S.hints.bottle=1;save();const d=document.createElement('div');d.className='hint';d.textContent=H1;$('#bottleHintBox').appendChild(d);}
-    else{const d=document.createElement('div');d.className='hint';d.textContent='다음 힌트는 병을 모두 비운 뒤에 열립니다.';$('#bottleHintBox').appendChild(d);}return;}
-  bottleHintN++;hintAdd('#bottleHintBox',H2,bottleHintN,'#bottleHint');S.hints.bottle=1+bottleHintN;save();
-};
-$('#bottleNext').onclick=()=>{S.found.a=true;save();rate('bottle','기록 1 · 흩어진 글자',()=>film());};
-
-/* ---------- 기록 2: 필름 · 같은 자리 ---------- */
-function mg(x,y,n){const r=7.5;let pts=[];for(let i=0;i<n;i++){const a=-Math.PI/2+i*2*Math.PI/n;pts.push((x+r*Math.cos(a)).toFixed(1)+','+(y+r*Math.sin(a)).toFixed(1));}return '<polygon class="mg" points="'+pts.join(' ')+'"/>';}
-const FILMS=[
-  {p:['M24 10 H72','M24 10 V60','M64 22 V36','M30 110 v5'],m:'tl'},
-  {p:['M72 10 V60','M24 44 H72','M66 110 v5'],m:'tr'},
-  {p:['M24 60 V110','M24 110 H72','M64 54 V82'],m:'bl'},
-  {p:['M72 60 V110','M44 20 h6'],m:'br'}
+const HIDE=[
+  ['door','☾ 봉투 + 상자 ✕','현관 신발장 위나 문 옆'],
+  ['fridge','◆ 봉투','냉장고 안, 문 쪽 칸'],
+  ['bath','● 봉투 + 거울 그림','욕실 세면대 근처 (그림은 아래 안내)'],
+  ['closet','▲ 봉투','옷장이나 행거에 걸린 겉옷 주머니 속'],
+  ['window','✦ 봉투','창문 커튼 뒤 창틀 (커튼이 없으면 창틀)'],
+  ['bed','✿ 봉투','침대 베개 밑 (침대가 없으면 이불 밑)'],
+  ['gift','선물','당신이 정한 곳'],
 ];
-const MPOS={tl:[34,24],tr:[52,26],bl:[34,68],br:[50,96]};
-const START=[{x:-62,y:34,r:0,f:false},{x:54,y:-30,r:90,f:false},{x:30,y:62,r:180,f:false},{x:-40,y:-52,r:0,f:true}];
-let F=[],cur=0,filmDone=false,filmHintN=0,greenHintN=0;
-function film(){
-  begin('s-film');filmDone=false;filmHintN=0;$('#filmQ').hidden=true;$('#filmFound').hidden=true;$('#filmA').value='';
-  const old=$('#s-film .hint');if(old)old.remove();
-  const st=$('#filmStage');st.textContent='';st.classList.remove('done');F=[];
-  const tabs=$('#filmTabs');tabs.textContent='';
-  FILMS.forEach((f,i)=>{
-    const [mx,my]=MPOS[f.m];const body=f.p.map(p=>'<path d="'+p+'"/>').join('')+mg(mx,my,S.ans.mg[f.m]);
-    const el=document.createElement('div');el.className='film';el.innerHTML='<svg viewBox="0 0 96 120" aria-hidden="true"><circle class="reg" cx="6" cy="6" r="2.4"/><circle class="reg" cx="90" cy="114" r="2.4"/>'+body+'</svg>';st.appendChild(el);
-    const tb=document.createElement('button');tb.type='button';tb.className='ftab';tb.innerHTML='<svg viewBox="0 0 96 120" aria-hidden="true">'+body+'</svg>';
-    const lb=document.createElement('span');lb.textContent='필름 '+(i+1);tb.appendChild(lb);tb.onclick=()=>select(i);tabs.appendChild(tb);
-    const s=Object.assign({},START[i],{el,tb,locked:false});F.push(s);place(s);
-  });
-  select(0);
+function buildSetup(){
+  S=fresh();
+  const d=shuffle([0,1,2,3,4,5,6,7,8,9]);S.code.door=d.slice(0,4);
+  S.code.meta=[1+Math.floor(Math.random()*9),Math.floor(Math.random()*10),Math.floor(Math.random()*10)];
+  chipGroup('#limitChips',[[45,'45분'],[60,'60분'],[90,'90분'],[0,'제한 없음']],S.limit,v=>{S.limit=v;});
+  chipGroup('#lockChips',[['phys','자물쇠 있음'],['app','자물쇠 없음']],S.lockMode,v=>{S.lockMode=v;lockInfo();});lockInfo();
+  chipGroup('#giftChips',[[true,'선물 숨김'],[false,'선물 없음']],S.gift.on,v=>{S.gift.on=v;giftForm();check();});giftForm();
+  $('#patternBox').innerHTML=PATTERN_SVG;
+  const box=$('#hideList');box.textContent='';
+  HIDE.forEach(([k,what,where])=>{const l=document.createElement('label');l.className='check';l.dataset.k=k;
+    const c=document.createElement('input');c.type='checkbox';c.id='hid_'+k;c.onchange=check;
+    const sp=document.createElement('span');const b=document.createElement('b');b.textContent=what;sp.append(b,document.createTextNode(' → '+where));l.append(c,sp);box.appendChild(l);});
+  check();
 }
-function place(s){s.el.style.transform='translate('+s.x+'px,'+s.y+'px) rotate('+s.r+'deg) scaleX('+(s.f?-1:1)+')';}
-function select(i){
-  if(F[i].locked){const n=F.findIndex(o=>!o.locked);if(n<0)return;i=n;}
-  cur=i;F.forEach((o,j)=>{o.el.classList.toggle('sel',j===i&&!o.locked);o.tb.setAttribute('aria-pressed',j===i?'true':'false');});
-  F[i].el.parentNode.appendChild(F[i].el);
-}
-(function(){
-  const st=$('#filmStage');let down=false,sx=0,sy=0,ox=0,oy=0;
-  st.addEventListener('pointerdown',e=>{if(filmDone)return;const s=F[cur];if(!s||s.locked)return;down=true;sx=e.clientX;sy=e.clientY;ox=s.x;oy=s.y;try{st.setPointerCapture(e.pointerId);}catch(_){}e.preventDefault();});
-  st.addEventListener('pointermove',e=>{if(!down)return;const s=F[cur];s.x=ox+(e.clientX-sx);s.y=oy+(e.clientY-sy);place(s);});
-  const up=()=>{if(!down)return;down=false;trySnap(F[cur]);};
-  st.addEventListener('pointerup',up);st.addEventListener('pointercancel',up);
-})();
-function trySnap(s){
-  if(!s||s.locked)return;
-  if(Math.abs(s.x)<22&&Math.abs(s.y)<22&&s.r===0&&!s.f){
-    s.x=0;s.y=0;s.locked=true;place(s);s.el.classList.remove('sel');s.el.classList.add('locked');s.tb.classList.add('locked');sfx.snap();
-    if(F.every(o=>o.locked)){filmDone=true;$('#filmStage').classList.add('done');sfx.bell();setTimeout(()=>{$('#filmQ').hidden=false;$('#filmA').focus();},500);}
-    else select(F.findIndex(o=>!o.locked));
-  }else if(Math.abs(s.x)<22&&Math.abs(s.y)<22){
-    const m=$('#s-film .hint')||document.createElement('div');m.className='hint';m.textContent='자리는 맞았어요. 그런데 필름 '+(F.indexOf(s)+1)+'이 돌아가 있거나 뒤집혀 있습니다.';if(!m.parentNode)$('#filmTabs').after(m);
-  }
-}
-$('#rotBtn').onclick=()=>{const s=F[cur];if(!s||s.locked||filmDone)return;s.r=(s.r+90)%360;place(s);trySnap(s);};
-$('#flipBtn').onclick=()=>{const s=F[cur];if(!s||s.locked||filmDone)return;s.f=!s.f;place(s);trySnap(s);};
-$('#filmHint').onclick=()=>{filmHintN++;const t=['갈색 점 두 개(왼쪽 위, 오른쪽 아래)가 무대의 같은 자리에 오게 끌어 보세요.','필름 2와 3은 돌아가 있습니다. [↻ 90° 회전]으로 점이 왼쪽 위와 오른쪽 아래에 오게 하세요.','필름 4는 뒤집혀 있습니다. 필름 4를 고르고 [⇋ 좌우 뒤집기]를 누르세요.'];
-  const m=$('#s-film .hint')||document.createElement('div');m.className='hint';m.textContent=t[Math.min(filmHintN,3)-1];if(!m.parentNode)$('#filmTabs').after(m);S.hints.filmAlign=filmHintN;save();};
-$('#filmGo').onclick=()=>{const v=$('#filmA').value.replace(/\s/g,'');
-  if(/냉장/.test(v)){sfx.unlock();$('#filmQ').hidden=true;$('#filmFound').hidden=false;$('#greenA').value='';$('#greenMsg').textContent='';$('#greenHintBox').textContent='';greenHintN=0;$('#greenHint').disabled=false;}
-  else wrongShake('#filmA');};
-$('#greenGo').onclick=()=>{const v=$('#greenA').value.trim();
-  if(v===String(S.ans.g)){sfx.unlock();S.found.g=true;S.found.b2=true;save();$('#greenMsg').textContent='초록 = '+v+'. 기록 수첩에 적혔습니다. 쪽지가 말한 다음 장소: 현관.';setTimeout(()=>rate('film','기록 2 · 같은 자리',()=>door()),1500);}
-  else{wrongShake('#greenA');$('#greenMsg').textContent=Object.values(S.ans.mg).map(String).includes(v)?'그 모양은 다른 자리에 있습니다.':'철컥… 아닙니다.';}};
-$('#greenHint').onclick=()=>{greenHintN++;hintAdd('#greenHintBox',['쪽지는 냉장고의 "어디에" 붙어 있었나요?','그 위치를 그림 속 냉장고에 옮겨 보세요. 같은 자리의 자석에는 숫자가 없습니다. 그 모양 자체가 숫자입니다.','변(모서리)의 개수를 세어 보세요. 아랫문 왼쪽 자석은 '+S.ans.g+'각형, 답은 '+S.ans.g+'입니다.'],greenHintN,'#greenHint','green');};
+function lockInfo(){$('#lockInfo').innerHTML=S.lockMode==='phys'
+  ?'자물쇠 번호를 <b class="secret-s">'+S.code.meta.join(' ')+'</b> 로 맞추고, 파우치에 <b>✕ 문패 카드</b>와 ✕ 쪽지를 넣어 잠그세요. 이 번호는 플레이어가 세 장면을 모두 찾아야 알 수 있습니다.'
+  :'✕ 문패 카드와 ✕ 쪽지를 봉투에 넣고 테이프로 봉인하세요. 플레이어가 앱에서 번호를 맞히면 "열어도 된다"고 알려 줍니다.';}
+function giftForm(){$('#giftForm').hidden=!S.gift.on;const g=document.querySelector('.check[data-k="gift"]');if(g)g.hidden=!S.gift.on;}
+function check(){const need=HIDE.filter(([k])=>k!=='gift'||S.gift.on).every(([k])=>$('#hid_'+k)&&$('#hid_'+k).checked);
+  const ok=need&&(!S.gift.on||$('#giftWhere').value.trim().length>0);
+  $('#setupDone').disabled=!ok;$('#setupNeed').textContent=ok?'준비가 끝났습니다.':(S.gift.on&&!$('#giftWhere').value.trim()?'선물 숨긴 곳을 적고, ':'')+'숨긴 곳을 모두 체크하면 준비가 끝납니다.';}
+$('#giftWhere').oninput=check;
+$('#giftPhoto').onchange=e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{
+  const k=Math.min(1,900/Math.max(im.width,im.height));const cv=document.createElement('canvas');cv.width=Math.round(im.width*k);cv.height=Math.round(im.height*k);
+  cv.getContext('2d').drawImage(im,0,0,cv.width,cv.height);S.gift.img=cv.toDataURL('image/jpeg',.72);S.gift.fx=.5;S.gift.fy=.5;drawGiftPrev();};im.src=r.result;};r.readAsDataURL(f);};
+function drawGiftPrev(){const cv=$('#giftPrev');if(!S.gift.img){cv.hidden=true;return;}const im=new Image();im.onload=()=>{cv.width=im.width;cv.height=im.height;const x=cv.getContext('2d');x.drawImage(im,0,0);
+  x.strokeStyle='#d9a654';x.lineWidth=Math.max(3,im.width/120);x.beginPath();x.arc(S.gift.fx*im.width,S.gift.fy*im.height,im.width/14,0,Math.PI*2);x.stroke();cv.hidden=false;$('#giftPrevTip').hidden=false;};im.src=S.gift.img;}
+$('#giftPrev').onclick=e=>{const r=e.target.getBoundingClientRect();S.gift.fx=(e.clientX-r.left)/r.width;S.gift.fy=(e.clientY-r.top)/r.height;drawGiftPrev();};
+$('#setupDone').onclick=()=>{S.guest=$('#guest').value.trim().slice(0,12);S.gift.where=$('#giftWhere').value.trim().slice(0,60);S.gift.msg=$('#hostMsg').value.trim().slice(0,120);save();
+  show('s-hand');$('#startPlay').disabled=true;$('#loadMsg').textContent='목소리 불러오는 중…';
+  preload(CLIPS,(n,t)=>{$('#loadMsg').textContent='목소리 불러오는 중… '+n+'/'+t;}).then(()=>{$('#loadMsg').textContent='준비됐어요.';$('#startPlay').disabled=false;});
+  setTimeout(()=>{$('#startPlay').disabled=false;},12000);};
+const CLIPS=Object.keys(T).map(k=>'v6_'+k);
 
-/* ---------- 기록 3: 도어락 지문 — 맨눈으론 안 보임. 문패의 눈(카메라, 인쇄 카드) 또는 화면 속 비스듬한 빛 ---------- */
+/* ---------- 시작 · 오프닝 ---------- */
+$('#goSetup').onclick=()=>{clearSave();unlockAudio();buildSetup();show('s-setup');};
+$('#startPlay').onclick=async()=>{unlockAudio();keepAwake();askMotion();S.startedAt=Date.now();save();timerStart();bgmStart();opening();};
+function askMotion(){try{if(window.DeviceOrientationEvent&&typeof DeviceOrientationEvent.requestPermission==='function')DeviceOrientationEvent.requestPermission().catch(()=>{});}catch(e){}}
+async function opening(){
+  show('s-open');$('#openNext').hidden=true;
+  await narrate($('#cap1'),[line('o1'),line('o2'),line('o3'),line('o4'),line('o5')],$('#mask1'));
+  $('#openNext').hidden=false;
+}
+$('#openNext').onclick=()=>enter('s-door');
+
+function enter(id){
+  wireHints();
+  if(id==='s-door')door();
+  else if(id==='s-fridge')fridge();
+  else if(id==='s-bath')bath();
+  else if(id==='s-hub')hub();
+  else if(id==='s-closet')closet();
+  else if(id==='s-window')windowRec();
+  else if(id==='s-bed')bed();
+  else if(id==='s-meta')meta();
+  else if(id==='s-plate')plate();
+  else if(id==='s-end')ending();
+  else if(id==='s-survey')survey();
+  else if(id==='s-open')opening();
+  else if(id==='s-mem')enter(S.next||'s-door');
+  else show(id);
+}
+
+/* ---------- 기억 장면 공용 ---------- */
+async function memory(lines,next,extra){
+  S.next=next;show('s-mem');$('#memNext').hidden=true;$('#memExtra').textContent='';
+  await narrate($('#capMem'),lines,$('#maskMem'));
+  if(extra)extra($('#memExtra'));
+  $('#memNext').hidden=false;$('#memNext').onclick=()=>enter(next);
+}
+function replayBtn(box,label,fn){const b=document.createElement('button');b.type='button';b.className='btn ghost small';b.textContent=label;b.onclick=fn;box.appendChild(b);}
+const playFridgeClue=()=>sfx.fridge();
+const playBathClue=()=>playClip('v6_e1',Object.assign({t:T.e1},moonOpt(),{fx:'moonecho'}));
+const playClosetClue=async()=>{await playClip('v6_cc',Object.assign({t:T.cc},moonOpt()));await sfx.closet();};
+const playWindowClue=()=>playClip('v6_cw',Object.assign({t:T.cw},moonOpt()));
+
+/* ---------- 기억 1: 현관 도어락 (문패의 눈 = 손의 온기) ---------- */
+let kpIn=[];
+function door(){begin('s-door');kpIn=[];buildKp();renderKp();$('#doorMsg').textContent='';}
+function buildKp(){const box=$('#kp');box.textContent='';['1','2','3','4','5','6','7','8','9','지움','0','확인'].forEach(k=>{const b=document.createElement('button');b.type='button';b.textContent=k;b.onclick=()=>kpPress(k);box.appendChild(b);});}
+function renderKp(){$('#kpDisp').textContent=[0,1,2,3].map(i=>kpIn[i]!=null?'•':'_').join(' ');}
+function kpPress(k){if(lockedMsg('door','#doorMsg'))return;if(k==='지움'){kpIn=[];renderKp();return;}if(k==='확인'){doorCheck();return;}if(kpIn.length<4){kpIn.push(+k);sfx.beep();renderKp();}if(kpIn.length===4)setTimeout(doorCheck,250);}
+function doorCheck(){if(kpIn.length<4)return;const ok=kpIn.join('')===S.code.door.join('');
+  if(!ok){kpIn=[];renderKp();wrong('door','#doorMsg','#kpDisp');return;}
+  sfx.doorOpen();done('door');$('#doorMsg').textContent='';
+  setTimeout(()=>memory([line('m1a'),line('m1b'),line('m1c'),{sfx:'[웅— … 삐— 삐— 삐—]',play:playFridgeClue}],'s-fridge',b=>replayBtn(b,'▶ 그 소리 다시 듣기',playFridgeClue)),900);}
+
+/* ---------- 기억 2: 냉장고 · 빛에 비춘 반쪽 두 장 ---------- */
+function fridge(){begin('s-fridge');$('#fridgeMsg').textContent='';$('#fridgeA').value='';}
+$('#replayFridge').onclick=playFridgeClue;
+$('#fridgeGo').onclick=()=>{if(lockedMsg('fridge','#fridgeMsg'))return;const v=norm($('#fridgeA').value);if(!v)return;
+  if(v!=='우리집'){wrong('fridge','#fridgeMsg','#fridgeA');return;}
+  sfx.unlock();done('fridge');
+  setTimeout(()=>memory([line('m2a'),line('m2b'),line('m2c'),{fn:async box=>{await Promise.all([typeLine(box,T.e1),playBathClue()]);}},],'s-bath',b=>replayBtn(b,'▶ 그 목소리 다시 듣기',playBathClue)),700);};
+$('#fridgeA').onkeydown=e=>{if(e.key==='Enter')$('#fridgeGo').click();};
+
+/* ---------- 기억 3: 욕실 · 거울 김 + 잠긴 화면 (중간 반전) ---------- */
+function bath(){begin('s-bath');$('#bathMsg').textContent='';$('#bathA').value='';}
+$('#replayBath').onclick=playBathClue;
+$('#bathGo').onclick=()=>{if(lockedMsg('bath','#bathMsg'))return;const v=norm($('#bathA').value);if(!v)return;
+  if(v!=='마지막밤'){wrong('bath','#bathMsg','#bathA');if(v==='밤막지마')$('#bathMsg').textContent='거꾸로 읽은 것 같아요.';return;}
+  sfx.unlock();done('bath');
+  setTimeout(()=>memory([line('m3a',{pause:900}),line('m3b'),line('m3c'),line('m3d')],'s-hub'),700);};
+$('#bathA').onkeydown=e=>{if(e.key==='Enter')$('#bathGo').click();};
+
+/* ---------- 남은 세 장면 (순서 자유) ---------- */
+const BR=[
+  {k:'closet',id:'s-closet',title:'그날 들은 소리',clue:'딸깍… 탁, 탁… 지이익.',replay:playClosetClue,rl:'▶ 소리 듣기'},
+  {k:'window',id:'s-window',title:'열 수 없는 문',clue:'"이 집에는 제가 절대 열 수 없는 문이 하나 있어요. 사람은 드나들지 않고, 바람과 빛만 드나드는 문이요."',replay:playWindowClue,rl:'▶ 문패의 말 듣기'},
+  {k:'bed',id:'s-bed',title:'그날 밤의 발자국',clue:'"기억 지도를 제 눈으로 비춰 주세요. 그날 밤의 발자국이 남아 있을 거예요."',replay:()=>playClip('v6_cb',Object.assign({t:T.cb},moonOpt())),rl:'▶ 문패의 말 듣기',eye:true},
+];
+const MEMTXT={window:T.mwa,closet:T.mca,bed:T.mba};
+function hub(){
+  if(['closet','window','bed'].every(k=>S.mem[k])){enter('s-meta');return;}
+  begin('s-hub');const box=$('#branches');box.textContent='';
+  BR.forEach(b=>{const d=document.createElement('div');d.className='br'+(S.mem[b.k]?' done':'');
+    const h=document.createElement('h3');h.textContent=(S.mem[b.k]?'✓ ':'')+b.title;
+    const p=document.createElement('p');p.className='small';p.textContent=S.mem[b.k]?MEMTXT[b.k]+' — 새겨진 숫자 '+digitOf(b.k):b.clue;
+    const r=document.createElement('div');r.className='row';
+    if(!S.mem[b.k]){replayBtn(r,b.rl,b.replay);if(b.eye){const e=document.createElement('button');e.type='button';e.className='btn ghost small';e.textContent='▣ 문패의 눈';e.onclick=()=>openEye();r.appendChild(e);}
+      const go=document.createElement('button');go.type='button';go.className='btn small';go.textContent='봉투를 찾았어요';go.onclick=()=>enter(b.id);r.appendChild(go);}
+    d.append(h,p,r);box.appendChild(d);});
+}
+document.querySelectorAll('.back').forEach(b=>b.onclick=()=>enter('s-hub'));
+function digitOf(k){return S.code.meta[{window:0,closet:1,bed:2}[k]];}
+function branchDone(k,lines){done(k);if(!S.found.includes(k))S.found.push(k);save();
+  const d=digitOf(k);
+  memory(lines.concat([line('dg',{pause:500}),line('n'+d,{pause:600})]),['closet','window','bed'].every(x=>S.mem[x])?'s-meta':'s-hub');}
+
+let clGet=null,wnGet=null;
+function closet(){begin('s-closet');clGet=makeDials('#clDials',3);$('#clMsg').textContent='';}
+$('#replayCloset').onclick=playClosetClue;
+$('#clGo').onclick=()=>{if(lockedMsg('closet','#clMsg'))return;if(clGet()!=='213'){wrong('closet','#clMsg','#clDials');return;}
+  sfx.unlock();setTimeout(()=>branchDone('closet',[{sfx:'[탁, 탁]',play:()=>{noise(.1,{gain:.4,freq:650,q:.6,fade:.6});noise(.1,{gain:.4,freq:650,q:.6,at:.35,fade:.6});return sleep(800);}},line('mca')]),600);};
+function windowRec(){begin('s-window');wnGet=makeDials('#wnDials',3);$('#wnMsg').textContent='';}
+$('#replayWindow').onclick=playWindowClue;
+$('#wnGo').onclick=()=>{if(lockedMsg('window','#wnMsg'))return;if(wnGet()!=='472'){wrong('window','#wnMsg','#wnDials');return;}
+  sfx.unlock();setTimeout(()=>branchDone('window',[{sfx:'[쏴아—]',play:()=>{sfx.rain();return sleep(1500);}},line('mwa')]),600);};
+
+/* ---------- 장면: 침대 · 양 악보 피아노 ---------- */
+const TUNE=[0,0,4,4,5,5,4];let played=[];
+function bed(){begin('s-bed');played=[];renderPiano();$('#bdMsg').textContent='';
+  const box=$('#piano');box.textContent='';PIANO.forEach(([n,f],i)=>{const b=document.createElement('button');b.type='button';b.textContent=n;b.addEventListener('pointerdown',e=>{e.preventDefault();press(i);});b.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();press(i);}};box.appendChild(b);});}
+function renderPiano(){const s=played.slice(-7).map(i=>PIANO[i][0]);while(s.length<7)s.push('·');$('#pianoDisp').textContent=s.join(' ');}
+function press(i){if(S.mem.bed)return;pianoNote(PIANO[i][1]);played.push(i);if(played.length>20)played=played.slice(-7);renderPiano();
+  const last=played.slice(-7);if(last.length===7&&last.every((v,j)=>v===TUNE[j])){S.mem.bedTune=true;setTimeout(()=>{sfx.unlock();branchDone('bed',[line('mba'),{sfx:'[♪ 도 도 솔 솔 라 라 솔]',play:async()=>{TUNE.forEach((t,j)=>setTimeout(()=>pianoNote(PIANO[t][1]),j*420));await sleep(3400);}}]);},700);}}
+
+/* ---------- 순서 → 상자 ✕ ---------- */
+let mtGet=null;
+async function meta(){
+  begin('s-meta');
+  const list=$('#memList');list.textContent='';
+  S.found.forEach(k=>{const d=document.createElement('div');d.className='memc';const p=document.createElement('p');p.textContent=MEMTXT[k];const n=document.createElement('b');n.textContent=digitOf(k);d.append(n,p);list.appendChild(d);});
+  $('#metaApp').hidden=S.lockMode==='phys';$('#metaPhys').hidden=S.lockMode!=='phys';mtGet=makeDials('#mtDials',3);$('#mtMsg').textContent='';
+  if(!S.metaIntro){S.metaIntro=true;save();const cap=document.createElement('div');cap.className='caption';list.before(cap);await narrate(cap,[line('mt1'),line('mt2')]);}
+}
+$('#mtGo').onclick=()=>{if(lockedMsg('meta','#mtMsg'))return;if(mtGet()!==S.code.meta.join('')){wrong('meta','#mtMsg','#mtDials');return;}
+  sfx.unlock();$('#mtMsg').textContent='열렸어요. 이제 봉투 ✕를 여세요.';done('meta');setTimeout(()=>enter('s-plate'),1600);};
+$('#pouchOpened').onclick=()=>{done('meta');sfx.unlock();enter('s-plate');};
+
+/* ---------- 문패 카드 → 약속 → 선물 ---------- */
+async function plate(){
+  begin('s-plate');$('#giftBox').hidden=true;$('#plateEye').hidden=true;
+  if(S.plateSeen){plateReveal(true);return;}
+  await narrate($('#capPlate'),[line('po1')],$('#maskPlate'));
+  $('#plateEye').hidden=false;
+}
+let revealing=false;
+async function plateSeenNow(){if(S.plateSeen||!S.mem.meta||revealing)return;revealing=true;S.plateSeen=true;save();setTimeout(()=>{closeEye();plateReveal(false);},2600);}
+async function plateReveal(resumed){
+  show('s-plate');$('#plateEye').hidden=true;
+  if(!resumed){const L=[line('pl1'),line(S.gift.on?'pl2g':'pl2n')];if(S.gift.on&&S.gift.img)L.push(line('pl3'));await narrate($('#capPlate'),L,$('#maskPlate'));}
+  if(S.gift.on){$('#giftBox').hidden=false;drawGift();}else finale();
+}
+function drawGift(){const cv=$('#giftCan'),x=cv.getContext('2d');const z=[5,2.6,1][Math.min(S.giftZoom,2)];
+  $('#giftMore').hidden=!S.gift.img||S.giftZoom>=2;$('#giftText').hidden=!(S.giftShown||!S.gift.img);$('#giftText').textContent=S.gift.where;
+  if(!S.gift.img){x.fillStyle='#090c0f';x.fillRect(0,0,cv.width,cv.height);x.fillStyle='#d9a654';x.font='600 30px sans-serif';x.textAlign='center';x.fillText('그곳은…',cv.width/2,cv.height/2);cv.hidden=true;return;}
+  cv.hidden=false;const im=new Image();im.onload=()=>{const w=im.width/z,h=w*cv.height/cv.width;let sx=S.gift.fx*im.width-w/2,sy=S.gift.fy*im.height-h/2;
+    sx=Math.max(0,Math.min(im.width-w,sx));sy=Math.max(0,Math.min(Math.max(0,im.height-h),sy));x.fillStyle='#000';x.fillRect(0,0,cv.width,cv.height);
+    x.filter=S.giftZoom<2?'sepia(.5) contrast(1.1)':'none';x.drawImage(im,sx,sy,w,Math.min(h,im.height),0,0,cv.width,Math.min(cv.height,cv.height*im.height/h));x.filter='none';};im.src=S.gift.img;}
+$('#giftMore').onclick=()=>{S.giftZoom=Math.min(2,S.giftZoom+1);save();drawGift();};
+$('#giftTell').onclick=()=>{S.giftShown=true;S.giftZoom=2;save();drawGift();};
+$('#giftFound').onclick=()=>finale();
+function finale(){S.mem.gift=true;save();enter('s-end');}
+
+/* ---------- 엔딩: 변조가 풀린 문패의 진짜 목소리 ---------- */
+async function ending(){
+  begin('s-end');timerStop();$('#toSurvey').hidden=true;$('#hostMsgBox').hidden=true;
+  const nat={fx:'natural',mod:0,rate:1};
+  await narrate($('#capEnd'),[line('f1',{o:nat}),line('f2',{o:nat}),line('f3',{o:nat}),line('f4',{o:nat,pause:1200})],$('#maskEnd'));
+  bgmStop();
+  if(S.gift.msg){$('#hostMsgOut').textContent=S.gift.msg;$('#hostMsgBox').hidden=false;}
+  const used=S.startedAt?Math.round((Date.now()-S.startedAt)/60000):null;const hints=Object.values(S.hints).reduce((a,b)=>a+b,0);
+  $('#stats').textContent=(used!=null?'걸린 시간 '+used+'분 · ':'')+'힌트 '+hints+'번'+(S.timedOut?' · 자정을 넘겼어요':'');
+  $('#toSurvey').hidden=false;
+}
+$('#toSurvey').onclick=()=>enter('s-survey');
+
+/* ---------- 문패의 눈: QR로 카드 위치를 잡아 그 위에 문패의 기억을 겹쳐 그린다 ---------- */
+let eyeStream=null,eyeRAF=0,eyeFrame=0,eyeLoc={},scanCan=null;
 const KP=[['1','2','3'],['4','5','6'],['7','8','9'],['*','0','#']];
 function kpRC(d){for(let r=0;r<4;r++)for(let c=0;c<3;c++)if(KP[r][c]===String(d))return [r,c];return [3,1];}
-function kpPos(d){const [r,c]=kpRC(d);return [30+60*c,30+60*r];}
-/* 화면 대체판: 손가락 위치에서 '비스듬히' 떨어진 고리 모양 빛 안에서만 지문이 보임 */
-function doorSvg(code){
-  let s='<svg class="keypadimg" id="doorSvg" viewBox="0 0 180 240" role="img" aria-label="어두운 도어락 키패드. 손가락으로 문질러 빛을 비출 수 있다"><defs><filter id="smg" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2.3"/></filter>'+
-    '<radialGradient id="ring"><stop offset="0" stop-color="#000"/><stop offset=".38" stop-color="#000"/><stop offset=".6" stop-color="#fff"/><stop offset=".85" stop-color="#fff"/><stop offset="1" stop-color="#000"/></radialGradient>'+
-    '<radialGradient id="glow"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>'+
-    '<mask id="lm" maskUnits="userSpaceOnUse"><rect x="0" y="0" width="180" height="240" fill="#000"/><circle id="lmc" cx="-200" cy="-200" r="95" fill="url(#ring)"/></mask></defs>'+
-    '<rect x="0" y="0" width="180" height="240" rx="12" fill="#0b0f12"/>';
-  KP.forEach((row,r)=>row.forEach((k,c)=>{const x=30+60*c,y=30+60*r;s+='<circle cx="'+x+'" cy="'+y+'" r="22" fill="#141b21" stroke="#222c35"/><text x="'+x+'" y="'+(y+6)+'" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="17" fill="#55636e">'+k+'</text>';}));
-  s+='<circle id="glowc" cx="-200" cy="-200" r="40" fill="url(#glow)"/><g mask="url(#lm)">';
-  code.forEach((d,i)=>{const [x,y]=kpPos(d);
-    s+='<g filter="url(#smg)" opacity=".75"><ellipse cx="'+(x+1)+'" cy="'+(y+2)+'" rx="12" ry="10" fill="#cfdbe2" transform="rotate('+((i*37)%60-30)+' '+x+' '+y+')"/>';
-    if(i<code.length-1){const [nx,ny]=kpPos(code[i+1]);const dx=nx-x,dy=ny-y,L=Math.hypot(dx,dy)||1,ux=dx/L,uy=dy/L,px=-uy,py=ux,tl=Math.min(24,L*.4);
-      const tx=x+ux*(10+tl),ty=y+uy*(10+tl),b1x=x+ux*5+px*6,b1y=y+uy*5+py*6,b2x=x+ux*5-px*6,b2y=y+uy*5-py*6;
-      s+='<polygon points="'+b1x.toFixed(1)+','+b1y.toFixed(1)+' '+tx.toFixed(1)+','+ty.toFixed(1)+' '+b2x.toFixed(1)+','+b2y.toFixed(1)+'" fill="#cfdbe2"/>';}
-    s+='</g>';});
-  return s+'</g></svg>';
-}
-function wireLight(){
-  const svg=$('#doorSvg');if(!svg)return;const c=$('#lmc'),g=$('#glowc');
-  const mv=e=>{const r=svg.getBoundingClientRect();const x=(e.clientX-r.left)/r.width*180,y=(e.clientY-r.top)/r.height*240;c.setAttribute('cx',x);c.setAttribute('cy',y);g.setAttribute('cx',x);g.setAttribute('cy',y);};
-  svg.addEventListener('pointerdown',e=>{mv(e);try{svg.setPointerCapture(e.pointerId);}catch(_){}});svg.addEventListener('pointermove',mv);svg.style.touchAction='none';
-}
-/* 문패의 눈: 카메라로 카드의 QR 위치를 잡아 그 위에 지문을 겹쳐 그림 (자외선 렌즈처럼 보라색) */
-let eyeStream=null,eyeRAF=0,eyeLoc=null,eyeFrame=0;
-function loadJsQR(){return new Promise(res=>{if(window.jsQR)return res(true);let done=false;const fin=v=>{if(!done){done=true;res(v);}};const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js';s.onload=()=>fin(!!window.jsQR);s.onerror=()=>fin(false);setTimeout(()=>fin(!!window.jsQR),6000);document.head.appendChild(s);});}
+function loadJsQR(){return new Promise(res=>{if(window.jsQR)return res(true);let done=false;const fin=v=>{if(!done){done=true;res(v);}};
+  const tryLoad=(src,next)=>{const s=document.createElement('script');s.src=src;s.onload=()=>window.jsQR?fin(true):next();s.onerror=next;document.head.appendChild(s);};
+  tryLoad('jsQR.js',()=>tryLoad('https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js',()=>fin(false)));setTimeout(()=>fin(!!window.jsQR),8000);});}
+$('#eyeClose').onclick=()=>closeEye();
+document.querySelectorAll('.eyeBtn').forEach(b=>b.onclick=()=>openEye());
 async function openEye(){
-  $('#eyeBox').hidden=false;$('#eyeMsg').textContent='문패의 눈을 여는 중…';
+  $('#eyeBox').hidden=false;$('#eyeCards').hidden=true;$('#eyeMsg').textContent='문패의 눈을 여는 중…';
   const okLib=await loadJsQR();
   try{
     if(!okLib||!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)throw new Error('nocam');
-    eyeStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment',width:{ideal:960},height:{ideal:720}},audio:false});
+    eyeStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment',width:{ideal:1280},height:{ideal:720}},audio:false});
     const v=$('#eyeVid');v.srcObject=eyeStream;await v.play();S.eye='camera';save();
-    $('#eyeMsg').textContent='현관의 도어락 카드를 비춰 보세요.';eyeLoop();
-  }catch(e){
-    $('#eyeBox').hidden=true;S.eye='fallback';save();
-    $('#doorImgBox').hidden=false;$('#doorImg').innerHTML=doorSvg(S.ans.door);wireLight();
-  }
+    $('#eyeMsg').textContent='카드를 비춰 주세요. 왼쪽 위 네모 무늬가 화면에 다 들어오게.';eyeLoc={};eyeLoop();
+  }catch(e){S.eye='fallback';save();eyeFallback();}
 }
 function closeEye(){cancelAnimationFrame(eyeRAF);if(eyeStream){eyeStream.getTracks().forEach(t=>t.stop());eyeStream=null;}$('#eyeBox').hidden=true;}
 function eyeLoop(){
   const v=$('#eyeVid'),cv=$('#eyeCan');if(!eyeStream)return;
   if(v.videoWidth){
     if(cv.width!==v.videoWidth){cv.width=v.videoWidth;cv.height=v.videoHeight;}
-    const x=cv.getContext('2d',{willReadFrequently:true});x.drawImage(v,0,0,cv.width,cv.height);
-    if(eyeFrame++%3===0){const sw=Math.min(640,cv.width),sh=Math.round(cv.height*sw/cv.width);const tmp=x.getImageData(0,0,cv.width,cv.height);
-      const q=window.jsQR(tmp.data,cv.width,cv.height,{inversionAttempts:'dontInvert'});if(q&&q.data==='MP-DOOR'){eyeLoc=q.location;eyeLoc.t=Date.now();}}
-    // 자외선 느낌의 보라색 덮개
-    x.fillStyle='rgba(60,0,120,.38)';x.fillRect(0,0,cv.width,cv.height);
-    if(eyeLoc&&Date.now()-eyeLoc.t<900){
-      const o=eyeLoc.topLeftCorner,ax=eyeLoc.topRightCorner,ay=eyeLoc.bottomLeftCorner;
-      const ex=[ax.x-o.x,ax.y-o.y],ey=[ay.x-o.x,ay.y-o.y];const P=(u,w)=>[o.x+ex[0]*u+ey[0]*w,o.y+ex[1]*u+ey[1]*w];
-      const unit=Math.hypot(ex[0],ex[1]);const code=S.ans.door;
-      x.save();x.shadowColor='rgba(190,255,240,.9)';x.shadowBlur=unit*.06;x.fillStyle='rgba(200,255,235,.55)';
-      code.forEach((d,i)=>{const [r,c]=kpRC(d);const [px,py]=P(1.55+.62*c,.2+.62*r);
-        x.beginPath();x.ellipse(px,py,unit*.11,unit*.09,0,0,Math.PI*2);x.fill();
-        if(i<code.length-1){const [r2,c2]=kpRC(code[i+1]);const [qx,qy]=P(1.55+.62*c2,.2+.62*r2);const dx=qx-px,dy=qy-py,L=Math.hypot(dx,dy)||1,ux=dx/L,uy=dy/L,pxp=-uy,pyp=ux,tl=Math.min(unit*.22,L*.4);
-          x.beginPath();x.moveTo(px+ux*unit*.05+pxp*unit*.055,py+uy*unit*.05+pyp*unit*.055);x.lineTo(px+ux*(unit*.1+tl),py+uy*(unit*.1+tl));x.lineTo(px+ux*unit*.05-pxp*unit*.055,py+uy*unit*.05-pyp*unit*.055);x.closePath();x.fill();}
-      });x.restore();
-      if(!S.found.eyeSaw){S.found.eyeSaw=true;save();sfx.bell();$('#eyeMsg').textContent='…지문이 보입니다.';}
+    const x=cv.getContext('2d');x.setTransform(1,0,0,1,0,0);x.drawImage(v,0,0,cv.width,cv.height);
+    if(eyeFrame++%2===0&&window.jsQR){
+      const sw=Math.min(560,cv.width),k=sw/cv.width,sh=Math.round(cv.height*k);
+      if(!scanCan)scanCan=document.createElement('canvas');if(scanCan.width!==sw){scanCan.width=sw;scanCan.height=sh;}
+      const sx=scanCan.getContext('2d',{willReadFrequently:true});sx.drawImage(v,0,0,sw,sh);
+      const q=window.jsQR(sx.getImageData(0,0,sw,sh).data,sw,sh,{inversionAttempts:'dontInvert'});
+      if(q&&/^MP6-[ABD]$/.test(q.data)){const id=q.data.slice(4);const L=q.location;const sc=p=>({x:p.x/k,y:p.y/k});
+        const nl={o:sc(L.topLeftCorner),a:sc(L.topRightCorner),b:sc(L.bottomLeftCorner),t:Date.now()};const pl=eyeLoc[id];
+        if(pl&&Date.now()-pl.t<400){['o','a','b'].forEach(p=>{nl[p]={x:pl[p].x*.45+nl[p].x*.55,y:pl[p].y*.45+nl[p].y*.55};});}
+        eyeLoc[id]=nl;}
     }
+    let shown=null;
+    for(const id of ['A','B','D']){const L=eyeLoc[id];if(L&&Date.now()-L.t<900){shown=id;break;}}
+    tint(x,cv,shown);
+    if(shown){const L=eyeLoc[shown];const ex={x:L.a.x-L.o.x,y:L.a.y-L.o.y},ey={x:L.b.x-L.o.x,y:L.b.y-L.o.y};
+      x.save();x.setTransform(ex.x/100,ex.y/100,ey.x/100,ey.y/100,L.o.x,L.o.y);OVER[shown](x,performance.now());x.restore();
+      seen(shown);}
+    else $('#eyeMsg').textContent='카드를 비춰 주세요. 왼쪽 위 네모 무늬가 화면에 다 들어오게.';
   }
   eyeRAF=requestAnimationFrame(eyeLoop);
 }
-$('#eyeBtn').onclick=()=>openEye();
-$('#eyeClose').onclick=()=>closeEye();
-let kpIn=[],doorHintN=0;
-async function door(){
-  begin('s-door');kpIn=[];doorHintN=0;$('#doorHintBox').textContent='';$('#doorHint').disabled=false;$('#doorMsg').textContent='';$('#doorImgBox').hidden=true;$('#eyeBox').hidden=true;buildKp();renderKp();
-  await narrate($('#capDoor'),[{a:'dr1',t:T.dr1}],'▣ 문패');
-}
-function buildKp(){const box=$('#kp');box.textContent='';['1','2','3','4','5','6','7','8','9','지움','0','확인'].forEach(k=>{const b=document.createElement('button');b.type='button';b.textContent=k;b.onclick=()=>kpPress(k);box.appendChild(b);});}
-function renderKp(){$('#kpDisp').textContent=[0,1,2,3].map(i=>kpIn[i]!=null?'•':'_').join(' ');}
-function kpPress(k){if(k==='지움'){kpIn=[];renderKp();return;}if(k==='확인'){doorCheck();return;}if(kpIn.length<4){kpIn.push(k);tone(1600,.05,{gain:.07,type:'square'});renderKp();if(kpIn.length===4)setTimeout(doorCheck,250);}}
-function doorCheck(){
-  if(kpIn.length<4)return;
-  if(kpIn.join('')===S.ans.door.join('')){closeEye();[0,.12,.24,.36].forEach((t,i)=>tone(1200+i*200,.08,{gain:.08,at:t}));$('#doorMsg').textContent='띠리릭— 현관 기록이 열렸습니다.';S.found.door=true;save();setTimeout(()=>rate('door','기록 3 · 도어락 지문',()=>shoe()),1500);}
-  else{tone(300,.4,{gain:.12,type:'square'});$('#kpDisp').classList.add('shake');setTimeout(()=>$('#kpDisp').classList.remove('shake'),400);$('#doorMsg').textContent='삐— 비밀번호가 틀렸습니다.';kpIn=[];setTimeout(renderKp,400);}
-}
-$('#doorHint').onclick=()=>{doorHintN++;hintAdd('#doorHintBox',['카드의 키패드는 깨끗해 보입니다. 문패가 처음에 무엇을 빌려 준다고 했나요?','[문패의 눈]으로 카드를 비춰 보세요. (카메라를 쓸 수 없으면 화면 속 키패드를 손가락으로 문지르세요. 빛은 바로 위가 아니라 비스듬히 비춰야 보입니다.)','지문에는 꼬리가 있습니다. 손가락은 누른 뒤 다음 숫자 쪽으로 미끄러집니다. 어떤 꼬리도 향하지 않는 자국이 첫 번째입니다.','비밀번호: '+S.ans.door.join('')],doorHintN,'#doorHint','door');};
-
-/* ---------- 기록 4: 신발 추리 (논리) ---------- */
-const PEOPLE=['택배 기사','옆집 할머니','관리실 직원','이 집 사람'];const SHOES=['운동화','슬리퍼','장화','구두'];
-let shoeWho=null,shoeWhat=null,shoeHintN=0;
-function shoe(){
-  begin('s-shoe');shoeWho=shoeWhat=null;shoeHintN=0;$('#shoeMsg').textContent='';$('#shoeHintBox').textContent='';$('#shoeHint').disabled=false;$('#shoeFound').hidden=true;
-  const g=$('#shoeGrid');g.textContent='';const blank=document.createElement('div');g.appendChild(blank);
-  SHOES.forEach(s=>{const h=document.createElement('div');h.className='h';h.textContent=s;g.appendChild(h);});
-  PEOPLE.forEach(p=>{const rh=document.createElement('div');rh.className='rh';rh.textContent=p;g.appendChild(rh);
-    SHOES.forEach(s=>{const b=document.createElement('button');b.type='button';b.dataset.v='0';b.textContent='·';b.setAttribute('aria-label',p+' — '+s);
-      b.onclick=()=>{const v=(+b.dataset.v+1)%3;b.dataset.v=v;b.textContent=['·','○','✕'][v];};g.appendChild(b);});});
-  chipGroup('#whoChips',PEOPLE.map(p=>[p,p]),null,v=>{shoeWho=v;});
-  chipGroup('#shoeChips',SHOES.map(s=>[s,s]),null,v=>{shoeWhat=v;});
-}
-$('#shoeGo').onclick=()=>{
-  if(!shoeWho||!shoeWhat){$('#shoeMsg').textContent='사람과 신발을 모두 고르세요.';return;}
-  const okW=shoeWho==='이 집 사람',okS=shoeWhat==='구두';
-  if(okW&&okS){sfx.unlock();$('#shoeMsg').textContent='맞습니다. 기록을 숨긴 사람은 이 집 사람입니다.';S.found.shoe=true;save();$('#shoeFound').hidden=false;}
-  else{sfx.clunk();$('#shoeMsg').textContent=okW?'사람은 맞습니다. 그런데 그 사람의 신발이 아닙니다.':(okS?'신발은 맞습니다. 그 신발의 주인을 다시 보세요.':'단서와 맞지 않습니다. 메모 칸으로 하나씩 지워 보세요.');}
+function tint(x,cv,id){x.save();x.setTransform(1,0,0,1,0,0);x.fillStyle=id==='A'?'rgba(10,30,120,.5)':id==='B'?'rgba(20,10,0,.45)':id==='D'?'rgba(40,20,0,.35)':'rgba(0,10,20,.35)';x.fillRect(0,0,cv.width,cv.height);x.restore();}
+const EYE_MSG={A:'…손의 온기가 남아 있어요.',B:'…그날 밤의 발자국이에요.',D:'…제 얼굴이에요.'};
+function seen(id){$('#eyeMsg').textContent=EYE_MSG[id];if(!S.eyeSeen[id]){S.eyeSeen[id]=true;save();sfx.bell();}if(id==='D')plateSeenNow();}
+// 열 흔적: 먼저 누른 키일수록 차갑다
+function heatCol(h){const st=[[40,70,255],[150,60,255],[255,60,80],[255,170,60],[255,250,220]];const p=Math.min(.999,h)*(st.length-1),i=Math.floor(p),f=p-i;const a=st[i],b=st[i+1];return a.map((v,j)=>Math.round(v+(b[j]-v)*f));}
+const OVER={
+  A:(x,t)=>{S.code.door.forEach((d,i)=>{const [r,c]=kpRC(d);const cx=(1.55+.62*c)*100,cy=(.2+.62*r)*100;const h=.12+.29*i;const col=heatCol(h);
+    const g=x.createRadialGradient(cx,cy,0,cx,cy,30);g.addColorStop(0,'rgba('+col+',.95)');g.addColorStop(.55,'rgba('+col+',.55)');g.addColorStop(1,'rgba('+col+',0)');
+    x.fillStyle=g;x.beginPath();x.ellipse(cx,cy+2,30,27,0,0,Math.PI*2);x.fill();});},
+  B:(x,t)=>{const P=[[1.6,2.3],[2.85,2.35],[4.0,2.15],[3.4,1.5],[2.4,1.05],[1.85,.85]].map(p=>[p[0]*100,p[1]*100]);
+    const steps=[];for(let s=0;s<P.length-1;s++){const [ax,ay]=P[s],[bx,by]=P[s+1];const L=Math.hypot(bx-ax,by-ay);const n=Math.max(2,Math.round(L/13));for(let i=0;i<n;i++){const u=i/n;steps.push([ax+(bx-ax)*u,ay+(by-ay)*u,Math.atan2(by-ay,bx-ax)]);}}
+    const cyc=(t/1000)%9;const shownN=Math.min(steps.length,Math.floor(cyc/7*steps.length));
+    for(let i=0;i<shownN;i++){const [sx,sy,a]=steps[i];const side=i%2?1:-1;const age=(shownN-i)/steps.length;const al=Math.max(.25,1-age*1.2);
+      x.save();x.translate(sx-Math.sin(a)*4*side,sy+Math.cos(a)*4*side);x.rotate(a);x.fillStyle='rgba(255,190,90,'+al+')';x.shadowColor='rgba(255,170,60,.9)';x.shadowBlur=8;
+      x.beginPath();x.ellipse(0,0,5.2,2.8,0,0,Math.PI*2);x.fill();x.beginPath();x.ellipse(5.5,0,2,2.2,0,0,Math.PI*2);x.fill();x.restore();}
+    if(shownN>=steps.length){x.fillStyle='rgba(255,220,150,.95)';x.font='700 20px sans-serif';x.fillText('z',P[5][0]+14,P[5][1]-14);x.font='700 15px sans-serif';x.fillText('z',P[5][0]+28,P[5][1]-28);}},
+  D:(x,t)=>{const glow=.6+.4*Math.sin(t/400);x.textAlign='center';x.shadowColor='rgba(255,230,170,'+glow+')';x.shadowBlur=14;x.fillStyle='rgba(60,35,5,.92)';
+    if(!S.mem.meta){x.font='700 22px serif';x.fillText('…',277,80);return;}
+    x.font='700 15px serif';x.fillText('이 집의 마지막 손님',277,48);x.font='800 38px serif';x.fillText(S.guest||'오늘 온 당신',277,100);
+    x.shadowBlur=0;x.fillStyle='rgba(255,236,190,.95)';x.font='600 14px sans-serif';x.fillText('약속 · 오늘 밤 오는 사람에게',230,190);x.fillText(S.gift.on?'숨겨 둔 선물을 꼭 찾아 줄 것':'이 집의 첫날을 들려줄 것',230,210);},
 };
-$('#shoeHint').onclick=()=>{shoeHintN++;hintAdd('#shoeHintBox',['1번 단서부터: 끈을 꽉 묶는 신발은 하나뿐입니다. 택배 기사의 신발을 정하세요.','4번: 옆집에서 건너온 사람은 누구일까요? 3번: 물에 젖지 않는 신발은?','남은 사람과 남은 신발을 짝지은 뒤, 5번 단서를 보세요.','정답: 이 집 사람 — 구두'],shoeHintN,'#shoeHint','shoe');};
-$('#shoeNext').onclick=()=>{S.found.c=true;save();rate('shoe','기록 4 · 현관의 신발',()=>chat());};
-
-/* ---------- 기록 5: 대화방 · 거울 시계 ---------- */
-let chatHintN=0;
-function mirrorClock(H,M){
-  const hA=((H%12)+M/60)*30,mA=M*6;
-  const hand=(a,len)=>{const r=a*Math.PI/180;return [60+Math.sin(r)*len,60-Math.cos(r)*len];};
-  const [hx,hy]=hand(hA,26),[mx,my]=hand(mA,40);
-  let ticks='';for(let i=0;i<12;i++){const r=i*30*Math.PI/180,l=(i%3===0)?9:5;ticks+='<line class="tk" x1="'+(60+Math.sin(r)*(50-l))+'" y1="'+(60-Math.cos(r)*(50-l))+'" x2="'+(60+Math.sin(r)*50)+'" y2="'+(60-Math.cos(r)*50)+'"/>';}
-  const ap=H>=12?'PM':'AM';
-  return '<svg class="clock" viewBox="0 0 120 120" role="img" aria-label="숫자가 없는 시계. 문자판 글자가 좌우로 뒤집혀 보인다"><g transform="translate(120,0) scale(-1,1)">'+
-    '<circle class="face" cx="60" cy="60" r="54"/>'+ticks+
-    '<text x="60" y="40" text-anchor="middle">MOONPAE</text><text x="60" y="88" text-anchor="middle">'+ap+'</text>'+
-    '<line class="hh" x1="60" y1="60" x2="'+hx+'" y2="'+hy+'"/><line class="mh" x1="60" y1="60" x2="'+mx+'" y2="'+my+'"/><circle cx="60" cy="60" r="3" fill="#1d2730"/></g></svg>';
+// 카메라를 못 쓰는 환경: 카드 그림을 화면에 그리고 같은 덮개를 보여 준다
+function eyeFallback(){
+  $('#eyeMsg').textContent='이 화면에서는 카메라를 쓸 수 없어요. 카드를 고르면 문패의 눈으로 본 모습을 보여 드릴게요.';
+  const cards=[['A','☾ 현관 도어락 카드']];if(S.mem.bath)cards.push(['B','● 기억 지도 카드']);if(S.mem.meta)cards.push(['D','✕ 문패 카드']);
+  $('#eyeCards').hidden=false;chipGroup('#eyeCards',cards,null,id=>drawFallback(id));
+  const cv=$('#eyeCan');cv.width=640;cv.height=440;const x=cv.getContext('2d');x.fillStyle='#000';x.fillRect(0,0,640,440);
 }
-async function chat(){
-  begin('s-chat');chatHintN=0;$('#chatHintBox').textContent='';$('#chatFound').hidden=true;$('#chatA').value='';$('#chatHint').disabled=false;$('#chatClue').hidden=true;
-  const t1=(S.sent||'16:00').split(':').map(Number),t2=(S.sent2||'16:01').split(':').map(Number);
-  $('#clockBox').innerHTML=mirrorClock(t1[0],t1[1])+mirrorClock(t2[0],t2[1]);
-  await narrate($('#chatQ'),[{a:'ch1',t:T.ch1}],'▣ 문패',$('#mask3'));
-  $('#chatClue').hidden=false;
-}
-$('#chatGo').onclick=()=>{const v=$('#chatA').value.replace(/\s/g,'');if(S.furn&&v.includes(S.furn)){sfx.unlock();$('#chatFound').hidden=false;$('#redA').value='';$('#redMsg').textContent='';}else wrongShake('#chatA');};
-const fmtT=t=>{const [H,M]=t.split(':').map(Number);return (H>=12?'오후 ':'오전 ')+((H%12)||12)+'시 '+M+'분';};
-$('#chatHint').onclick=()=>{chatHintN++;const f=FURN[S.furn]||{k:['','']};
-  hintAdd('#chatHintBox',['시계 속 글자가 뒤집혀 있습니다. 당신이 보는 건 거울에 비친 시계입니다. 바늘을 좌우로 바꿔 읽으세요.',
-    '두 시각은 '+fmtT(S.sent||'16:00')+', '+fmtT(S.sent2||'16:01')+'입니다. 숨긴 사람과의 대화방에서 그 시각의 메시지를 찾으세요(검색어: "'+f.k[0]+'", "'+f.k[1]+'").',
-    '두 메시지는 따로 보면 평범합니다. 이 기록의 제목을 다시 보세요. "말머리".',
-    '각 메시지의 첫 글자를 이으면 가구 이름이 됩니다: '+S.furn],chatHintN,'#chatHint','chat');};
-$('#redGo').onclick=()=>{const v=$('#redA').value.trim();
-  if(v===String(S.ans.r)){sfx.unlock();S.found.r=true;S.found.n1=true;save();$('#redMsg').textContent='빨강 = '+v+'. 기록 수첩에 적혔습니다.';setTimeout(()=>rate('chat','기록 5 · 거울 시계',()=>whisper()),1400);}
-  else{wrongShake('#redA');$('#redMsg').textContent='쪽지를 다시 확인하세요.';}};
-
-/* ---------- 기록 6: 속삭임 · 거울 안쪽의 숫자 ---------- */
-let whHintN=0,listens=0;
-function whisper(){begin('s-whisper');whHintN=0;listens=0;$('#whHintBox').textContent='';$('#whQ').hidden=true;$('#whHint').disabled=false;$('#listen').textContent='귀 기울이기';$('#blueA').value='';$('#blueMsg').textContent='';}
-$('#listen').onclick=async()=>{
-  $('#listen').disabled=true;bgmDuck(true);
-  const id=(listens++===0)?'wb':'w_rep';
-  const txt=id==='wb'?'"내 색은… 파랑. 나는 거울 안쪽에서, 손가락으로 썼어. 가로선 하나. 그리고 그 왼쪽 끝에서… 오른쪽 아래로, 비스듬히."':'"다시 말할게. 가로선 하나. 그 왼쪽 끝에서, 오른쪽 아래로. 나는… 거울 안쪽에 있었어."';
-  if(S.muted){const d=document.createElement('div');d.className='hint';d.textContent='(자막 모드) 아주 작은 목소리: '+txt;$('#whHintBox').appendChild(d);}
-  else{await sleep(1200);await playClip(id,{fx:'whisper'});}
-  bgmDuck(false);$('#listen').disabled=false;$('#listen').textContent='다시 귀 기울이기';$('#whQ').hidden=false;
+let fbRAF=0;
+function drawFallback(id){cancelAnimationFrame(fbRAF);const cv=$('#eyeCan'),x=cv.getContext('2d');const u=120,ox=40,oy=40;
+  const frame=t=>{if($('#eyeBox').hidden)return;x.setTransform(1,0,0,1,0,0);x.fillStyle='#e9e4d8';x.fillRect(0,0,640,440);
+    x.setTransform(u/100,0,0,u/100,ox,oy);BASE[id](x);x.setTransform(1,0,0,1,0,0);tint(x,cv,id);x.setTransform(u/100,0,0,u/100,ox,oy);OVER[id](x,t);seen(id);fbRAF=requestAnimationFrame(frame);};
+  fbRAF=requestAnimationFrame(frame);}
+const BASE={
+  A:x=>{x.fillStyle='#fff';x.fillRect(0,0,100,100);x.fillStyle='#111';for(let i=0;i<7;i++)for(let j=0;j<7;j++)if((i*7+j)%3===0||i===0||j===0||i===6||j===6)x.fillRect(j*14.3,i*14.3,13,13);
+    x.fillStyle='#11161b';x.fillRect(115,-12,200,260);KP.forEach((row,r)=>row.forEach((k,c)=>{const cx=(1.55+.62*c)*100,cy=(.2+.62*r)*100;x.fillStyle='#1d262e';x.strokeStyle='#3a4752';x.lineWidth=3;x.beginPath();x.arc(cx,cy,24,0,Math.PI*2);x.fill();x.stroke();x.fillStyle='#9fb2c0';x.font='500 22px monospace';x.textAlign='center';x.fillText(k,cx,cy+8);}));
+    x.textAlign='left';x.fillStyle='#1d2730';x.font='700 17px sans-serif';x.fillText('현관 도어락',0,133);},
+  B:x=>{x.fillStyle='#fbf9f3';x.strokeStyle='#8d8676';x.lineWidth=5;x.fillRect(120,-10,345,285);x.strokeRect(120,-10,345,285);
+    [['삐리릭',1.6,2.45],['웅—',2.85,2.5],['똑, 똑',4.15,2.3],['딸깍',4.2,1.2],['쏴아',3.0,.15],['사락사락',1.75,.7]].forEach(([s,a,b])=>{x.fillStyle='#5a6873';x.beginPath();x.arc(a*100,b*100,4.5,0,Math.PI*2);x.fill();x.fillStyle='#2b343b';x.font='700 17px sans-serif';x.textAlign='center';x.fillText(s,a*100,b*100+22);});
+    x.textAlign='left';x.fillStyle='#1d2730';x.font='700 17px sans-serif';x.fillText('기억 지도',0,133);},
+  D:x=>{const g=x.createLinearGradient(125,0,430,155);g.addColorStop(0,'#d8b46a');g.addColorStop(.55,'#b58a3e');g.addColorStop(1,'#8a6526');x.fillStyle=g;x.strokeStyle='#6e5020';x.lineWidth=5;x.fillRect(125,0,305,155);x.strokeRect(125,0,305,155);
+    x.textAlign='left';x.fillStyle='#1d2730';x.font='700 17px sans-serif';x.fillText('문패',0,133);},
 };
-$('#whHint').onclick=()=>{whHintN++;hintAdd('#whHintBox',['소리가 너무 작다면, 소리를 모아 줄 그릇이 필요합니다. 빈 머그컵에 휴대폰을 넣고 들어 보세요.','숫자를 말하지 않았다면, 무엇을 알려 준 걸까요? 들은 대로 손가락으로 그려 보세요.','그 사람은 거울 안쪽에 있었습니다. 당신이 그린 모양을 좌우로 뒤집어 보세요.','"가로선 하나, 그 왼쪽 끝에서 오른쪽 아래로" → 좌우를 뒤집으면 7. 파랑은 7입니다.'],whHintN,'#whHint','whisper');};
-$('#blueGo').onclick=()=>{const v=$('#blueA').value.trim();
-  if(v==='7'){sfx.unlock();S.found.b=true;save();$('#blueMsg').textContent='파랑 = 7. 기록 수첩에 적혔습니다.';setTimeout(()=>rate('whisper','기록 6 · 거울 안쪽의 숫자',()=>lock()),1300);}
-  else{wrongShake('#blueA');$('#blueMsg').textContent=(v==='1'||v==='4')?'모양은 거의 맞았습니다. 그런데 그 사람은 어디에 있었죠?':'철컥… 아닙니다.';}};
 
-/* ---------- 기록 7: 보관함 (색 순서 = 기록 1 문장 속 색 글자 순서, 노랑 = 손으로 찾은 쪽지 4장) ---------- */
-let dialV=[0,0,0,0],lockTries=0,lockHintN=0;
-const ORD=['첫째','둘째','셋째','넷째'];
-function lockCode(){const v={g:S.ans.g,r:S.ans.r,y:4,b:7};return S.ans.order.map(c=>v[c]).join('');}
-async function lock(){
-  begin('s-lock');dialV=[0,0,0,0];lockTries=0;lockHintN=0;$('#lockMsg').textContent='';$('#lockHintBox').textContent='';$('#lockHint').disabled=false;
-  const nb=$('#notebook');nb.textContent='';const F0=S.found||{};
-  [['g',F0.g?S.ans.g:'?'],['r',F0.r?S.ans.r:'?'],['y','?'],['b',F0.b?7:'?']].forEach(([c,val])=>{const d=document.createElement('div');const m=document.createElement('span');m.className='marble';m.style.background=COL[c].c;d.appendChild(m);d.appendChild(document.createTextNode(COL[c].n));const n=document.createElement('span');n.className='num';n.textContent=val;d.appendChild(n);nb.appendChild(d);});
-  const sen=$('#nbSentence');sen.textContent='';
-  if(F0.sent){let k=0;GROUPS.forEach((g,gi)=>{for(let j=0;j<g;j++){const p=k++;const sp=document.createElement('span');sp.textContent=SENT[p];const c=S.ans.tileCol[p];if(c)sp.style.borderBottomColor=COL[c].c;sen.appendChild(sp);}if(gi<GROUPS.length-1)sen.appendChild(document.createTextNode(' '));});}
-  else sen.textContent='(기록 1을 건너뛰었습니다)';
-  const box=$('#dials');box.textContent='';
-  dialV.forEach((_,i)=>{const d=document.createElement('div');d.className='dial';
-    const up=document.createElement('button');up.type='button';up.textContent='▲';up.setAttribute('aria-label',ORD[i]+' 자리 올리기');
-    const n=document.createElement('div');n.className='num';n.textContent='0';
-    const dn=document.createElement('button');dn.type='button';dn.textContent='▼';dn.setAttribute('aria-label',ORD[i]+' 자리 내리기');
-    const s=document.createElement('small');s.textContent=ORD[i];
-    up.onclick=()=>{dialV[i]=(dialV[i]+1)%10;n.textContent=dialV[i];tone(1400,.02,{gain:.06,type:'square'});};
-    dn.onclick=()=>{dialV[i]=(dialV[i]+9)%10;n.textContent=dialV[i];tone(1400,.02,{gain:.06,type:'square'});};
-    d.append(up,n,dn,s);box.appendChild(d);});
-  await narrate($('#capLock'),[{a:'yl',t:T.yl}],'▣ 문패');
-}
-$('#unlock').onclick=async()=>{
-  if(dialV.join('')===lockCode()){sfx.unlock();$('#unlock').disabled=true;await sleep(900);$('#unlock').disabled=false;S.found.lock=true;save();climax();}
-  else{lockTries++;sfx.clunk();$('#dials').classList.add('shake');setTimeout(()=>$('#dials').classList.remove('shake'),400);
-    $('#lockMsg').textContent=lockTries>=3?'철컥… 열리지 않습니다. 목표 문장을 다시 읽어 보세요: 순서는 이미 본 적이 있습니다.':'철컥… 열리지 않습니다.';
-    if(lockTries===1)playClip('lockx',Object.assign({t:T.lockx},MOON));}
-};
-$('#lockHint').onclick=()=>{lockHintN++;hintAdd('#lockHintBox',['수첩 아래 기록 1의 문장을 보세요. 색이 칠해진 글자가 네 개 있습니다.','색 숫자는 문장 속 색 글자가 나오는 순서대로 넣습니다.','노랑은 화면에 없습니다. 숨긴 사람의 쪽지를 몇 장 손으로 찾았나요? (수건, 냉장고, 신발, '+S.furn+')','정답: '+lockCode()],lockHintN,'#lockHint','lock');};
-
-/* ---------- 클라이맥스: 보관함 → 방송 → 숨긴 사람의 전화 ---------- */
-function bcLines(){return [{sfx:'[치익— 잡음]',play:'static',wait:1500},{a:'bc1',t:T.bc1},{a:'bc2',t:T.bc2},{a:'bc3',t:T.bc3}];}
-async function playBroadcast(){
-  $('#alert').hidden=false;startBed();
-  await narrate($('#capAlert'),bcLines(),'▣ 문패 · 방송');
-  stopBed();await sleep(700);$('#alert').hidden=true;
-}
-async function climax(){
-  S._t0=Date.now();timerStop();bgmStop();save();let remote=false;
-  if(BC&&bcPeers>0){try{await BC.emit('play',{kind:'broadcast'});remote=true;}catch(e){remote=false;}}
-  if(remote){$('#alert').hidden=false;const c=$('#capAlert');c.textContent='';const w=document.createElement('div');w.className='sfx';w.textContent='[어딘가에서 방송이 들립니다…]';c.appendChild(w);await sleep(12000);$('#alert').hidden=true;}
-  else await playBroadcast();
-  incomingCall();
-}
-let callTimer=null,callAnswered=false;
-function missed(state){$('#callState').textContent=state;$('#callBtns').hidden=true;const b=$('#callDone');b.textContent='음성 메시지 듣기';b.hidden=false;b.onclick=()=>{b.hidden=true;callTalk();};}
-function incomingCall(){
-  callAnswered=false;$('#call').hidden=false;$('#callBtns').hidden=false;$('#capCall').hidden=true;$('#callDone').hidden=true;$('#callState').textContent='휴대전화 · 수신 중…';
-  ringStart();callTimer=setTimeout(()=>{if(!callAnswered){ringStop();missed('부재중 전화 · 음성 메시지 1건');}},20000);
-}
-$('#accept').onclick=()=>{callAnswered=true;clearTimeout(callTimer);ringStop();callTalk();};
-$('#decline').onclick=()=>{callAnswered=true;clearTimeout(callTimer);ringStop();missed('통화 거절 · 음성 메시지 1건');};
-async function callTalk(){
-  $('#callBtns').hidden=true;$('#capCall').hidden=false;let sec=0;$('#callState').textContent='통화 중 00:00';
-  const ct=setInterval(()=>{sec++;$('#callState').textContent='통화 중 '+String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');},1000);
-  const v=S.voice,P={fx:'phone',rate:1};
-  await narrate($('#capCall'),[
-    {sfx:'[지직…]',play:'static',wait:800},
-    {a:'c1_'+v,t:T.c1,o:P},{a:'c2_'+v,t:T.c2,o:P},
-    S.gift?{a:'c3a_'+v,t:T.c3a,o:P,after:box=>{const d=document.createElement('div');d.className='loc';d.textContent='[위치 메시지] '+S.gift;box.appendChild(d);sfx.bell();}}:{a:'c3b_'+v,t:T.c3b,o:P},
-    {a:'c4_'+v,t:T.c4,o:P,pause:900},
-    {sfx:'[뚜— 뚜—]',play:'hang',wait:1000}
-  ],null);
-  clearInterval(ct);$('#callState').textContent='통화 종료';
-  const b=$('#callDone');b.textContent='전화 끊기';b.hidden=false;b.onclick=()=>{$('#call').hidden=true;rate('climax','보관함 · 마지막 전화',()=>ending());};
-}
-
-/* ---------- 엔딩: 숨긴 사람의 정체 ---------- */
-async function ending(){
-  begin('s-end');$('#endNext').hidden=true;const m=$('#mask2');m.classList.remove('off');timerStop();BGM.fast=false;bgmStart();
-  const box=$('#capEnd');
-  await narrate(box,[
-    {a:'en1',t:T.en1,o:{fx:'moon',mod:.7,rate:.935}},
-    {a:'en2',t:T.en2,o:{fx:'moon',mod:.35,rate:.97}},
-    {a:'en3',t:T.en3,o:{fx:'moon',mod:.1,rate:1},pause:900}
-  ],'▣ 문패',m);
-  m.classList.add('off');await sleep(1400);
-  await narrate(box,[{a:S.hl+'_'+S.voice,t:HOSTLINES[S.hl],o:{fx:'natural'},who:'▣ '+S.host}],null);
-  $('#endNext').hidden=false;$('#endNext').focus();
-}
-$('#endNext').onclick=()=>rate('ending','엔딩 · 문패의 정체',()=>survey());
-
-/* ---------- 설문 ---------- */
+/* ---------- 설문 (엔딩 뒤 한 번만) ---------- */
 function survey(){
-  show('s-survey');bgmStop();timerStop();$('#timer').hidden=true;
-  const mk=(id,opts,key)=>chipGroup(id,opts.map(o=>[o,o]),'',v=>{S.survey[key]=v;});
-  mk('#mostChips',['오프닝','흩어진 글자','필름 · 같은 자리','도어락 지문(문패의 눈)','신발 추리','말머리 · 거울 시계','거울 안쪽 숫자','보관함 색 순서','마지막 전화','문패의 정체'],'most');
-  mk('#storyChips',['이해 안 됨','대충 이해','잘 이해됨'],'story');
-  mk('#eyeChips',['카메라로 지문을 봤다','카메라가 안 돼서 화면으로 했다','못 찾았다'],'eyeUse');
-  mk('#voiceQChips',['어색함','괜찮음','자연스럽고 긴장감 있음'],'voice');
-  mk('#diffChips',['너무 쉬움','적당함','너무 어려움'],'diff');
-  mk('#cmpChips',['카페보다 별로','비슷함','카페보다 좋음'],'compare');
-  mk('#priceChips',['무료만','3,900원','7,900원','9,900원','14,900원','19,900원 이상'],'price');
+  begin('s-survey');
+  const box=$('#sFun');box.textContent='';['별로','조금','괜찮음','재미있음','최고'].forEach((t,i)=>{const b=document.createElement('button');b.type='button';const bb=document.createElement('b');bb.textContent=i+1;b.append(bb,document.createTextNode(t));b.setAttribute('aria-pressed',S.survey.fun===i+1?'true':'false');b.onclick=()=>{S.survey.fun=i+1;save();box.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));};box.appendChild(b);});
+  const MOM=[['door','도어락 손의 온기'],['fridge','빛에 비춘 반쪽 두 장'],['bath','거울 김과 잠긴 화면'],['closet','세탁 라벨'],['window','커튼 접기'],['bed','양 악보 피아노'],['map','발자국 지도'],['plate','문패 카드'],['gift','선물 찾기'],['voice','목소리가 맑아지는 연출']];
+  chipGroup('#sBest',MOM,S.survey.best,v=>{S.survey.best=v;save();});
+  chipGroup('#sWorst',MOM,S.survey.worst,v=>{S.survey.worst=v;save();});
+  chipGroup('#sStory',[['moved','이해되고 찡했다'],['ok','이해는 됐다'],['lost','잘 모르겠다']],S.survey.story,v=>{S.survey.story=v;save();});
+  chipGroup('#sDiff',[['easy','너무 쉬움'],['good','적당'],['hard','어려움'],['vhard','너무 어려움']],S.survey.diff,v=>{S.survey.diff=v;save();});
+  chipGroup('#sEye',[['cam','카메라로 잘 됨'],['camBad','카메라가 잘 안 잡힘'],['fb','화면 대체로 함'],['none','안 씀']],S.survey.eye,v=>{S.survey.eye=v;save();});
+  chipGroup('#sCmp',[['worse','카페보다 별로'],['same','비슷함'],['better','카페보다 좋음']],S.survey.cmp,v=>{S.survey.cmp=v;save();});
+  chipGroup('#sPrice',[['0','무료만'],['3900','3,900원'],['9900','9,900원'],['14900','14,900원'],['19900','19,900원 이상']],S.survey.price,v=>{S.survey.price=v;save();});
 }
 $('#nps').oninput=e=>$('#npsV').textContent=e.target.value;
 $('#saveBtn').onclick=async()=>{
-  const rec={ts:new Date().toISOString(),version:'v0.5',eye:S.eye||null,eyeSaw:!!(S.found&&S.found.eyeSaw),eyeUse:S.survey.eyeUse||null,limitMin:S.limit,timeLeftSec:S.timeLeft,timedOut:!!S.timedOut,bgm:BGM.on,ratings:S.ratings,secs:S.times,hints:S.hints,skipped:S.skipped,
-    most:S.survey.most||null,story:S.survey.story||null,voice:S.survey.voice||null,diff:S.survey.diff||null,compare:S.survey.compare||null,nps:+$('#nps').value,price:S.survey.price||null,
-    memo:$('#memo').value.slice(0,1500),mode:S.mode,muted:!!S.muted,sensor:!!S.sensor,pair:!!S.n2,callVoice:S.voice};
+  const rec={ts:new Date().toISOString(),version:'v0.6',limitMin:S.limit,timedOut:!!S.timedOut,minutes:S.startedAt?Math.round((Date.now()-S.startedAt)/60000):null,
+    lockMode:S.lockMode,gift:S.gift.on,giftPhoto:!!S.gift.img,eye:S.eye,eyeSeen:S.eyeSeen,times:S.times,hints:S.hints,wrong:S.wrong,order:S.found,
+    fun:S.survey.fun||null,best:S.survey.best||null,worst:S.survey.worst||null,story:S.survey.story||null,diff:S.survey.diff||null,eyeUse:S.survey.eye||null,compare:S.survey.cmp||null,price:S.survey.price||null,
+    nps:+$('#nps').value,memo:$('#memo').value.slice(0,1500),muted:!!S.muted,bgm:BGM.on,host:location.hostname};
   $('#saveBtn').disabled=true;$('#saveMsg').textContent='저장 중…';
   let ok=false;if(DB){try{await DB.collection('feedback').add(rec);ok=true;}catch(e){ok=false;}}
-  if(ok){$('#saveMsg').textContent='저장했어요. 플레이해 주셔서 감사합니다. 숨겨둔 쪽지 4장을 회수해 주세요(수건, 냉장고, 현관 신발, '+S.furn+').';clearSave();}
-  else{$('#saveBtn').disabled=false;const js=JSON.stringify(rec);$('#saveMsg').innerHTML='';const t=document.createElement('div');t.textContent='이 주소에서는 자동 저장이 되지 않아요. 아래 [결과 복사]를 눌러 복사한 뒤 Claude 채팅에 붙여 넣어 주세요.';const ta=document.createElement('textarea');ta.value=js;ta.readOnly=true;ta.style.cssText='width:100%;height:90px;margin-top:8px;font-size:11px;background:#0b0f12;color:#cfd6dc;border:1px solid #333;border-radius:6px';const b=document.createElement('button');b.className='btn';b.textContent='결과 복사';b.style.marginTop='8px';b.onclick=async()=>{try{await navigator.clipboard.writeText(js);b.textContent='복사했어요';}catch(e){ta.select();document.execCommand('copy');b.textContent='복사했어요';}};$('#saveMsg').append(t,ta,b);}
+  if(ok){$('#saveMsg').textContent='저장했어요. 플레이해 주셔서 고마워요.';clearSave();}
+  else{$('#saveBtn').disabled=false;const js=JSON.stringify(rec);$('#saveMsg').textContent='';const t=document.createElement('div');t.textContent='이 주소에서는 자동 저장이 되지 않아요. [결과 복사]를 눌러 Claude 채팅에 붙여 넣어 주세요.';
+    const ta=document.createElement('textarea');ta.value=js;ta.readOnly=true;ta.style.cssText='width:100%;height:90px;margin-top:8px;font-size:11px';
+    const b=document.createElement('button');b.className='btn';b.type='button';b.textContent='결과 복사';b.style.marginTop='8px';
+    b.onclick=async()=>{try{await navigator.clipboard.writeText(js);b.textContent='복사했어요';}catch(e){ta.select();try{document.execCommand('copy');}catch(_){}b.textContent='복사했어요';}};$('#saveMsg').append(t,ta,b);}
 };
 
-/* ---------- 방송 장치 모드 ---------- */
-$('#bcJoin').onclick=async()=>{
-  const code=$('#bcIn').value.trim();if(!/^\d{4}$/.test(code)){$('#bcMsg').textContent='4자리 숫자를 입력하세요.';return;}
-  if(!ROOM){$('#bcMsg').textContent='이 화면에서는 방송 장치 연결을 쓸 수 없어요.';return;}
-  $('#bcMsg').textContent='연결 중…';
-  try{const r=await ROOM.join('mp-'+code);preload(['bc1','bc2','bc3']);
-    r.on('play',async msg=>{if(msg.sameTab)return;$('#bcStandby').hidden=true;await playBroadcast();$('#bcStandby').hidden=false;$('#bcStandbyTxt').textContent='방송 완료 · 대기 중';});
-    $('#bcStandby').hidden=false;$('#bcStandbyTxt').textContent='방송 장치 대기 중 · 코드 '+code+' · 화면을 켠 채 두세요';
-    try{if(navigator.wakeLock)await navigator.wakeLock.request('screen');}catch(e){}
-  }catch(e){$('#bcMsg').textContent='연결하지 못했어요. 코드를 확인하거나 1대 모드로 진행하세요.';}
-};
-$('#bcTest').onclick=()=>{unlockAudio();sfx.bell();$('#bcTest').textContent='소리 확인 완료';};
-
-show('s-start');
-})();
+/* ---------- 이어하기 ---------- */
+const saved=load();
+if(saved){$('#resumeBtn').hidden=false;$('#resumeBtn').onclick=()=>{S=saved;setMuted(!!S.muted);unlockAudio();keepAwake();preload(CLIPS);
+  if(S.step==='s-mem'&&S.next)S.step=S.next;if(!STEPS.includes(S.step)||S.step==='s-open')S.step='s-door';
+  enter(S.step);if(inGame()){timerStart();bgmStart();}};}
 </script>
 </body></html>

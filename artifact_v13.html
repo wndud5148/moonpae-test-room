@@ -241,11 +241,15 @@ input[type=range]{padding:0;min-height:44px;accent-color:var(--brass)}
 
 .who{display:flex;justify-content:space-between;align-items:center}.skip{font:inherit;font-size:12px;background:none;border:1px solid rgba(217,166,84,.35);color:inherit;opacity:.75;border-radius:12px;padding:2px 10px;cursor:pointer}
 #giveA{flex:1;min-width:0;font:inherit;padding:10px;border-radius:8px;border:1px solid rgba(217,166,84,.4);background:rgba(0,0,0,.25);color:inherit}
+
+.fadecard{margin:10px 0 12px;padding:12px 14px;border:1px dashed rgba(217,166,84,.45);border-radius:10px;background:rgba(0,0,0,.18);text-align:center}
+.fadecard .fadeq{font-family:"Nanum Myeongjo",serif;font-size:19px;margin:8px 0;opacity:.85}
+.fadecard .fadeq b{letter-spacing:.2em;opacity:.45;filter:blur(.4px)}
 </style>
 
 <div class="app" id="app">
   <div class="top">
-    <span class="brand">▣ 자정의 문패 v1.3</span>
+    <span class="brand">▣ 자정의 문패 v1.3.1</span>
     <span class="timer" id="timer" hidden>--:--</span>
     <span class="tgl"><button class="toggle" id="bgmBtn" aria-pressed="true" type="button">음악</button><button class="toggle" id="muteBtn" aria-pressed="false" type="button">자막만</button></span>
   </div>
@@ -350,7 +354,7 @@ input[type=range]{padding:0;min-height:44px;accent-color:var(--brass)}
   <section class="screen" id="s-give" hidden>
     <div class="mask" id="maskGive" aria-hidden="true"></div>
     <div class="caption" id="capGive" aria-live="polite"></div>
-    <div class="panel" id="giveBox" hidden><span class="label">그 사람이 냉장고 앞에서 한 혼잣말을, 문패에게 돌려주세요</span><div class="row"><input id="giveA" placeholder="떠올린 말" autocomplete="off" aria-label="돌려줄 말"><button class="btn" id="giveGo" type="button">돌려주기</button></div><p class="small center" id="giveMsg" aria-live="polite"></p></div>
+    <div class="panel" id="giveBox" hidden><span class="label">사라진 기억을 문패에게 돌려주세요</span><div class="fadecard"><span class="small">기억 2 · 냉장고 앞 · 장 봐 온 것들을 넣으며</span><p class="fadeq">“이제 여기가, <b>○○ ○</b>이야.”</p><span class="small">당신이 냉장고 앞에서 찾아낸 그 말이에요.</span></div><div class="row"><input id="giveA" placeholder="떠올린 말" autocomplete="off" aria-label="돌려줄 말"><button class="btn" id="giveGo" type="button">돌려주기</button></div><p class="small center" id="giveMsg" aria-live="polite"></p><div class="hintrow" data-rec="give"></div></div>
     <button class="btn" id="giveNext" type="button" hidden>남은 세 장면 찾으러 가기</button>
   </section>
 
@@ -831,7 +835,8 @@ function H(){return {
     how:(S.mirrorOK?[]:[{html:'이 집 거울에는 그림이 잘 남지 않았대요. 문패가 기억해 낸 모양이에요: '+PATTERN_SVG}]).concat([
       '쪽지: "거울은 숨을 쉬어야 기억해." 거울을 보세요.','뜨거운 물을 1~2분 틀거나 거울에 입김을 크게 불어 김이 서리게 하세요. 선이 드러나요.',
       {html:'거울에 드러난 선을 ● 타일 아홉 칸 카드 위에 같은 모양으로 옮겨 그리고, 동그라미(시작)부터 지나는 글자를 이어 읽으세요. 이 모양이에요: '+PATTERN_SVG},
-      '그 사람이 거울 앞에서 한 말은 "첫날 밤". 문패가 적어 온 칸의 끝은…?','정답: 마지막밤'])},
+      '그 사람이 거울 앞에서 한 말은 "첫날 밤". 그 첫날로부터 꼭 일 년, 이 기억들에게 오늘은 어떤 밤일까요?','정답: 마지막밤'])},
+  give:{where:[],how:['기억 2, 냉장고 앞에서 당신이 알아낸 세 글자예요. 그 사람이 장을 보고 와서, 혼자인데도 "우리"라고 했던 말.','정답: 우리집 (집만 적어도 돼요)']},
   closet:{where:whereList('closet'),
     how:['이삿짐 메모에 겉옷 네 벌의 라벨이 옮겨 그려져 있어요. 쪽지에 적힌 것(세탁기·햇볕·뜨거운 다리미)을 하나라도 쓴 겉옷은 지워요. 카드 아래 그림 풀이가 있어요.',
       '세탁기(숫자 적힌 대야), 햇볕(해 그림), 뜨거운 다리미(점 셋) 중 아무것도 없는 겉옷은 하나뿐이에요.',
@@ -978,9 +983,9 @@ async function give(){
   begin('s-give');const tok=SCR;$('#giveBox').hidden=true;$('#giveNext').hidden=true;$('#giveMsg').textContent='';
   if(S.gave){await narrate($('#capGive'),[line('g2'),line('m3c'),line('m3d')],$('#maskGive'));if(tok===SCR)$('#giveNext').hidden=false;return;}
   const ok=await narrate($('#capGive'),[line('g1')],$('#maskGive'));if(ok===false||tok!==SCR)return;
-  $('#giveA').value='';$('#giveBox').hidden=false;
+  $('#giveA').value='';$('#giveBox').hidden=false;let miss=0;
   $('#giveGo').onclick=async()=>{if(S.gave||BUSY.give)return;const v=norm($('#giveA').value);if(!v)return;const c=core(v);
-    if(!['우리집','집','우리의집','여기가우리집','여기우리집'].includes(c)){shake('#giveA');$('#giveMsg').textContent=v.includes('밤')?'그건 거울 앞에서 한 말이에요. 냉장고 앞에서는요?':'그 말은 아니었어요. 장을 보고 와서, 냉장고 앞에서 한 혼잣말이에요.';return;}
+    if(!['우리집','집','우리의집','여기가우리집','여기우리집'].includes(c)){shake('#giveA');$('#giveMsg').textContent=v.includes('밤')?'그건 거울 앞에서 한 말이에요. 냉장고 앞에서는요?':'그 말은 아니었어요. 장을 보고 와서, 냉장고 앞에서 한 혼잣말이에요.';if(++miss>=2)pulseHints();return;}
     if(!once('give'))return;blurInputs();S.gave=true;save();sfx.unlock();$('#giveBox').hidden=true;await sleep(900);
     const ok2=await narrate($('#capGive'),[line('g2',{pause:900}),line('m3c'),line('m3d')],$('#maskGive'));if(ok2!==false&&tok===SCR)$('#giveNext').hidden=false;};
   $('#giveA').onkeydown=e=>{if(e.key==='Enter')$('#giveGo').click();};}

@@ -1,4 +1,4 @@
-자정의 문패 v1.1 효과음 출처 (모두 Freesound.org, Creative Commons 0 — 출처 표시 의무 없음, 상업적 사용 가능)
+자정의 문패 v1.1 v1.2 효과음 출처 (모두 Freesound.org, Creative Commons 0 — 출처 표시 의무 없음, 상업적 사용 가능)
 v8s_fridge  : 458402 Breviceps "Open fridge + fridge interior + close fridge" + 560483 MilaChan7777 "Alarma de la nevera"
 v8s_lock    : 867650 cristyaria "Korean_digital_door_lock_keypad"
 v8s_drip    : 543649 Legnalegna55 "Water Droplets"

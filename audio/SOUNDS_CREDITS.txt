@@ -1,0 +1,8 @@
+자정의 문패 v0.8 효과음 출처 (모두 Freesound.org, Creative Commons 0 — 출처 표시 의무 없음, 상업적 사용 가능)
+v8s_fridge  : 458402 Breviceps "Open fridge + fridge interior + close fridge" + 560483 MilaChan7777 "Alarma de la nevera"
+v8s_lock    : 867650 cristyaria "Korean_digital_door_lock_keypad"
+v8s_drip    : 543649 Legnalegna55 "Water Droplets"
+v8s_closet  : 475488 o_ciz "Door_wood_wardrobe_1" + 248020 sophiehall3535 "Coat Hangers"
+v8s_blanket : 388454 vovere "Movement in bed, blanket"
+v8s_rain    : 161705 allrealsound "Rain from inside"
+https://freesound.org/s/<번호>/ 에서 원본 확인

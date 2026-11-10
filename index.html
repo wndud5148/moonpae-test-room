@@ -219,11 +219,17 @@ input[type=range]{padding:0;min-height:44px;accent-color:var(--brass)}
 .piano button{flex-direction:column;align-items:center;gap:2px}.piano button small{font-family:var(--mono);font-size:12px;color:#6b5a3a}
 .br .hintrow{margin-top:4px}
 #eyeNoCam{align-self:center}
+
+/* v0.8 */
+.riddle{font-family:'Nanum Myeongjo',serif;font-size:1.05rem;line-height:1.6;color:var(--paper,#efe6d2);border-left:3px solid #d9a654;padding:4px 0 4px 12px;margin:6px 0 12px}
+.kitlink{opacity:.75;margin-top:10px}.kitlink a{color:#d9a654}
+@keyframes hpulse{0%,100%{box-shadow:0 0 0 0 rgba(217,166,84,0)}50%{box-shadow:0 0 0 6px rgba(217,166,84,.45)}}
+.btn.pulse{animation:hpulse 1s ease-in-out 3}
 </style>
 
 <div class="app" id="app">
   <div class="top">
-    <span class="brand">▣ 자정의 문패 v0.7</span>
+    <span class="brand">▣ 자정의 문패 v0.8</span>
     <span class="timer" id="timer" hidden>--:--</span>
     <span class="tgl"><button class="toggle" id="bgmBtn" aria-pressed="true" type="button">음악</button><button class="toggle" id="muteBtn" aria-pressed="false" type="button">자막만</button></span>
   </div>
@@ -234,13 +240,14 @@ input[type=range]{padding:0;min-height:44px;accent-color:var(--brass)}
   <section class="screen" id="s-start">
     <div class="mask" aria-hidden="true"></div>
     <h1>자정의 문패</h1>
-    <p class="muted">이 집 현관의 문패는 문 앞에서 집 안의 소리를 들으며 삽니다. 그리고 자정이 되면 그날을 잊습니다. 오늘 밤, 문패가 아무것도 기억하지 못합니다. 자정 전에 문패의 기억을 찾아 주세요.</p>
+    <p class="muted">이 집 현관의 문패는 집 안의 문들을 이웃처럼 알고, 이 집의 일을 문으로 기억합니다. 그런데 오늘 밤, 문패의 기억이 자꾸 새어 나갑니다. 자정 전에 문패가 숨겨 둔 기억을 찾아 주세요.</p>
     <div class="panel">
       <span class="label">이렇게 진행해요</span>
       <p class="small"><b>숨기는 사람(호스트) 1명</b>이 플레이어가 없을 때 약 30분 준비하고, <b>플레이어 1~3명</b>이 휴대폰 1대로 약 60분 풉니다. 호스트는 숨긴 자리는 알지만 문제 풀이와 정답 대부분은 모릅니다. 플레이 중에는 함께 풀지 말고 진행자로 지켜봐 주세요.</p>
     </div>
     <div class="panel">
       <span class="label">준비물</span>
+      <p class="small"><b>인쇄 키트가 꼭 필요합니다.</b> 종이를 접고, 빛에 비추고, 카메라로 비추는 퍼즐이라 화면만으로는 풀 수 없어요.</p>
       <p class="small">휴대폰 1대 · <b>인쇄 키트 A4 7장</b>(표지 별도) · 3자리 번호 자물쇠와 파우치 1개(없으면 봉투와 테이프) · 비누 · 선택: 숨겨 둘 작은 선물</p>
     </div>
     <button class="btn" id="goSetup" type="button">호스트 준비 시작</button>
@@ -276,7 +283,7 @@ input[type=range]{padding:0;min-height:44px;accent-color:var(--brass)}
       <h3>4. 욕실 거울 그림</h3>
       <div class="mirror-guide">
         <div id="patternBox"></div>
-        <p class="small"><b>비누</b>를 마른 손가락에 아주 조금 묻혀 거울에 이 모양을 <b>크게(약 20cm)</b> 그리세요. 점은 그리지 않습니다. 마른 휴지로 살살 문질러 거의 안 보이게 한 뒤, <b>뜨거운 물을 1~2분 틀어</b> 김이 서리면 선이 드러나는지 확인하세요. 김서림 방지 거울이면 잘 안 됩니다.</p>
+        <p class="small"><b>비누</b>를 마른 손가락에 아주 조금 묻혀 거울에 이 모양을 <b>크게(약 20cm)</b> 그리세요. <b>시작점에는 작은 동그라미</b>를 함께 그리고, 나머지 점은 그리지 않습니다. 마른 휴지로 살살 문질러 거의 안 보이게 한 뒤, <b>뜨거운 물을 1~2분 틀어</b> 김이 서리면 선이 드러나는지 확인하세요. 김서림 방지 거울이면 잘 안 됩니다.</p>
       </div>
       <div class="chips" id="mirrorChips"></div>
     </div>
@@ -334,32 +341,37 @@ input[type=range]{padding:0;min-height:44px;accent-color:var(--brass)}
       <p class="small center" id="doorMsg" aria-live="polite"></p>
     </div>
     <div class="hintrow" data-rec="door"></div>
+    <p class="small kitlink">인쇄물이 없나요? <a target="_blank" rel="noopener" href="https://wndud5148.github.io/moonpae-test-room/kit.html#k-door">이 봉투의 인쇄물 보기</a> (테스트용)</p>
   </section>
 
   <!-- 기억 2 -->
   <section class="screen" id="s-fridge" hidden>
     <span class="rec">기억 2</span>
-    <h2 tabindex="-1">문패가 들은 두 번째 소리</h2>
-    <button class="btn ghost" id="replayFridge" type="button">▶ 그 소리 다시 듣기</button>
+    <h2 tabindex="-1">한여름에도 겨울이 사는 문</h2>
+    <p class="riddle">"안에는 늘 불이 켜져 있는데, 문을 닫으면 아무도 그 불을 본 적이 없죠."</p>
+    <button class="btn ghost" id="replayFridge" type="button">▶ 수수께끼 다시 듣기</button>
     <div class="lockbox">
-      <span class="label">기억의 말 · 보이는 글자 그대로</span>
+      <span class="label">기억의 말</span>
       <div class="row"><input id="fridgeA" placeholder="떠오른 말" autocomplete="off" aria-label="떠오른 말"><button class="btn small" id="fridgeGo" type="button">확인</button></div>
       <p class="small center" id="fridgeMsg" aria-live="polite"></p>
     </div>
     <div class="hintrow" data-rec="fridge"></div>
+    <p class="small kitlink">인쇄물이 없나요? <a target="_blank" rel="noopener" href="https://wndud5148.github.io/moonpae-test-room/kit.html#k-fridge">이 봉투의 인쇄물 보기</a> (테스트용)</p>
   </section>
 
   <!-- 기억 3 -->
   <section class="screen" id="s-bath" hidden>
     <span class="rec">기억 3</span>
-    <h2 tabindex="-1">목소리가 울리는 곳</h2>
-    <button class="btn ghost" id="replayBath" type="button">▶ 그 목소리 다시 듣기</button>
+    <h2 tabindex="-1">혼잣말이 두 번 들리는 문</h2>
+    <p class="riddle">"그날 밤, 그 사람은 그 문 안에서 거울을 보며 말했어요. 첫날 밤이다. 그 문 안에서는 하늘도 없는데 비가 내려요."</p>
+    <button class="btn ghost" id="replayBath" type="button">▶ 수수께끼 다시 듣기</button>
     <div class="lockbox">
-      <span class="label">기억의 말 · 보이는 글자 그대로</span>
+      <span class="label">기억의 말</span>
       <div class="row"><input id="bathA" placeholder="떠오른 말" autocomplete="off" aria-label="떠오른 말"><button class="btn small" id="bathGo" type="button">확인</button></div>
       <p class="small center" id="bathMsg" aria-live="polite"></p>
     </div>
     <div class="hintrow" data-rec="bath"></div>
+    <p class="small kitlink">인쇄물이 없나요? <a target="_blank" rel="noopener" href="https://wndud5148.github.io/moonpae-test-room/kit.html#k-bath">이 봉투의 인쇄물 보기</a> (테스트용)</p>
   </section>
 
   <!-- 남은 세 장면 -->
@@ -371,11 +383,12 @@ input[type=range]{padding:0;min-height:44px;accent-color:var(--brass)}
   </section>
 
   <section class="screen" id="s-closet" hidden>
-    <span class="rec">장면 · 그날 들은 소리</span>
-    <h2 tabindex="-1">딸깍, 탁탁, 지이익</h2>
-    <button class="btn ghost" id="replayCloset" type="button">▶ 그 소리 다시 듣기</button>
+    <span class="rec">장면 · 어깨만 걸린 문</span>
+    <h2 tabindex="-1">사람은 없는데 어깨만 줄지어</h2>
+    <button class="btn ghost" id="replayCloset" type="button">▶ 문패의 말 다시 듣기</button>
     <div class="lockbox"><span class="label">기억의 자물쇠</span><div class="dials" id="clDials"></div><button class="btn" id="clGo" type="button">열기</button><p class="small center" id="clMsg" aria-live="polite"></p></div>
     <div class="hintrow" data-rec="closet"></div>
+    <p class="small kitlink">인쇄물이 없나요? <a target="_blank" rel="noopener" href="https://wndud5148.github.io/moonpae-test-room/kit.html#k-closet">이 봉투의 인쇄물 보기</a> (테스트용)</p>
     <button class="btn ghost back" type="button">세 장면으로 돌아가기</button>
   </section>
 
@@ -385,25 +398,27 @@ input[type=range]{padding:0;min-height:44px;accent-color:var(--brass)}
     <button class="btn ghost" id="replayWindow" type="button">▶ 문패의 말 다시 듣기</button>
     <div class="lockbox"><span class="label">기억의 자물쇠</span><div class="dials" id="wnDials"></div><button class="btn" id="wnGo" type="button">열기</button><p class="small center" id="wnMsg" aria-live="polite"></p></div>
     <div class="hintrow" data-rec="window"></div>
+    <p class="small kitlink">인쇄물이 없나요? <a target="_blank" rel="noopener" href="https://wndud5148.github.io/moonpae-test-room/kit.html#k-window">이 봉투의 인쇄물 보기</a> (테스트용)</p>
     <button class="btn ghost back" type="button">세 장면으로 돌아가기</button>
   </section>
 
   <section class="screen" id="s-bed" hidden>
-    <span class="rec">장면 · 마지막으로 들은 소리</span>
-    <h2 tabindex="-1">사락사락</h2>
-    <button class="btn ghost" id="replayBed" type="button">▶ 그 소리 다시 듣기</button>
+    <span class="rec">장면 · 들추고 들어가 덮어 닫는 곳</span>
+    <h2 tabindex="-1">매일 밤 덮어 닫는 곳</h2>
+    <button class="btn ghost" id="replayBed" type="button">▶ 문패의 말 다시 듣기</button>
     <div class="lockbox"><span class="label">기억의 건반</span>
       <div class="pdisp" id="pianoDisp">· · · · · · ·</div>
       <div class="piano" id="piano"></div>
       <p class="small center" id="bdMsg" aria-live="polite"></p></div>
     <div class="hintrow" data-rec="bed"></div>
+    <p class="small kitlink">인쇄물이 없나요? <a target="_blank" rel="noopener" href="https://wndud5148.github.io/moonpae-test-room/kit.html#k-bed">이 봉투의 인쇄물 보기</a> (테스트용)</p>
     <button class="btn ghost back" type="button">세 장면으로 돌아가기</button>
   </section>
 
   <!-- 발자국 → 상자 -->
   <section class="screen" id="s-meta" hidden>
     <span class="rec">그날 밤의 발자국</span>
-    <h2 tabindex="-1">발자국이 멈춘 곳</h2>
+    <h2 tabindex="-1">발자국이 밟은 칸</h2>
     <div class="caption" id="capMeta" aria-live="polite"></div>
     <div id="memList" class="memlist"></div>
     <button class="btn ghost eyeBtn" type="button">▣ 문패의 눈 (기억 지도)</button>
@@ -465,24 +480,24 @@ input[type=range]{padding:0;min-height:44px;accent-color:var(--brass)}
 </div>
 
 <script>
-const T={"o1": "…들리세요? 다행이다. 저는 이 집 현관의 문패예요.", "o2": "저는 문 앞에서 집 안의 소리를 들으며 살아요. 그리고 자정이 되면, 그날을 잊어요. 그래서 잊으면 안 되는 건, 저만 알아보는 수수께끼로 남겨 두죠.", "o3": "그런데 오늘은… 아무것도 떠오르지 않아요. 분명 오늘 밤, 꼭 해야 할 일이 있었는데.", "o4": "오늘 이 집 사람이, 이 휴대폰을 제 눈으로 빌려줬어요. 그래서 처음으로 집 안을 봤는데… 본 것들이 다 흐릿해요.", "o5": "자정 전에 제 기억을 찾아 주세요. 첫 번째는 제가 있는 곳, 현관에 있어요. 제 글씨는 화면의 문패의 눈으로만 보여요.", "m1a": "삐리릭… 기억나요. 이 문이 처음 열리던 날이에요.", "m1b": "그 사람은 새 비밀번호를 세 번이나 틀렸어요. 아직 손에 익지 않았거든요.", "m1c": "그날 제가 다음으로 들은 건… 이 소리였어요.", "m2a": "우리 집… 맞아요.", "m2b": "그 사람은 장 봐 온 것들을 냉장고에 넣으면서 혼잣말을 했어요. 이제 여기가 우리 집이야.", "m2c": "그리고 그날 밤, 저는 다른 곳에서 나는 소리를 들었어요.", "e1": "…여기선, 제 목소리도 울려요. 물방울 소리도요.", "m3a": "마지막 밤…", "m3b": "이제 생각났어요. 제 기억 칸은, 오늘 밤이 마지막이에요. 자정이 지나면 저는 더는 아무것도 기억하지 못하는, 그냥 문패가 돼요.", "m3c": "그래서 어제의 제가 가장 소중한 기억을 남겨 둔 거예요. 오늘 밤, 누군가에게 건네주려고.", "m3d": "남은 기억은 세 개. 이 집의 첫날, 세 장면이에요. 어느 것부터 찾아도 괜찮아요.", "cw": "이 집에는, 사람은 드나들지 않고 바람과 빛만 드나드는 문이 있어요.", "cc": "이 소리, 기억나요? 그날, 이 소리가 나던 곳이에요.", "cb": "이건 그날 밤, 제가 마지막으로 들은 소리예요.", "mwa": "쏴아… 그날 오후, 갑자기 비가 들이쳤어요. 그 사람은 짐을 풀다 말고 뛰어가서 창문을 닫았죠.", "mca": "그 사람은 비 맞은 겉옷을 손으로 빨아서, 그늘에 널고, 약한 열로 다렸어요. 이 집 옷걸이에 처음 건 옷이었죠.", "mba": "그날 밤, 그 사람은 새 이불 속에서 이 노래를 흥얼거리다 잠들었어요. 이 집에서의 첫 잠이었죠.", "mt1": "세 장면이 모두 돌아왔어요. 그날 밤, 그 사람의 발자국이 세 곳에 멈췄었는데.", "mt2": "기억 지도를 제 눈으로 다시 봐 주세요. 발자국이 멈춘 곳마다, 그 장면의 답이 하나씩 필요해요.", "po1": "열렸네요. 그 안에 있는 건… 제 얼굴이에요. 제 눈으로, 저를 비춰 주세요.", "pl1": "아… 이제 다 기억나요. 오늘 아침, 이 집 사람이 저에게 부탁을 하나 했어요.", "pl2g": "오늘 밤 오는 사람에게, 숨겨 둔 선물이 있는 곳을 꼭 알려 달라고요.", "pl2n": "오늘 밤 오는 사람에게, 이 집의 첫날을 꼭 들려 달라고요. 그게 제 마지막 일이었어요.", "pl3": "오늘 이 휴대폰으로 그곳을 봐 뒀어요. 흐릿하지만, 이렇게 생겼어요.", "t5": "자정까지, 오 분 남았어요.", "t1": "일 분.", "tout": "자정이에요… 기억이 흐려져요. 그래도, 끝까지 함께해 주세요.", "wl": "아니에요… 잠깐만요. 기억을 더듬어 볼게요.", "f1": "…이게 제 진짜 목소리예요. 기억이 다 돌아오니까, 목소리도 돌아왔네요.", "f2": "곧 자정이에요. 자정이 지나면 저는 오늘을 잊고, 더는 아무것도 기억하지 못하겠죠.", "f2t": "자정이 지났는데도… 이상하죠. 당신 덕분에, 아직 이걸 기억하고 있어요.", "f3": "그래도 괜찮아요. 이 집의 첫날을, 이제 당신이 기억하니까요.", "f4": "고마워요. 제가 마지막으로 기억할 사람이, 당신이라서 다행이에요."};
-const PATTERN_SVG='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 14 96 84" style="width:150px;height:auto"><circle cx="22" cy="30" r="3" fill="#888"/><circle cx="48" cy="30" r="3" fill="#888"/><circle cx="74" cy="30" r="3" fill="#888"/><circle cx="22" cy="56" r="3" fill="#888"/><circle cx="48" cy="56" r="3" fill="#888"/><circle cx="74" cy="56" r="3" fill="#888"/><circle cx="22" cy="82" r="3" fill="#888"/><circle cx="48" cy="82" r="3" fill="#888"/><circle cx="74" cy="82" r="3" fill="#888"/><path d="M22 56 L48 30 L74 56 L48 82" fill="none" stroke="#d9a654" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-/* ===== 자정의 문패 v0.7 ===== */
+const T={"o1": "…들리세요? 다행이다. 저는 이 집 현관의 문패예요.", "o2": "저는 이 집의 문들을 이웃처럼 알아요. 냉장고 문, 욕실 문, 옷장 문, 창문까지. 그래서 이 집에서 있었던 일을, 문으로 기억하죠.", "o3": "그런데 오늘 밤은 이상해요. 기억이 자꾸 새어 나가요. 분명 오늘 밤, 꼭 해야 할 일이 있었는데.", "o3b": "말로 적어 두면, 저는 그 말까지 잊어버려요. 그래서 소중한 기억은 저만 알아볼 모양으로 남겨 뒀어요. 빛과, 김과, 주름과, 노래로요.", "o4": "오늘 이 집 사람이, 이 휴대폰을 제 눈으로 빌려줬어요. 그래서 처음으로 집 안을 봤는데… 본 것들이 다 흐릿해요.", "o5": "자정 전에 제 기억을 찾아 주세요. 첫 번째는 제가 있는 곳, 현관에 있어요. 제 글씨는 화면의 문패의 눈으로만 보여요.", "m1a": "삐리릭… 기억나요. 이 문이 처음 열리던 날이에요.", "m1b": "그 사람은 새 비밀번호를 세 번이나 틀렸어요. 아직 손에 익지 않았거든요.", "m1c": "그 사람이 다음으로 연 문은요, 한여름에도 겨울이 사는 문이었어요. 안에는 늘 불이 켜져 있는데, 문을 닫으면 아무도 그 불을 본 적이 없죠.", "m2a": "우리 집… 맞아요.", "m2b": "그 사람은 장 봐 온 것들을 냉장고에 넣으면서 혼잣말을 했어요. 이제 여기가 우리 집이야.", "m2c": "그날 밤, 그 사람은 또 다른 문 안에서 거울을 보며 말했어요. 첫날 밤이다. 그날부터 저는, 이 집의 밤을 하나씩 세었어요.", "e1": "그 문 안에서는, 혼잣말도 두 번 들려요. 하늘도 없는데, 비가 내리고요.", "m3a": "마지막 밤…", "m3b": "첫날 밤부터 세어 온 밤이, 오늘로 다 찼어요. 제 기억 칸은 오늘 밤이 마지막이에요. 자정이 지나면 저는 아무것도 기억하지 못하는, 그냥 문패가 돼요.", "m3c": "그래서 기억이 다 새어 나가기 전에, 가장 소중한 기억을 남겨 둔 거예요. 오늘 밤, 누군가에게 건네주려고.", "m3d": "남은 기억은 세 개. 이 집의 첫날, 세 장면이에요. 세 개의 문 뒤에 있어요. 어느 것부터 찾아도 괜찮아요.", "cw": "이 집에는, 사람은 드나들지 않고 바람과 빛만 드나드는 문이 있어요.", "cc": "이 집에는, 사람은 없는데 그 사람의 어깨만 줄지어 걸려 있는 문이 있어요.", "cb": "그리고 문은 아니지만, 그 사람이 매일 밤 들추고 들어가서, 덮어 닫는 곳이 있어요.", "mwa": "쏴아… 그날 오후, 갑자기 비가 들이쳤어요. 그 사람은 짐을 풀다 말고 뛰어가서 창문을 닫았죠.", "mca": "그 사람은 비 맞은 겉옷을 손으로 빨아서, 그늘에 널고, 약한 열로 다렸어요. 이 집 옷걸이에 처음 건 옷이었죠.", "mba": "그날 밤, 그 사람은 새 이불 속에서 이 노래를 흥얼거리다 잠들었어요. 이 집에서의 첫날 밤이었죠.", "mt1": "세 장면이 모두 돌아왔어요. 그날 밤, 그 사람은 잠들기 전에 집 안을 한 바퀴 돌았어요.", "mt2": "기억 지도를 제 눈으로 봐 주세요. 그 사람은 멈춰 설 때마다, 그 장면의 기억 한 칸을 밟았어요. 밟은 칸의 숫자를, 걸어간 순서대로요.", "po1": "열렸네요. 그 안에 있는 건… 제 얼굴이에요. 제 눈으로, 저를 비춰 주세요.", "pl1": "아… 이제 다 기억나요. 오늘 아침, 이 집 사람이 저에게 부탁을 하나 했어요.", "pl2g": "오늘 밤 오는 사람에게, 숨겨 둔 선물이 있는 곳을 꼭 알려 달라고요.", "pl2n": "오늘 밤 오는 사람에게, 이 집의 첫날을 꼭 들려 달라고요. 그게 제 마지막 일이었어요.", "pl3": "오늘 이 휴대폰으로 그곳을 봐 뒀어요. 흐릿하지만, 이렇게 생겼어요.", "t5": "자정까지, 오 분 남았어요.", "t1": "일 분.", "tout": "자정이에요… 기억이 흐려져요. 그래도, 끝까지 함께해 주세요.", "wl": "잠깐만요… 기억을 더듬어 볼게요. 막히면 힌트를 열어 주세요.", "f1": "…이게 제 진짜 목소리예요. 기억이 다 돌아오니까, 목소리도 돌아왔네요.", "f2": "곧 자정이에요. 첫날 밤부터 세어 온 밤도, 이제 끝이에요.", "f2t": "자정이 지났는데도… 이상하죠. 당신 덕분에, 아직 이걸 기억하고 있어요.", "f3": "그래도 괜찮아요. 이 집의 첫날을, 이제 당신이 기억하니까요.", "f4": "고마워요. 제가 마지막으로 기억할 사람이, 당신이라서 다행이에요."};
+const PATTERN_SVG='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 14 96 84" style="width:150px;height:auto"><circle cx="22" cy="30" r="3" fill="#888"/><circle cx="48" cy="30" r="3" fill="#888"/><circle cx="74" cy="30" r="3" fill="#888"/><circle cx="22" cy="56" r="3" fill="#888"/><circle cx="48" cy="56" r="3" fill="#888"/><circle cx="74" cy="56" r="3" fill="#888"/><circle cx="22" cy="82" r="3" fill="#888"/><circle cx="48" cy="82" r="3" fill="#888"/><circle cx="74" cy="82" r="3" fill="#888"/><path d="M22 56 L48 30 L74 56 L48 82" fill="none" stroke="#d9a654" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="22" cy="56" r="8" fill="none" stroke="#d9a654" stroke-width="3"/></svg>';
+/* ===== 자정의 문패 v0.8 ===== */
 const $=s=>document.querySelector(s);
 const sleep=ms=>new Promise(r=>setTimeout(r,window.__FAST?Math.min(ms,20):ms));
 const reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const STEPS=['s-setup','s-hand','s-open','s-door','s-mem','s-fridge','s-bath','s-hub','s-closet','s-window','s-bed','s-meta','s-plate','s-end','s-survey'];
 const PLAY=['s-open','s-door','s-mem','s-fridge','s-bath','s-hub','s-closet','s-window','s-bed','s-meta','s-plate'];
-const KEY='mp_state_v07',IMG='mp7_img_';
+const KEY='mp_state_v08',IMG='mp8_img_';
 const MEMS=['door','fridge','bath','window','closet','bed','meta'];
 const SPOTS=['door','fridge','bath','closet','window','bed','gift'];
 const ANS={closet:'618',window:'472',bed:'1155665'};
 const TUNE=[0,0,4,4,5,5,4];
 let S=fresh();
-function fresh(){return {v:7,step:'s-start',limit:60,deadline:null,muted:false,guest:'',lockMode:'phys',mirrorOK:true,
+function fresh(){return {v:8,step:'s-start',limit:60,deadline:null,muted:false,guest:'',lockMode:'phys',mirrorOK:true,
   code:{door:[],order:[],steps:{},meta:''},gift:{on:true,msg:''},spot:{},mem:{},found:[],hints:{},wrong:{},lockUntil:{},times:{},t0:{},
   eye:null,eyeSeen:{},survey:{},w5:false,w1:false,timedOut:false,pend:null,plateSeen:false,plateDone:false,giftZoom:0,giftShown:false,startedAt:null,endedAt:null,metaIntro:false};}
-function load(){try{const t=localStorage.getItem(KEY);if(t){const o=JSON.parse(t);if(o&&o.v===7&&o.code&&o.code.door&&o.code.door.length)return o;}}catch(e){}return null;}
+function load(){try{const t=localStorage.getItem(KEY);if(t){const o=JSON.parse(t);if(o&&o.v===8&&o.code&&o.code.door&&o.code.door.length)return o;}}catch(e){}return null;}
 function save(){let ok=true;try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){ok=false;}$('#saveWarn').hidden=ok;return ok;}
 function clearSave(){try{localStorage.removeItem(KEY);SPOTS.forEach(k=>localStorage.removeItem(IMG+k));}catch(e){}}
 function getImg(k){try{return localStorage.getItem(IMG+k);}catch(e){return null;}}
@@ -595,6 +610,12 @@ const sfx={
 };
 const PIANO=[['도',261.63],['레',293.66],['미',329.63],['파',349.23],['솔',392.0],['라',440.0],['시',493.88]];
 function pianoNote(f){tone(f,1.3,{type:'triangle',gain:.13});tone(f*2,.5,{gain:.025});}
+// 실제 녹음 효과음(Freesound CC0). 못 불러오면 합성음으로 대신한다.
+const REAL={fridge:['v8s_fridge',()=>sfx.fridge()],lock:['v8s_lock',()=>sfx.doorOpen()],drip:['v8s_drip',()=>sfx.drips()],closet:['v8s_closet',()=>sfx.closet()],bed:['v8s_blanket',()=>sfx.bed()],rain:['v8s_rain',()=>sfx.rain()]};
+const SFX_CLIPS=Object.values(REAL).map(r=>r[0]);
+async function real(k){const [id,fb]=REAL[k];const c=ac();if(!c||S.muted)return sleep(1500);
+  try{await loadClip(id);}catch(e){const r=fb();return r&&r.then?r:sleep(2500);}
+  return playClip(id,{fx:'natural',mod:0,t:''});}
 
 /* ---------- 배경음악 ---------- */
 const BGM={on:true,nodes:null,duck:0,pulseT:null,bellT:null};
@@ -653,7 +674,7 @@ function timerTick(){
 }
 function announce(id,long){
   const el=document.createElement('div');el.className='toast';el.setAttribute('role','status');el.textContent='▣ 문패: '+T[id];document.body.appendChild(el);
-  bgmDuck(true);playClip('v7_'+id,Object.assign({t:T[id]},moonOpt())).then(()=>bgmDuck(false));setTimeout(()=>el.remove(),long?7000:4500);
+  bgmDuck(true);playClip('v8_'+id,Object.assign({t:T[id]},moonOpt())).then(()=>bgmDuck(false));setTimeout(()=>el.remove(),long?7000:4500);
 }
 
 /* ---------- 자막 + 음성 (취소되면 false를 돌려준다) ---------- */
@@ -673,7 +694,7 @@ async function narrate(box,lines,maskEl){
       if(L.sfx){typeLine(box,L.sfx,'sfx');await (L.play?L.play():sleep(L.wait||900));continue;}
       const o=Object.assign({},L.o||moonOpt(),{t:L.t});
       maskEl&&maskEl.classList.add('speaking');
-      await Promise.all([typeLine(box,L.t,null,my),playClip('v7_'+L.a,o)]);
+      await Promise.all([typeLine(box,L.t,null,my),playClip('v8_'+L.a,o)]);
       maskEl&&maskEl.classList.remove('speaking');
       await sleep(L.pause||250);
     }
@@ -689,19 +710,25 @@ let DB=null;getCap('db').then(d=>{DB=d;});
 /* ---------- 도우미 ---------- */
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 function chipGroup(id,opts,cur,onPick){const box=$(id);box.textContent='';opts.forEach(([v,label])=>{const b=document.createElement('button');b.type='button';b.className='chip';b.textContent=label;b.setAttribute('aria-pressed',v===cur?'true':'false');b.onclick=()=>{box.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));onPick(v);};box.appendChild(b);});}
-function norm(s){return (s||'').replace(/[\s.,!?·'"~]/g,'');}
+function norm(s){let v=(s||'');try{v=v.normalize('NFC');}catch(e){}return v.replace(/[\s.,!?·'"~…「」『』()\[\]<>《》“”‘’-]/g,'');}
+// 말끝·앞말을 걷어 내 핵심어만 남긴다: "이제 여기가 우리 집이야" → "우리집"
+function core(v){return v.replace(/^(이제|여기가|여기는|여긴|여기)+/,'').replace(/(이었어요|이에요|입니다|이었다|이야|이다|예요|이지|이네|야|요|다)$/,'');}
 function shake(sel){sfx.clunk();const e=$(sel);if(!e)return;e.classList.add('shake');setTimeout(()=>e.classList.remove('shake'),400);}
 function begin(id){if(!S.t0[id])S.t0[id]=Date.now();show(id);}
 function done(rec){S.mem[rec]=true;if(S.t0['s-'+rec])S.times[rec]=Math.round((Date.now()-S.t0['s-'+rec])/1000);save();}
 function blurInputs(){try{document.activeElement&&document.activeElement.blur&&document.activeElement.blur();}catch(e){}}
-// 오답 3번마다 30초 동안 문패가 기억을 더듬는다(무작위 대입 방지). 방향·순서만 틀린 합리적 시도는 세지 않는다.
-function lockedMsg(rec,msgSel){const u=S.lockUntil[rec]||0;if(Date.now()<u){$(msgSel).textContent='문패가 기억을 더듬는 중… '+Math.ceil((u-Date.now())/1000)+'초';return true;}return false;}
-function wrong(rec,msgSel,shakeSel){
+// 오답 잠금은 없앴다. 3번 틀릴 때마다 문패가 잠깐(3초) 숨을 고르고, 힌트 버튼을 반짝여 알려 준다.
+function lockedMsg(rec,msgSel){const u=S.lockUntil[rec]||0;if(Date.now()<u){$(msgSel).textContent='문패가 기억을 더듬는 중…';return true;}return false;}
+let LAST_WRONG={};
+function wrong(rec,msgSel,shakeSel,val){
+  if(val!=null&&LAST_WRONG[rec]===val){$(msgSel).textContent='방금 확인한 답이에요.';shake(shakeSel);return;}
+  if(val!=null)LAST_WRONG[rec]=val;
   S.wrong[rec]=(S.wrong[rec]||0)+1;save();shake(shakeSel);
-  if(S.wrong[rec]%3===0){S.lockUntil[rec]=Date.now()+30000;save();$(msgSel).textContent='문패가 기억을 더듬는 중… 30초';playClip('v7_wl',Object.assign({t:T.wl},moonOpt()));
-    const iv=setInterval(()=>{if(!lockedMsg(rec,msgSel)){clearInterval(iv);$(msgSel).textContent='';}},1000);}
+  if(S.wrong[rec]%3===0){S.lockUntil[rec]=Date.now()+3000;save();$(msgSel).textContent='문패가 기억을 더듬는 중…';playClip('v8_wl',Object.assign({t:T.wl},moonOpt()));
+    pulseHints();setTimeout(()=>{if(!lockedMsg(rec,msgSel))$(msgSel).textContent='막히면 아래 힌트를 열어 보세요.';},3100);}
   else $(msgSel).textContent='아니에요.';
 }
+function pulseHints(){const sec=document.querySelector('.screen:not([hidden])');if(!sec)return;sec.querySelectorAll('.hintrow .btn:not([disabled])').forEach(b=>{b.classList.remove('pulse');void b.offsetWidth;b.classList.add('pulse');});}
 function soft(msgSel,t){sfx.clunk();$(msgSel).textContent=t;}
 function makeDials(sel,n){const box=$(sel);box.textContent='';const v=new Array(n).fill(0);
   for(let i=0;i<n;i++){const d=document.createElement('div');d.className='dial';
@@ -725,10 +752,14 @@ function drawPhoto(cv,data,fx,fy,level,blur){return new Promise(res=>{const x=cv
 function photoEl(k,level){const d=getImg(k),sp=S.spot[k]||{};if(!d)return null;const cv=document.createElement('canvas');cv.width=480;cv.height=360;cv.className='photo';drawPhoto(cv,d,sp.fx||.5,sp.fy||.5,level,level===0);return cv;}
 
 /* ---------- 힌트: '어디에 있죠?'(소리 → 흐릿한 사진 조각 → 전체 사진·자리) / '어떻게 풀죠?' ---------- */
-const ROOM={door:'첫 번째는 문패가 있는 곳, 현관이에요.',fridge:'"웅—" 하고 밤새 쉬지 않고 울다가, 문을 오래 열면 삐삐 우는 것. 주방 냉장고 근처예요.',
-  bath:'목소리가 울리고 물방울이 떨어지는 곳. 욕실이에요.',closet:'옷걸이 딸깍, 옷 터는 소리, 지퍼. 옷이 걸린 곳이에요.',
-  window:'바람과 빛만 드나드는 문. 창가예요.',bed:'이불이 사락거리고, 침대가 삐걱. 잠자는 곳이에요.'};
-function whereList(k){const sp=S.spot[k]||{};const has=!!getImg(k);const L=[ROOM[k]];
+// 위치 힌트: 수수께끼 풀이 방향 → 방 이름 → 흐릿한 사진 조각 → 전체 사진
+const ROOM={door:['첫 번째는 문패가 있는 곳, 현관이에요.'],
+  fridge:['한여름에도 차가운 곳, 음식을 넣어 두는 문이에요. 문을 닫으면 안의 불이 꺼지죠.','주방의 냉장고예요.'],
+  bath:['"첫날 밤이다"라고 말한 곳엔 거울이 있었죠. 소리가 울리고, 하늘이 아닌데 물이 쏟아지는(샤워) 문 안이에요.','욕실이에요. 세면대 근처를 보세요.'],
+  closet:['어깨만 있는 사람 = 옷걸이에 걸린 옷이에요.','옷이 걸린 곳(옷장·행거)이에요.'],
+  window:['사람 대신 바람과 빛이 드나드는 문. 커튼이 있는 곳이에요.','창가예요.'],
+  bed:['매일 밤 들추고 들어가서 덮는 것 = 이불이에요.','잠자는 곳(침대)이에요.']};
+function whereList(k){const sp=S.spot[k]||{};const has=!!getImg(k);const L=ROOM[k].slice();
   if(has){L.push({photo:k,level:0,txt:'문패가 그 자리를 본 흐릿한 조각이에요.'});L.push({photo:k,level:2,txt:'정확한 자리'+(sp.where?': '+sp.where:'')});}
   else if(sp.where)L.push('정확한 자리: '+sp.where);
   return L;}
@@ -744,7 +775,8 @@ function H(){return {
   bath:{where:whereList('bath'),
     how:(S.mirrorOK?[]:[{html:'이 집 거울에는 그림이 잘 남지 않았대요. 문패가 기억해 낸 모양이에요: '+PATTERN_SVG}]).concat([
       '쪽지: "거울은 숨을 쉬어야 기억해." 거울을 보세요.','뜨거운 물을 1~2분 틀거나 거울에 입김을 크게 불어 김이 서리게 하세요. 선이 드러나요.',
-      {html:'그 선은 휴대폰 잠금 패턴이에요. 잠긴 화면 카드 위에 같은 모양을 그리고, 지나는 글자를 이어 읽으세요. 이 모양이에요: '+PATTERN_SVG},'정답: 마지막밤'])},
+      {html:'그 선은 휴대폰 잠금 패턴이에요. 잠긴 화면 카드 위에 같은 모양을 그리고, 동그라미(시작)부터 지나는 글자를 이어 읽으세요. 이 모양이에요: '+PATTERN_SVG},
+      '그 사람이 거울 앞에서 한 말은 "첫날 밤". 문패가 세어 온 밤의 끝은…?','정답: 마지막밤'])},
   closet:{where:whereList('closet'),
     how:['쪽지의 세 구절은 옷을 돌본 세 가지 방법이에요. 라벨의 그림 중 그 셋을 찾으세요.',
       '"첨벙첨벙 손으로"=손빨래, "그늘에서 천천히"=그늘 말리기, "가장 약한 열"=점 하나 다리미. 옷장 속 옷 라벨에서 같은 그림을 찾아 비교해 보세요.',
@@ -755,8 +787,9 @@ function H(){return {
   bed:{where:whereList('bed'),
     how:['울타리 가로대 다섯 줄, 무엇을 닮았나요?','오선지예요. 양은 음표. 방울에 "도"라고 적힌 첫 양부터, 한 칸(줄과 사이) 오를 때마다 레, 미, 파, 솔, 라.',
       '모두 아는 동요예요. 반짝반짝…','정답: 도 도 솔 솔 라 라 솔']},
-  meta:{where:[],how:['● 봉투의 기억 지도를 ▣ 문패의 눈으로 비춰 보세요. 발자국이 세 곳에 멈춰요. 멈춘 순서가 숫자의 순서예요.',
-      '멈춘 곳에 찍힌 발자국 개수 = 그 장면 답에서 몇 번째 숫자인지예요. 예: 두 번 머물면 두 번째 숫자. 침대 장면의 답은 건반 번호(도=1 … 라=6)로 셉니다.',
+  meta:{where:[],how:['● 봉투의 기억 지도를 ▣ 문패의 눈으로 비춰 보세요. 발자국이 현관에서 출발해 세 곳에 멈춰요(①②③).',
+      '멈춘 곳마다 빈칸 줄이 있어요. 칸의 개수가 그 장면 답의 자리 수예요(옷장·창가 3칸, 침대 7칸). 발자국이 밟은 칸이 몇 번째인지 보세요.',
+      '그 장면의 답에서 같은 자리 숫자를 가져와 ①②③ 순서대로 넣으세요. 예: 옷장 618의 둘째 칸을 밟았다면 1. 침대 답은 건반 번호 1155665예요.',
       '정답: '+S.code.meta.split('').join(' ')]},
   plate:{where:[],how:['상자 속 문패 카드를 ▣ 문패의 눈으로 비춰 보세요. 카메라가 잘 안 되면 문패의 눈 화면 아래 "카메라 없이 보기"를 누르세요.']},
 };}
@@ -781,7 +814,7 @@ const HIDE={door:['☾','현관','신발 속, 우산꽂이, 신발장 안. ☾ �
 function newGame(){
   S=fresh();
   const d=shuffle([0,1,2,3,4,5,6,7,8,9]);S.code.door=d.slice(0,4);
-  S.code.order=shuffle(['closet','window','bed']);S.code.order.forEach(k=>{S.code.steps[k]=1+Math.floor(Math.random()*3);});
+  S.code.order=shuffle(['closet','window','bed']);S.code.order.forEach(k=>{S.code.steps[k]=1+Math.floor(Math.random()*ANS[k].length);});
   S.code.meta=S.code.order.map(k=>ANS[k][S.code.steps[k]-1]).join('');
   SPOTS.forEach(k=>{S.spot[k]={where:'',fx:.5,fy:.5,hid:false};});
   S.step='s-setup';save();
@@ -832,7 +865,7 @@ $('#setupDone').onclick=()=>{S.step='s-hand';save();toHand();};
 function toHand(){show('s-hand');$('#startPlay').disabled=true;$('#loadMsg').textContent='목소리 불러오는 중…';
   preload(CLIPS,(n,t)=>{$('#loadMsg').textContent='목소리 불러오는 중… '+n+'/'+t;}).then(()=>{$('#loadMsg').textContent='준비됐어요.';$('#startPlay').disabled=false;});
   setTimeout(()=>{$('#startPlay').disabled=false;},12000);}
-const CLIPS=Object.keys(T).map(k=>'v7_'+k);
+const CLIPS=Object.keys(T).map(k=>'v8_'+k).concat(SFX_CLIPS);
 
 /* ---------- 시작 · 오프닝 ---------- */
 $('#goSetup').onclick=()=>{clearSave();unlockAudio();newGame();show('s-setup');renderSetup();};
@@ -840,7 +873,7 @@ $('#startPlay').onclick=()=>{if(!once('start'))return;unlockAudio();S.startedAt=
 function askMotion(){try{if(window.DeviceOrientationEvent&&typeof DeviceOrientationEvent.requestPermission==='function')DeviceOrientationEvent.requestPermission().catch(()=>{});}catch(e){}}
 async function opening(){
   show('s-open');$('#openNext').hidden=true;
-  const ok=await narrate($('#cap1'),[line('o1'),line('o2'),line('o3'),line('o4'),line('o5')],$('#mask1'));
+  const ok=await narrate($('#cap1'),[line('o1'),line('o2'),line('o3'),line('o3b'),line('o4'),line('o5')],$('#mask1'));
   if(ok!==false&&S.step==='s-open')$('#openNext').hidden=false;
 }
 $('#openNext').onclick=()=>enter('s-door');
@@ -854,17 +887,17 @@ function enter(id){
 function nextAfter(){if(!S.mem.door)return 's-door';if(!S.mem.fridge)return 's-fridge';if(!S.mem.bath)return 's-bath';if(!['closet','window','bed'].every(k=>S.mem[k]))return 's-hub';if(!S.mem.meta)return 's-meta';return 's-plate';}
 
 /* ---------- 기억 장면: 무엇을 재생 중이었는지 저장해 이어하기에서 다시 들려준다 ---------- */
-const playFridgeClue=()=>sfx.fridge();
-const playBathClue=async()=>{const p=playClip('v7_e1',Object.assign({t:T.e1},moonOpt(),{fx:'moonecho'}));await sleep(900);sfx.drips();await p;};
-const playClosetClue=async()=>{await playClip('v7_cc',Object.assign({t:T.cc},moonOpt()));await sfx.closet();};
-const playWindowClue=()=>playClip('v7_cw',Object.assign({t:T.cw},moonOpt()));
-const playBedClue=async()=>{await playClip('v7_cb',Object.assign({t:T.cb},moonOpt()));await sfx.bed();};
+const playFridgeClue=async()=>{await playClip('v8_m1c',Object.assign({t:T.m1c},moonOpt()));await real('fridge');};
+const playBathClue=async()=>{const p=playClip('v8_e1',Object.assign({t:T.e1},moonOpt(),{fx:'moonecho'}));await sleep(700);const q=real('drip');await p;await q;};
+const playClosetClue=async()=>{await playClip('v8_cc',Object.assign({t:T.cc},moonOpt()));await real('closet');};
+const playWindowClue=async()=>{await playClip('v8_cw',Object.assign({t:T.cw},moonOpt()));};
+const playBedClue=async()=>{await playClip('v8_cb',Object.assign({t:T.cb},moonOpt()));await real('bed');};
 const MEM={
-  door:{lines:()=>[line('m1a'),line('m1b'),line('m1c'),{sfx:'[웅— … 삐— 삐— 삐—]',play:playFridgeClue}],next:'s-fridge',extra:b=>replayBtn(b,'▶ 그 소리 다시 듣기',playFridgeClue)},
-  fridge:{lines:()=>[line('m2a'),line('m2b'),line('m2c'),{fn:async(box,my)=>{await Promise.all([typeLine(box,T.e1,null,my),playBathClue()]);}}],next:'s-bath',extra:b=>replayBtn(b,'▶ 그 목소리 다시 듣기',playBathClue)},
+  door:{lines:()=>[line('m1a'),line('m1b'),line('m1c'),{sfx:'[그 문이 내던 소리]',play:()=>real('fridge')}],next:'s-fridge',extra:b=>replayBtn(b,'▶ 수수께끼 다시 듣기',playFridgeClue)},
+  fridge:{lines:()=>[line('m2a'),line('m2b'),line('m2c'),{fn:async(box,my)=>{await Promise.all([typeLine(box,T.e1,null,my),playBathClue()]);}}],next:'s-bath',extra:b=>replayBtn(b,'▶ 수수께끼 다시 듣기',playBathClue)},
   bath:{lines:()=>[line('m3a',{pause:900}),line('m3b'),line('m3c'),line('m3d')],next:'s-hub'},
-  window:{lines:()=>[{sfx:'[쏴아—]',play:()=>{sfx.rain();return sleep(1500);}},line('mwa')],next:()=>allScenes()?'s-meta':'s-hub'},
-  closet:{lines:()=>[{sfx:'[탁, 탁]',play:()=>{noise(.1,{gain:.4,freq:650,q:.6,fade:.6});noise(.1,{gain:.4,freq:650,q:.6,at:.35,fade:.6});return sleep(800);}},line('mca')],next:()=>allScenes()?'s-meta':'s-hub'},
+  window:{lines:()=>[{sfx:'[쏴아—]',play:()=>{real('rain');return sleep(1800);}},line('mwa')],next:()=>allScenes()?'s-meta':'s-hub'},
+  closet:{lines:()=>[{sfx:'[옷장 문 … 옷걸이]',play:()=>{real('closet');return sleep(1800);}},line('mca')],next:()=>allScenes()?'s-meta':'s-hub'},
   bed:{lines:()=>[line('mba'),{sfx:'[♪ 도 도 솔 솔 라 라 솔]',play:async()=>{TUNE.forEach((t,j)=>setTimeout(()=>pianoNote(PIANO[t][1]),j*420));await sleep(3400);}}],next:()=>allScenes()?'s-meta':'s-hub'},
 };
 function allScenes(){return ['closet','window','bed'].every(k=>S.mem[k]);}
@@ -885,15 +918,17 @@ function buildKp(){const box=$('#kp');box.textContent='';['1','2','3','4','5','6
 function renderKp(){$('#kpDisp').textContent=[0,1,2,3].map(i=>kpIn[i]!=null?'•':'_').join(' ');}
 function kpPress(k){if(S.mem.door||BUSY.door)return;if(lockedMsg('door','#doorMsg'))return;if(k==='지움'){kpIn=[];renderKp();return;}if(k==='확인'){doorCheck();return;}if(kpIn.length<4){kpIn.push(+k);sfx.beep();renderKp();}if(kpIn.length===4)doorCheck();}
 function doorCheck(){if(kpIn.length<4||S.mem.door||!once('door'))return;const ok=kpIn.join('')===S.code.door.join('');
-  if(!ok){delete BUSY.door;kpIn=[];renderKp();wrong('door','#doorMsg','#kpDisp');return;}
-  sfx.doorOpen();done('door');later(900,()=>memory('door'));}
+  if(!ok){delete BUSY.door;const v=kpIn.join('');kpIn=[];renderKp();wrong('door','#doorMsg','#kpDisp',v);return;}
+  real('lock');done('door');later(2600,()=>memory('door'));}
 
 /* ---------- 기억 2: 냉장고 · 반으로 접어 빛에 비추기 ---------- */
 function fridge(){begin('s-fridge');$('#fridgeMsg').textContent='';$('#fridgeA').value='';}
 $('#replayFridge').onclick=playFridgeClue;
 $('#fridgeGo').onclick=()=>{if(S.mem.fridge||lockedMsg('fridge','#fridgeMsg'))return;const v=norm($('#fridgeA').value);if(!v)return;
-  if(v.startsWith('우리집')&&v!=='우리집'){soft('#fridgeMsg','보이는 글자 그대로만 넣어 주세요.');return;}
-  if(v!=='우리집'){wrong('fridge','#fridgeMsg','#fridgeA');return;}
+  const c=core(v);
+  if(!['우리집','집','우리의집','내집','우리집이','우리들의집'].includes(c)){
+    if(v.includes('집')&&!/(옆집|남의집|아니)/.test(v)){soft('#fridgeMsg','거의 다 왔어요. 빛에 비춰 떠오른 글자만 넣어 보세요.');return;}
+    wrong('fridge','#fridgeMsg','#fridgeA',v);return;}
   if(!once('fridge'))return;blurInputs();sfx.unlock();done('fridge');later(700,()=>memory('fridge'));};
 $('#fridgeA').onkeydown=e=>{if(e.key==='Enter')$('#fridgeGo').click();};
 
@@ -901,16 +936,20 @@ $('#fridgeA').onkeydown=e=>{if(e.key==='Enter')$('#fridgeGo').click();};
 function bath(){begin('s-bath');$('#bathMsg').textContent='';$('#bathA').value='';}
 $('#replayBath').onclick=playBathClue;
 $('#bathGo').onclick=()=>{if(S.mem.bath||lockedMsg('bath','#bathMsg'))return;const v=norm($('#bathA').value);if(!v)return;
-  if(v==='밤막지마'){soft('#bathMsg','글자는 맞았어요. 거꾸로 읽은 것 같아요.');return;}
-  if(v!=='마지막밤'){wrong('bath','#bathMsg','#bathA');return;}
+  const c=core(v);
+  if(c==='밤막지마'||c==='밤마지막'){soft('#bathMsg','글자는 맞았어요. 동그라미(시작)부터 선을 따라 읽어 보세요.');return;}
+  if(!['마지막밤','마지막날밤','마지막의밤'].includes(c)){
+    if(c==='마지막'){soft('#bathMsg','"마지막"… 무엇의 마지막일까요? 선이 지나는 마지막 글자까지 읽어 보세요.');return;}
+    if(c==='밤'||c==='첫날밤'){soft('#bathMsg','"밤"은 맞아요. 선이 지나는 글자를 처음부터 이어 읽어 보세요.');return;}
+    wrong('bath','#bathMsg','#bathA',v);return;}
   if(!once('bath'))return;blurInputs();sfx.unlock();done('bath');later(700,()=>memory('bath'));};
 $('#bathA').onkeydown=e=>{if(e.key==='Enter')$('#bathGo').click();};
 
 /* ---------- 남은 세 장면 (순서 자유) · 장면마다 위치 힌트를 바로 열 수 있다 ---------- */
 const BR=[
-  {k:'closet',id:'s-closet',title:'그날 들은 소리',clue:'딸깍… 탁, 탁… 지이익.',replay:playClosetClue,rl:'▶ 소리 듣기'},
+  {k:'closet',id:'s-closet',title:'어깨만 걸린 문',clue:'"이 집에는, 사람은 없는데 그 사람의 어깨만 줄지어 걸려 있는 문이 있어요."',replay:playClosetClue,rl:'▶ 문패의 말 듣기'},
   {k:'window',id:'s-window',title:'바람과 빛만 드나드는 문',clue:'"이 집에는, 사람은 드나들지 않고 바람과 빛만 드나드는 문이 있어요."',replay:playWindowClue,rl:'▶ 문패의 말 듣기'},
-  {k:'bed',id:'s-bed',title:'마지막으로 들은 소리',clue:'사락사락… 삐걱… 삑, 삑.',replay:playBedClue,rl:'▶ 소리 듣기'},
+  {k:'bed',id:'s-bed',title:'들추고 들어가 덮어 닫는 곳',clue:'"문은 아니지만, 그 사람이 매일 밤 들추고 들어가서, 덮어 닫는 곳이 있어요."',replay:playBedClue,rl:'▶ 문패의 말 듣기'},
 ];
 const MEMTXT={window:()=>T.mwa,closet:()=>T.mca,bed:()=>T.mba};
 const SCENE_NAME={closet:'옷이 걸린 곳',window:'창가',bed:'잠자는 곳'};
@@ -933,11 +972,11 @@ let clGet=null,wnGet=null;
 function closet(){begin('s-closet');clGet=makeDials('#clDials',3);$('#clMsg').textContent='';}
 $('#replayCloset').onclick=playClosetClue;
 $('#clGo').onclick=()=>{if(S.mem.closet||lockedMsg('closet','#clMsg'))return;const v=clGet();
-  if(v!==ANS.closet){if(v.split('').sort().join('')==='168'){soft('#clMsg','세 그림은 맞았어요. 쪽지에 나온 순서대로 넣어 보세요.');return;}wrong('closet','#clMsg','#clDials');return;}
+  if(v!==ANS.closet){if(v.split('').sort().join('')==='168'){soft('#clMsg','세 그림은 맞았어요. 쪽지에 나온 순서대로 넣어 보세요.');return;}wrong('closet','#clMsg','#clDials',v);return;}
   if(!once('closet'))return;sfx.unlock();sceneDone('closet');};
 function windowRec(){begin('s-window');wnGet=makeDials('#wnDials',3);$('#wnMsg').textContent='';}
 $('#replayWindow').onclick=playWindowClue;
-$('#wnGo').onclick=()=>{if(S.mem.window||lockedMsg('window','#wnMsg'))return;if(wnGet()!==ANS.window){wrong('window','#wnMsg','#wnDials');return;}
+$('#wnGo').onclick=()=>{if(S.mem.window||lockedMsg('window','#wnMsg'))return;{const v=wnGet();if(v!==ANS.window){if(v.split('').sort().join('')==='247'){soft('#wnMsg','세 숫자는 맞았어요. 접은 띠를 왼쪽부터 읽어 보세요.');return;}wrong('window','#wnMsg','#wnDials',v);return;}}
   if(!once('window'))return;sfx.unlock();sceneDone('window');};
 
 /* ---------- 장면: 잠자는 곳 · 양 악보 피아노 ---------- */
@@ -959,12 +998,12 @@ async function meta(){
   begin('s-meta');const tok=SCR;
   const list=$('#memList');list.textContent='';
   ['window','closet','bed'].forEach(k=>{const d=document.createElement('div');d.className='memc';const b=document.createElement('b');b.textContent=SCENE_NAME[k];const p=document.createElement('p');
-    p.textContent=MEMTXT[k]();const a=document.createElement('span');a.className='ans';a.textContent='답 '+ANS[k].split('').join(' ');d.append(b,p,a);list.appendChild(d);});
+    p.textContent=MEMTXT[k]();const a=document.createElement('span');a.className='ans';a.textContent='답 '+ANS[k].split('').join(' ')+(k==='bed'?' (건반 번호)':'');d.append(b,p,a);list.appendChild(d);});
   $('#metaApp').hidden=S.lockMode==='phys';$('#metaPhys').hidden=S.lockMode!=='phys';mtGet=makeDials('#mtDials',3);$('#mtMsg').textContent='';
   if(!S.metaIntro){const ok=await narrate($('#capMeta'),[line('mt1'),line('mt2')]);if(ok!==false&&tok===SCR){S.metaIntro=true;save();}}
   else{$('#capMeta').textContent=T.mt2;}
 }
-$('#mtGo').onclick=()=>{if(S.mem.meta||lockedMsg('meta','#mtMsg'))return;if(mtGet()!==S.code.meta){wrong('meta','#mtMsg','#mtDials');return;}
+$('#mtGo').onclick=()=>{if(S.mem.meta||lockedMsg('meta','#mtMsg'))return;{const v=mtGet();if(v!==S.code.meta){wrong('meta','#mtMsg','#mtDials',v);return;}}
   if(!once('meta'))return;sfx.unlock();$('#mtMsg').textContent='열렸어요. 이제 봉투 ✕를 여세요.';done('meta');later(1600,()=>enter('s-plate'));};
 $('#pouchOpened').onclick=()=>{if(S.mem.meta||!once('meta'))return;done('meta');sfx.unlock();enter('s-plate');};
 
@@ -1058,27 +1097,35 @@ function legend(x,cv){x.save();x.setTransform(1,0,0,1,0,0);const w=Math.min(cv.w
   const g=x.createLinearGradient(lx,0,lx+w,0);[0,.25,.5,.75,1].forEach(p=>{g.addColorStop(p,'rgb('+heatCol(p)+')');});x.fillStyle=g;x.fillRect(lx,ly,w,h);
   x.font='600 '+Math.round(h*1.1)+'px sans-serif';x.fillStyle='#fff';x.textAlign='left';x.fillText('차가움',lx,ly-h*.4);x.textAlign='right';x.fillText('따뜻함',lx+w,ly-h*.4);x.restore();}
 const EYE_MSG={A:'…손의 온기가 남아 있어요.',B:'',D:'…제 얼굴이에요.'};
-function seen(id){$('#eyeMsg').textContent=id==='B'?(allScenes()?'…그날 밤의 발자국이에요. 멈춘 곳과 머문 걸음을 세어 보세요.':'…아직 발자국이 흐릿해요. 세 장면을 모두 찾은 뒤에 다시 보세요.'):EYE_MSG[id];
+function seen(id){$('#eyeMsg').textContent=id==='B'?(allScenes()?'…그날 밤의 발자국이에요. ①②③ 순서로, 발이 밟은 칸을 보세요.':'…아직 발자국이 흐릿해요. 세 장면을 모두 찾은 뒤에 다시 보세요.'):EYE_MSG[id];
   if(!S.eyeSeen[id]){S.eyeSeen[id]=true;save();sfx.bell();}if(id==='D')plateSeenNow();}
 function heatCol(h){const st=[[40,70,255],[150,60,255],[255,60,80],[255,170,60],[255,250,220]];const p=Math.min(.999,Math.max(0,h))*(st.length-1),i=Math.floor(p),f=p-i;const a=st[i],b=st[i+1];return a.map((v,j)=>Math.round(v+(b[j]-v)*f));}
 const MAPPT={door:[1.6,2.45],fridge:[2.85,2.5],bath:[4.15,2.3],closet:[4.2,1.2],window:[3.0,.15],bed:[1.75,.7]};
-const MAPLB={door:'삐리릭',fridge:'웅—',bath:'똑, 똑',closet:'딸깍',window:'쏴아',bed:'사락사락'};
+const MAPLB={door:'현관',fridge:'찬 문',bath:'울리는 문',closet:'어깨의 문',window:'바람의 문',bed:'덮는 곳'};
+// 장면마다 답의 자리 수만큼 빈칸 줄. 발자국은 정해진 칸 하나를 밟는다.
+function tileRow(k){const n=ANS[k].length,w=18,g=3,tw=n*(w+g)-g;const [u,v]=MAPPT[k];let x0=u*100-tw/2;x0=Math.max(128,Math.min(458-tw,x0));const y=v*100+14;
+  return Array.from({length:n},(_,i)=>({x:x0+i*(w+g),y,w,h:18,cx:x0+i*(w+g)+w/2,cy:y+9}));}
 const OVER={
   A:(x,t)=>{S.code.door.forEach((d,i)=>{const [r,c]=kpRC(d);const cx=(1.55+.62*c)*100,cy=(.2+.62*r)*100;const col=heatCol([.04,.36,.66,.98][i]);
       const g=x.createRadialGradient(cx,cy,0,cx,cy,27);g.addColorStop(0,'rgba('+col+',.92)');g.addColorStop(.6,'rgba('+col+',.5)');g.addColorStop(1,'rgba('+col+',0)');
       x.fillStyle=g;x.beginPath();x.ellipse(cx,cy+2,27,25,0,0,Math.PI*2);x.fill();});
     KP.forEach((row,r)=>row.forEach((k,c)=>{const cx=(1.55+.62*c)*100,cy=(.2+.62*r)*100;x.font='700 22px monospace';x.textAlign='center';x.lineWidth=4;x.strokeStyle='rgba(0,0,0,.75)';x.strokeText(k,cx,cy+8);x.fillStyle='#fff';x.fillText(k,cx,cy+8);}));},
-  B:(x,t)=>{x.textAlign='center';x.font='700 19px sans-serif';
-    Object.keys(MAPLB).forEach(k=>{const [u,v]=MAPPT[k];x.lineWidth=4;x.strokeStyle='rgba(0,0,0,.6)';x.strokeText(MAPLB[k],u*100,v*100+30);x.fillStyle='rgba(255,236,190,.98)';x.fillText(MAPLB[k],u*100,v*100+30);});
+  B:(x,t)=>{x.textAlign='center';x.font='700 17px sans-serif';
+    Object.keys(MAPLB).forEach(k=>{const [u,v]=MAPPT[k];x.lineWidth=4;x.strokeStyle='rgba(0,0,0,.6)';x.strokeText(MAPLB[k],u*100,v*100-12);x.fillStyle='rgba(255,236,190,.98)';x.fillText(MAPLB[k],u*100,v*100-12);});
     if(!allScenes())return;
-    const route=['door'].concat(S.code.order);const P=route.map(k=>[MAPPT[k][0]*100,MAPPT[k][1]*100]);
-    const ev=[];for(let s=0;s<P.length-1;s++){const [ax,ay]=P[s],[bx,by]=P[s+1];const L=Math.hypot(bx-ax,by-ay);const n=Math.max(3,Math.round(L/16));
-      for(let i=1;i<=n;i++){const u=i/n;ev.push({x:ax+(bx-ax)*u-(by-ay)/L*5*(i%2?1:-1),y:ay+(by-ay)*u+(bx-ax)/L*5*(i%2?1:-1),a:Math.atan2(by-ay,bx-ax),stop:false});}
-      const k=route[s+1],N=S.code.steps[k];const dir=bx>350?-1:1;for(let j=0;j<N;j++){ev.push({x:bx+dir*(20+j*15),y:by-6,a:-Math.PI/2,stop:true});}}
-    const per=180,total=ev.length*per+2500;const tt=t%total;const shownN=Math.min(ev.length,Math.floor(tt/per));
-    for(let i=0;i<shownN;i++){const e=ev[i];const al=e.stop?1:Math.max(.35,1-(shownN-i)/ev.length);
-      const sc=e.stop?1.5:1;x.save();x.translate(e.x,e.y);x.rotate(e.a);x.scale(sc,sc);x.fillStyle=e.stop?'rgba(255,248,200,'+al+')':'rgba(255,170,70,'+al*.8+')';x.shadowColor='rgba(255,170,60,.9)';x.shadowBlur=e.stop?14:6;
-      x.beginPath();x.ellipse(0,0,5.4,3,0,0,Math.PI*2);x.fill();x.beginPath();x.ellipse(5.8,0,2.1,2.3,0,0,Math.PI*2);x.fill();x.restore();}},
+    const route=S.code.order;const TL={};route.forEach(k=>{TL[k]=tileRow(k);});
+    // 빈칸 줄
+    route.forEach(k=>TL[k].forEach(c=>{x.fillStyle='rgba(20,14,4,.55)';x.fillRect(c.x,c.y,c.w,c.h);x.strokeStyle='rgba(255,236,190,.9)';x.lineWidth=1.6;x.strokeRect(c.x,c.y,c.w,c.h);}));
+    // 발자국: 현관 → 각 장면의 정해진 칸
+    const P=[[MAPPT.door[0]*100,MAPPT.door[1]*100]].concat(route.map(k=>{const c=TL[k][S.code.steps[k]-1];return [c.cx,c.cy];}));
+    const ev=[];for(let s2=0;s2<P.length-1;s2++){const [ax,ay]=P[s2],[bx,by]=P[s2+1];const L=Math.hypot(bx-ax,by-ay);const n=Math.max(3,Math.round(L/17));
+      for(let i=1;i<=n;i++){const u=i/n;const last=i===n;ev.push({x:last?bx:ax+(bx-ax)*u-(by-ay)/L*5*(i%2?1:-1),y:last?by:ay+(by-ay)*u+(bx-ax)/L*5*(i%2?1:-1),a:Math.atan2(by-ay,bx-ax),stop:last,num:last?s2+1:0});}}
+    const per=170,hold=7000,total=ev.length*per+hold;const tt=t%total;const shownN=Math.min(ev.length,Math.floor(tt/per)+1);
+    for(let i=0;i<shownN;i++){const e=ev[i];const al=e.stop?1:Math.max(.3,1-(shownN-i)/ev.length*.8);
+      if(e.stop){x.save();x.shadowColor='rgba(255,220,120,1)';x.shadowBlur=16;x.fillStyle='rgba(255,220,120,.55)';x.fillRect(e.x-9,e.y-9,18,18);x.restore();}
+      x.save();x.translate(e.x,e.y);x.rotate(e.a);const sc=e.stop?1.15:1;x.scale(sc,sc);x.fillStyle=e.stop?'rgba(255,250,215,1)':'rgba(255,170,70,'+al*.85+')';x.shadowColor='rgba(255,170,60,.9)';x.shadowBlur=e.stop?10:5;
+      x.beginPath();x.ellipse(-1.5,0,5.2,3,0,0,Math.PI*2);x.fill();x.beginPath();x.ellipse(4.8,0,2,2.2,0,0,Math.PI*2);x.fill();x.restore();
+      if(e.stop){const lab='①②③'[e.num-1];x.save();x.font='800 20px sans-serif';x.textAlign='center';x.lineWidth=4;x.strokeStyle='rgba(0,0,0,.75)';x.strokeText(lab,e.x,e.y+34);x.fillStyle='#ffe9a8';x.fillText(lab,e.x,e.y+34);x.restore();}}},
   D:(x,t)=>{const glow=.6+.4*Math.sin(t/400);x.textAlign='center';x.shadowColor='rgba(255,230,170,'+glow+')';x.shadowBlur=14;x.fillStyle='rgba(60,35,5,.92)';
     if(!S.mem.meta){x.font='700 22px serif';x.fillText('…',277,80);return;}
     x.font='700 14px serif';x.fillText('문패가 마지막으로 기억할 사람',277,48);x.font='800 38px serif';x.fillText(S.guest||'오늘 온 당신',277,100);
@@ -1122,7 +1169,7 @@ function survey(){
 }
 $('#nps').oninput=e=>$('#npsV').textContent=e.target.value;
 $('#saveBtn').onclick=async()=>{
-  const rec={ts:new Date().toISOString(),version:'v0.7',limitMin:S.limit,timedOut:!!S.timedOut,minutes:S.startedAt&&S.endedAt?Math.round((S.endedAt-S.startedAt)/60000):null,
+  const rec={ts:new Date().toISOString(),version:'v0.8',limitMin:S.limit,timedOut:!!S.timedOut,minutes:S.startedAt&&S.endedAt?Math.round((S.endedAt-S.startedAt)/60000):null,
     lockMode:S.lockMode,mirrorOK:S.mirrorOK,gift:S.gift.on,photos:SPOTS.filter(k=>!!getImg(k)).length,eye:S.eye,eyeSeen:S.eyeSeen,times:S.times,hints:S.hints,wrong:S.wrong,order:S.found,
     fun:S.survey.fun||null,best:S.survey.best||null,worst:S.survey.worst||null,story:S.survey.story||null,diff:S.survey.diff||null,eyeUse:S.survey.eye||null,compare:S.survey.cmp||null,price:S.survey.price||null,
     nps:+$('#nps').value,memo:$('#memo').value.slice(0,1500),muted:!!S.muted,bgm:BGM.on,host:location.hostname};

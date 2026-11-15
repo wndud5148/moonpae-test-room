@@ -878,7 +878,7 @@ function H(){return {
     how:(S.mirrorOK?[]:[{html:'이 집 거울에는 그림이 잘 남지 않았대요. 문패가 기억해 낸 모양이에요: '+PATTERN_SVG}]).concat([
       '쪽지: "거울은 숨을 쉬어야 기억해." 거울을 보세요.','뜨거운 물을 1~2분 틀거나 거울에 입김을 크게 불어 김이 서리게 하세요. 선이 드러나요.',
       {html:'거울에 드러난 선을 ● 타일 아홉 칸 카드 위에 같은 모양으로 옮겨 그리고, 동그라미(시작)부터 지나는 글자를 이어 읽으세요. 이 모양이에요: '+PATTERN_SVG},
-      '그 사람이 거울 앞에서 한 말은 "첫날 밤". 그 첫날로부터 꼭 일 년, 이 기억들에게 오늘은 어떤 밤일까요?','정답: 마지막밤'])},
+      '그 사람이 거울 앞에서 한 말은 "첫날 밤". 문패에게 오늘은 일 년이 다 차는 밤. 이 기억들에게 오늘은 어떤 밤일까요?','정답: 마지막밤'])},
   give:{where:[],how:['기억 2, 냉장고 앞에서 당신이 알아낸 세 글자예요. 그 사람이 장을 보고 와서, 냉장고에 넣으며 한 혼잣말.','정답: 우리집 (집만 적어도 돼요)']},
   closet:{where:whereList('closet'),
     how:['옷장 메모에 겉옷 네 벌의 세탁 그림이 옮겨 그려져 있어요. 쪽지의 수수께끼 세 가지(돌아가는 통·한낮의 해·뜨거운 쇠)가 메모 아래 그림 풀이의 어느 그림인지 맞춰 보세요.',
@@ -1365,7 +1365,7 @@ const OVER={
     x.font='700 14px serif';x.fillText('오늘 밤, 이 집의 첫날을 들어 준 사람',277,48);
     if(S.nameFilled){x.font='800 26px serif';x.fillText(S.guest||'오늘 온 당신',277,100);x.font='700 12px serif';x.fillText('두 번째 해 · 첫 칸',277,124);}
     else{x.font='700 13px serif';x.fillText('…이름 칸이 비어 있어요.',277,90);x.fillText('자정이 지나면 채울게요.',277,110);}
-    if(S.nameFilled)return;x.shadowBlur=0;x.fillStyle='rgba(255,236,190,.95)';x.font='600 14px sans-serif';x.fillText('약속 · 이 휴대폰을 건네받는 사람에게',277,190);x.fillText(S.gift.on?'숨겨 둔 선물을 꼭 찾아 줄 것':'이 집의 첫날을 들려줄 것',277,210);
+    if(S.nameFilled)return;x.shadowBlur=0;x.fillStyle='rgba(255,236,190,.95)';x.font='600 14px sans-serif';x.fillText(S.together?'약속 · 함께 사는 당신에게':'약속 · 이 휴대폰을 건네받는 사람에게',277,190);x.fillText(S.gift.on?'숨겨 둔 선물을 꼭 찾아 줄 것':'이 집의 첫날을 들려줄 것',277,210);
     },
 
 };

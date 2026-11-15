@@ -1106,7 +1106,7 @@ $('#clGo').onclick=()=>{if(S.mem.closet||lockedMsg('closet','#clMsg'))return;con
   if(!once('closet'))return;sfx.unlock();sceneDone('closet');};
 function windowRec(){begin('s-window');wnGet=makeDials('#wnDials',3);$('#wnMsg').textContent='';}
 $('#replayWindow').onclick=playWindowClue;
-$('#wnGo').onclick=()=>{if(S.mem.window||lockedMsg('window','#wnMsg'))return;{const v=wnGet();if(v!==ANS.window){if(v.split('').sort().join('')==='237'){soft('#wnMsg','세 숫자는 맞았어요. 접은 띠를 왼쪽부터 읽어 보세요.');return;}wrong('window','#wnMsg','#wnDials',v);return;}}
+$('#wnGo').onclick=()=>{if(S.mem.window||lockedMsg('window','#wnMsg'))return;{const v=wnGet();if(v!==ANS.window){if(v.split('').sort().join('')===ANS.window.split('').sort().join('')){soft('#wnMsg','세 숫자는 맞았어요. 접은 띠를 왼쪽부터 읽어 보세요.');return;}wrong('window','#wnMsg','#wnDials',v);return;}}
   if(!once('window'))return;sfx.unlock();sceneDone('window');};
 
 /* ---------- 장면: 잠자는 곳 · 양 악보 피아노 ---------- */
